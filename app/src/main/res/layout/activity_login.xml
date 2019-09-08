@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/objLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/obj_login_1"
+
+        />
+    <ImageView
+        android:id="@+id/iconAppLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/kidney"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"/>
+
+    <TextView
+        android:id="@+id/textSK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/smart_kidney"
+        android:fontFamily="@font/abeezee"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/iconAppLogin"
+        android:layout_marginTop="30dp"
+        android:textSize="30sp"
+        android:textColor="@color/navyBlue"
+        />
+
+    <RelativeLayout
+        android:id="@+id/google_login_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textSK"
+        android:background="@drawable/google_login_bg"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="74dp"
+        android:elevation="5dp"
+        >
+        <ImageView
+            android:id="@+id/googleIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/google"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_with_google"
+            android:layout_toEndOf="@id/googleIcon"
+            android:textSize="20sp"
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/view_or"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/google_login_bt"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp">
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/dimGray"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/or"
+            android:textColor="@color/dimGray"
+             
+            android:layout_margin="10dp"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/dimGray"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/facebook_login_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_or"
+        android:background="@drawable/facebook_login_bg"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:elevation="5dp"
+        >
+        <ImageView
+            android:id="@+id/facebookIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/facebook_letter_logo"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_with_facebook"
+            android:layout_toEndOf="@id/facebookIcon"
+            android:textSize="20sp"
+             
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textSingUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signUp"
+        android:textColor="@color/malibu"
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"/>
+
+</RelativeLayout>

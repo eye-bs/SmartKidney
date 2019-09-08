@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AgreementActivity">
+
+    <TextView
+            android:id="@+id/agreement_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Agreement"
+            android:textColor="@color/paleVioletRed"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:textSize="30sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/paleVioletRed"
+        android:layout_below="@id/agreement_header"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/agreement_header"
+            android:text="@string/agreement_content"
+            android:layout_margin="30dp"
+            android:textColor="@android:color/black"
+            android:lineSpacingExtra="10dp"/>
+
+    <TextView
+            android:id="@+id/acceptButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:text="@string/accept"
+        android:textColor="@color/paleVioletRed"
+        android:background="@drawable/agreement_bt_bg"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:elevation="5dp"
+        android:fontFamily="@font/thanamas"
+        android:textSize="25sp"
+
+        />
+
+
+
+
+
+</RelativeLayout>

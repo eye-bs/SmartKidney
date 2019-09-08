@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">SmartKidney</string>
+    <string name="smart_kidney">SMART KIDNEY</string>
+    <string name="login_with_google">ดำเนินการต่อด้วย Google</string>
+    <string name="or">หรือ</string>
+    <string name="login_with_facebook">ดำเนินการต่อด้วย Facebook</string>
+    <string name="signUp">ยังไม่มีบัญชี ? ลงทะเบียน</string>
+    <string name="register">ลงทะเบียน</string>
+    <string name="male">ชาย</string>
+    <string name="female">หญิง</string>
+    <string name="hospital">โรงพยาบาลที่รักษาประจำ</string>
+    <string name="birthday">วันเกิด</string>
+    <string name="Agreement">พันธสัญญา</string>
+    <string name="agreement_content">1. ข้าพเจ้าจะบันทึกข้อมูลตามจริงเพื่อประโยชน์ของตัวข้าพเจ้า
+        \n2.ข้าพเจ้าจะปฏิบัติตามคำแนะนำอย่างเคร่งครัดและสม่ำเสมอ \n3.ข้าพเจ้าจะมาพบแพทย์ตามนัด
+    </string>
+    <string name="kidney_disease">ตรวจสอบว่าท่านเสี่ยงเป็นโรคไตหรือไม่ ?</string>
+    <string name="accept">ยอมรับ</string>
+    <string name="done">เสร็จสิ้น</string>
+    <string name="risk_form_warning">ก่อนจะเริ่มต้นใช้แอปพลิเคชัน smart kidney
+        เรามารู้ประโยชน์ของการปรับเปลี่ยนพฤติกรรมกันเถอะ
+    </string>
+    <string name="healthEd">เกร็ดความรู้</string>
+    <string name="healthForm">แบบบันทึกสุขภาพ</string>
+    <string name="dailyRecomment">คำแนะนำประจำวัน</string>
+    <string name="blood_pressure">ความดันโลหิต</string>
+    <string name="blood_sugar">ระดับน้ำตาลในเลือด</string>
+    <string name="glomerular">อัตราการกรองของไต</string>
+    <string name="water_in">ปริมาณน้ำเข้า</string>
+    <string name="meeting">แจ้งเตือนวันนัดพบแพทย์</string>
+    <string name="meeting_future">
+        <u>วันพบแพทย์ที่กำลังจะมาถึง</u>
+    </string>
+    <string name="water_per_day">ปริมาณน้ำที่ควรดื่ม/วัน</string>
+    <string name="bmi_th">ดัชนีมวลกาย</string>
+
+
+    <string-array name="risk_question">
+        <item name="question1">มีความดันโลหิตสูง</item>
+        <item name="question2">มีโรคเบาหวาน</item>
+        <item name="question3">มีนิ่ว มีการติดเชื้อทางเดินปัสสาวะ</item>
+        <item name="question4">มีโรคหัวใจและหลอดเลือด</item>
+        <item name="question5">มีโรคเก๊าท์</item>
+        <item name="question6">มีโรคภูมิแพ้ตนเอง</item>
+        <item name="question7">ผู้สูงอายุ (อายุมากกว่า 60 ปี)</item>
+        <item name="question8">อ้วน/น้ำหนักตัวเกินปกติ</item>
+        <item name="question9">กินผัก/ผลไม้เปื้อนสารเคมี</item>
+        <item name="question10">กินเค็ม แซบ นัว เป็นประจำ</item>
+        <item name="question11">ในแต่ละวันดื่มน้ำน้อย</item>
+        <item name="question12">ซื้อและใช้ยาชุด/ยาแก้ปวด และกินยาสมุนไพรที่ทำลายไตเป็นประจำ</item>
+        <item name="question13">สูบบุหรี่/ดื่มเหล้า</item>
+        <item name="question14">มีคนในครอบครัวเป็นโรคไต</item>
+
+    </string-array>
+
+    <string-array name="colors">
+        <item name="1">#ACF4FC</item>
+        <item name="2">#BCF5D3</item>
+        <item name="3">#F5E8B4</item>
+        <item name="4">#EFC2D2</item>
+        <item name="5">#F6C7C7</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="navyBlue">#3F99D2</color>
+    <color name="dimGray">#707070</color>
+    <color name="mariner">#3B5998</color>
+    <color name="malibu">#5EB0DF</color>
+    <color name="cornflowerBlue">#438BF7</color>
+    <color name="turquoiseBlue">#6DE5F3</color>
+    <color name="sunsetOrange">#F9514E</color>
+    <color name="paleVioletRed">#E1669A</color>
+    <color name="white">#ffffff</color>
+    <color name="mantle">#91A884</color>
+    <color name="selago">#F0EBF0</color>
+    <color name="lavender">#EAE9F1</color>
+    <color name="illusion">#F598B1</color>
+    <color name="very_danger">#D17A7A</color>
+    <color name="danger">#F39CBA</color>
+    <color name="low_danger">#EFBD10</color>
+    <color name="normal">#13E85E</color>
+    <color name="low">#0C9ADE</color>
+    <color name="lightSkyBlue">#93D0FE</color>
+
+</resources>
