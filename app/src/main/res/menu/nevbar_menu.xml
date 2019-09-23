@@ -3,26 +3,26 @@
 
     <item
             android:id="@+id/pressure_nev"
-            android:title="Dash Board"
+            android:title="@string/blood_pressure"
             android:icon="@drawable/pressure_2"
     />
     <item
             android:id="@+id/kidney_nev"
-            android:title="Search Employee"
-            android:icon="@drawable/kidney_2"
+            android:title="@string/glomerular"
+            android:icon="@drawable/kidney_3"
     />
     <item
             android:id="@+id/glucose_nev"
-            android:title="My Team"
+            android:title="@string/blood_sugar"
             android:icon="@drawable/glucosemeter_2"/>
     <item
             android:id="@+id/water_nev"
-            android:title="request notification"
+            android:title="@string/water_per_day"
             android:icon="@drawable/water_2"
     />
     <item
             android:id="@+id/bmi_nev"
-            android:title="Profile"
+            android:title="@string/bmi_th"
             android:icon="@drawable/scale_2"
     />
 

@@ -1,20 +1,46 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/mariner</item>
         <item name="colorPrimaryDark">@color/malibu</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/baijamjuree</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="TextInputLayoutAppearance.register"
-           parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="ActivityTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/mariner</item>
+        <item name="colorPrimaryDark">@color/malibu</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/baijamjuree</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+
+    <style name="TextInputLayoutAppearance.register" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/cornflowerBlue</item>
+        <item name="hintTextColor">@color/dimGray</item>
     </style>
 
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">@font/supermarket</item>
+        <item name="android:textSize">22sp</item>
+    </style>
 
+    <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">11sp</item>
+    </style>
 
 </resources>

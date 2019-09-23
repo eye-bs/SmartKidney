@@ -2,13 +2,15 @@ package th.ac.kku.smartkidney
 
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.LimitLine
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.EntryXComparator
@@ -27,30 +29,24 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
         setUpChart(sugarChart)
         setUpChart(kidneyChart)
 
-        setData(6, 5.0F , pressureChart)
-        setData(6, 5.0F , sugarChart)
-        setData(6, 5.0F , kidneyChart)
+        setData(6, 5.0F, pressureChart)
+        setData(6, 5.0F, sugarChart)
+        setData(6, 5.0F, kidneyChart)
 
         alarmLayout.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, AlarmActivity::class.java)
             startActivity(intent)
         })
 
-        healthFormLayout.setOnClickListener(View.OnClickListener {
+        healthFormLayout.setOnClickListener {
             val intent = Intent(this, HealthFormActivity::class.java)
             startActivity(intent)
-        })
-
-//        var readjson = ReadJSON(this)
-//        var obj = readjson.getJSONObject(Constant.BLOOD_PRESSURE)
-//        var rate = obj!!.getJSONArray("rangeName")
-//        Log.wtf(Constant.TAG , "rate${rate.getString(0)}")
+        }
     }
 
-    fun setUpChart(setChart: LineChart){
+    fun setUpChart(setChart: LineChart) {
 
         chart = setChart
-
         chart.setOnChartValueSelectedListener(this)
         chart.setDrawGridBackground(false)
         chart.setBorderColor(Color.BLACK)
@@ -83,14 +79,14 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
 
     }
 
-    private fun setData(count: Int, range: Float , chart: LineChart) {
+    private fun setData(count: Int, range: Float, chart: LineChart) {
 
         val entries = ArrayList<Entry>()
-            for (i in 0 until count) {
-                val xVal = (i+1).toFloat()
-                val yVal = i.toFloat()
-                entries.add(Entry(xVal, yVal))
-            }
+        for (i in 0 until count) {
+            val xVal = (i + 1).toFloat()
+            val yVal = i.toFloat()
+            entries.add(Entry(xVal, yVal))
+        }
 
         Collections.sort(entries, EntryXComparator())
 
@@ -109,25 +105,24 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
         chart.data = data
     }
 
-
     override fun onNothingSelected() {}
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-          Log.i("VAL SELECTED",
-              "Value: " + e?.y + ", xIndex: " + e?.x
-              + ", DataSet index: " + h?.dataSetIndex
-          )
+        Log.i("VAL SELECTED",
+                "Value: " + e?.y + ", xIndex: " + e?.x
+                        + ", DataSet index: " + h?.dataSetIndex
+        )
     }
 
-    fun setBackgroundChartColor(chart: LineChart){
+    fun setBackgroundChartColor(chart: LineChart) {
 
         val colors = intArrayOf(
-            Color.rgb(181 , 227, 240),
-            Color.rgb(193 , 227, 202),
-            Color.rgb(246 , 234, 179),
-            Color.rgb(239 , 194, 210),
-            Color.rgb(247 , 199, 198),
-            Color.rgb(145 , 168, 132)
+                Color.rgb(181, 227, 240),
+                Color.rgb(193, 227, 202),
+                Color.rgb(246, 234, 179),
+                Color.rgb(239, 194, 210),
+                Color.rgb(247, 199, 198),
+                Color.rgb(145, 168, 132)
         )
 
         var metricLine = 0f
@@ -143,5 +138,12 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
         }
     }
 
+    override fun onBackPressed() {
+        val a = Intent(Intent.ACTION_MAIN)
+        a.addCategory(Intent.CATEGORY_HOME)
+        a.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(a)
+        finish()
+    }
 
 }

@@ -112,10 +112,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="32dp"
-                android:layout_margin="10dp"
-                android:padding="10dp">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/healthEdLayout"
@@ -124,6 +121,10 @@
                     android:background="@drawable/white_card"
                     android:orientation="horizontal"
                     android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="18dp"
                     android:elevation="10dp">
 
                     <ImageView
@@ -152,6 +153,10 @@
                     android:background="@drawable/white_card"
                     android:orientation="horizontal"
                     android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="18dp"
                     android:elevation="10dp">
 
                     <ImageView
@@ -195,8 +200,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -205,7 +208,10 @@
                     android:layout_height="150dp"
                     android:orientation="vertical"
                     android:background="@drawable/white_card"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="18dp"
                     android:elevation="10dp">
 
                     <TextView
@@ -232,6 +238,10 @@
                         android:layout_height="150dp"
                         android:orientation="vertical"
                         android:background="@drawable/white_card"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="18dp"
                         android:elevation="10dp">
 
                     <TextView
@@ -256,8 +266,6 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:layout_marginTop="20dp"
                     android:orientation="horizontal">
 
                 <LinearLayout
@@ -266,7 +274,10 @@
                         android:layout_height="150dp"
                         android:orientation="vertical"
                         android:background="@drawable/white_card"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="18dp"
                         android:elevation="10dp">
 
                     <TextView
@@ -293,6 +304,10 @@
                         android:layout_height="150dp"
                         android:orientation="vertical"
                         android:background="@drawable/white_card"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="18dp"
                         android:elevation="10dp">
 
                     <TextView

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#FF7062</color>
     <color name="navyBlue">#3F99D2</color>
     <color name="dimGray">#707070</color>
     <color name="mariner">#3B5998</color>
@@ -22,5 +22,12 @@
     <color name="normal">#13E85E</color>
     <color name="low">#0C9ADE</color>
     <color name="lightSkyBlue">#93D0FE</color>
+    <color name="carnation_pink">#F4A9C9</color>
+    <color name="red_orange">#FA4138</color>
+    <color name="hippie_green">#588558</color>
+
+    <color name="dot_dark_screen3">#2278d4</color>
+    <color name="dot_light_screen3">#93c6fd</color>
+
 
 </resources>

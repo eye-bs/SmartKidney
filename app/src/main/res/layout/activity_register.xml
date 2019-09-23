@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-                android:background="@android:color/white"
+    android:background="@android:color/white"
     tools:context=".RegisterActivity">
 
     <TextView
@@ -39,8 +39,19 @@
                 android:id="@+id/birthday_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:editable="false"
                 android:hint="@string/birthday" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:id="@+id/view_birthdate"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@+id/text_register"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="50dp"
+        />
 
     <LinearLayout
         android:id="@+id/view_gender"
@@ -58,9 +69,10 @@
             android:orientation="vertical"
             android:layout_marginEnd="40dp">
             <ImageView
+                    android:id="@+id/maleSelectorBt"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/male_gender_sign"
+                android:src="@drawable/male_gender_sign_2"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -101,9 +113,10 @@
             android:orientation="vertical"
             android:layout_marginStart="40dp">
             <ImageView
+                    android:id="@+id/femaleSelectorBt"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/female_sign"
+                android:src="@drawable/female_sign_2"
                 />
             <TextView
                 android:layout_width="wrap_content"

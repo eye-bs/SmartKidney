@@ -18,15 +18,19 @@
             android:padding="15dp">
 
         <ImageView
-                android:id="@+id/alarmHomeBt"
+                android:id="@+id/backFormBt"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/less_than"
-                android:elevation="10dp"/>
+                android:src="@drawable/left_arrow"
+                android:elevation="10dp"
+            android:layout_gravity="center"/>
         <TextView
+            android:id="@+id/header_form"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/thanamas"
+            android:textSize="25sp"
                 android:text="แบบบันทึกสุขภาพ"
                 android:gravity="center"/>
 
@@ -41,6 +45,89 @@
         android:padding="20dp"
         android:background="@drawable/white_card"
         android:elevation="10dp">
+
+        <TextView
+            android:id="@+id/textViewFormName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"/>
+        <LinearLayout
+            android:id="@+id/layoutDetailForWater"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <TextView
+                    android:id="@+id/weightTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="น้ำหนัก 60 kg"
+                    android:layout_marginEnd="25dp"/>
+                <ImageView
+                    android:id="@+id/editWeightBt"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/edit"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="ปริมาณน้ำที่ควรได้รับ 2300 ml/day"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/form_text_input1"
+            style="@style/TextInputLayoutAppearance.register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/form_edit_text1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/form_text_input2"
+            style="@style/TextInputLayoutAppearance.register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/form_edit_text2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/saveAndAnalysisBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/register_bt_bg"
+            android:layout_gravity="center"
+            android:paddingStart="20dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="8dp"
+            android:text="@string/saveandanalysis"
+            android:textColor="@android:color/white"
+            android:elevation="5dp" />
 
     </LinearLayout>
 

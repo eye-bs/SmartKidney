@@ -24,7 +24,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
-class SetupChart(val jsonObject: JSONObject, val context: Context , val parentLayout: LinearLayout){
+@Suppress("NAME_SHADOWING")
+class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLayout: LinearLayout){
 
     val colors = arrayOf("#00C1C1","#13D967","#FCCA01","#E64242","#EA5388","#660000")
     lateinit var arrChart: JSONArray
@@ -96,7 +97,7 @@ class SetupChart(val jsonObject: JSONObject, val context: Context , val parentLa
             textView.setTextColor(ContextCompat.getColor(context,R.color.dimGray))
 
             for (i in 0 until rangeName.length()) {
-                var rangeText = TextView(context)
+                val rangeText = TextView(context)
                 rangeText.layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT

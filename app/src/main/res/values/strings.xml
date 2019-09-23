@@ -61,6 +61,22 @@
         <item name="5">#F6C7C7</item>
     </string-array>
 
+    <string-array name="month_th">
+        <item name="jan">มกราคม</item>
+        <item name="feb">กุมภาพันธ์</item>
+        <item name="mar">มีนาคม</item>
+        <item name="apr">เมษายน</item>
+        <item name="may">พฤษภาคม</item>
+        <item name="jun">มิถุนายน</item>
+        <item name="jul">กรกฎาคม</item>
+        <item name="aug">สิงหาคม</item>
+        <item name="sep">กันยายน</item>
+        <item name="oct">ตุลาคม</item>
+        <item name="nov">พฤศจิกายน</item>
+        <item name="dec">ธันวาคม</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="saveandanalysis">บันทึก + แปลผล</string>
 </resources>

@@ -54,15 +54,6 @@
 
     </RelativeLayout>
 
-    <ImageView
-            android:id="@+id/addLogsBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/gradient_pressure_fab"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-20dp"
-        android:layout_alignParentBottom="true"
-        android:elevation="15dp"/>
 
 
 </RelativeLayout>

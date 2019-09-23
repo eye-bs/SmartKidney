@@ -36,7 +36,7 @@ class GraphFragment : Fragment() {
 
             val graphFragmentNoData = view.findViewById<RelativeLayout>(R.id.pressureFragmentNoData)
             val contentLayout = view.findViewById<LinearLayout>(R.id.contentLayoutFragment)
-            val addLogsBt = view.findViewById<ImageView>(R.id.addLogsBt)
+
             graphFragmentNoData.visibility = View.INVISIBLE
 
             val readjson = ReadJSON(context!!)
@@ -45,20 +45,6 @@ class GraphFragment : Fragment() {
             val setupChart = SetupChart(obj!!,context!!,contentLayout)
             setupChart.createLayout()
 
-        when(param1){
-            Constant.BLOOD_PRESSURE ->{
-                addLogsBt.setImageDrawable(ContextCompat.getDrawable(context!!,R.drawable.gradient_pressure_fab))
-            }
-            Constant.KIDNEY_FILTRATION_RATE ->{
-                addLogsBt.setImageDrawable(ContextCompat.getDrawable(context!!,R.drawable.gradient_kidney_fab))
-            }
-            Constant.BLOOD_SUGAR_LEV ->{
-                addLogsBt.setImageDrawable(ContextCompat.getDrawable(context!!,R.drawable.gradient_glucose_fab))
-            }
-            Constant.WATER ->{
-                addLogsBt.setImageDrawable(ContextCompat.getDrawable(context!!,R.drawable.gradient_water_fab))
-            }
-        }
 
     }
 

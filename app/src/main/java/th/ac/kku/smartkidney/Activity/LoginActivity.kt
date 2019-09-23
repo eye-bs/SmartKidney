@@ -1,13 +1,11 @@
-
 package th.ac.kku.smartkidney
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -24,18 +22,18 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    fun setMarginBg(){
+    fun setMarginBg() {
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
 
         //obs size 1214 * 619
         var width = displayMetrics.widthPixels
-        if (width > 1214){
+        if (width > 1214) {
             width -= 1214
-        }else width = 1214 - width
+        } else width = 1214 - width
 
         val param = objLogin.layoutParams as RelativeLayout.LayoutParams
-        param.setMargins(0,width*-1,0,0)
+        param.setMargins(0, width * -1, 0, 0)
         objLogin.layoutParams = param
     }
 }

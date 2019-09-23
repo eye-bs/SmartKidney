@@ -9,6 +9,7 @@ class Constant {
         const val BMI = "ดัชนีมวลกาย"
         const val TAG = "SmartKidneyTag"
         const val GRAPH_DETAIL_JSON = "graphFragment.json"
+        const val ANALYZE_DETAL_JSON = "analyzeDetail.json"
         const val BACK_TO_HOME = "BACK_TO_HOME"
 
     }
