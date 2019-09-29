@@ -25,6 +25,14 @@
     <color name="carnation_pink">#F4A9C9</color>
     <color name="red_orange">#FA4138</color>
     <color name="hippie_green">#588558</color>
+    <color name="jacksons_purple">#44477C</color>
+
+    <color name="low_chart">#B5E3F0</color>
+    <color name="normal_chart">#C1E3CA</color>
+    <color name="preHigh_chart">#F6EAB3</color>
+    <color name="high_chart">#F8D4BC</color>
+    <color name="veryHigh_chart">#EFC1D2</color>
+    <color name="danger_chart">#F8B2AD</color>
 
     <color name="dot_dark_screen3">#2278d4</color>
     <color name="dot_light_screen3">#93c6fd</color>

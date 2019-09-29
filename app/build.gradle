@@ -42,4 +42,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'me.riddhimanadib.bottom-nav-bar:bottom-nav-bar:1.0.1'
+    implementation 'com.github.florent37:SingleDateAndTimePicker:v2.0.4'
 }

@@ -26,7 +26,7 @@ class RegisterActivity : AppCompatActivity() {
 
         maleSelectorBt.setOnClickListener(View.OnClickListener {
             Log.wtf(Constant.TAG, "get:: ${maleSelectorBt.drawable} \n img:: ${getDrawable(R.drawable.male_gender_sign_2)}")
-            if (toggleButtonMale == false) {
+            if (!toggleButtonMale) {
                 maleSelectorBt.setImageDrawable(getDrawable(R.drawable.male_gender_sign))
                 femaleSelectorBt.setImageDrawable(getDrawable(R.drawable.female_sign_2))
                 toggleButtonMale = true
@@ -34,7 +34,7 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
         femaleSelectorBt.setOnClickListener(View.OnClickListener {
-            if (toggleButtonFemale == false) {
+            if (!toggleButtonFemale) {
                 femaleSelectorBt.setImageDrawable(getDrawable(R.drawable.female_sign))
                 maleSelectorBt.setImageDrawable(getDrawable(R.drawable.male_gender_sign_2))
                 toggleButtonMale = false
@@ -81,11 +81,17 @@ class RegisterActivity : AppCompatActivity() {
             // Display Selected date in textbox
             val getDate = "" + year + "-" + (monthOfYear + 1) + "-" + dayOfMonth + "T09:55:00"
             val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-            val formatter = SimpleDateFormat("dd.MM.yyyy")
+            val formatter = SimpleDateFormat("dd MMMM", Locale.getDefault())
             val formattedDate = formatter.format(parser.parse(getDate))
 
-            birthday_edit_text.setText(formattedDate)
+            var setYear = year
+
+            if (Locale.getDefault().displayCountry == "ไทย"){
+                setYear += 543
+            }
+            birthday_edit_text.setText("$formattedDate $setYear")
         }, year, month, day)
+
 
         dpd.show()
     }

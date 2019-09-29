@@ -14,16 +14,24 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.EntryXComparator
+import kotlinx.android.synthetic.main.activity_alarm.*
 import kotlinx.android.synthetic.main.activity_home.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
 
     lateinit var chart: LineChart
+    private lateinit var hashMapEvent: ArrayList<HashMap<String,String>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        hashMapEvent = ReadCalendar.readCalendar(this)
+        val timeFormat = SimpleDateFormat("'วันที่' dd MMMM 'เวลา' HH:mm 'น.'", Locale.getDefault())
+        val nextAlarm = hashMapEvent[0]
+        nextAlarmHomeTextView.text = "นัดพบแพทย์ ${timeFormat.format(nextAlarm["begin"]!!.toLong())}"
 
         setUpChart(pressureChart)
         setUpChart(sugarChart)
@@ -33,14 +41,21 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
         setData(6, 5.0F, sugarChart)
         setData(6, 5.0F, kidneyChart)
 
-        alarmLayout.setOnClickListener(View.OnClickListener {
+        alarmLayout.setOnClickListener{
             val intent = Intent(this, AlarmActivity::class.java)
             startActivity(intent)
-        })
+            finish()
+        }
 
         healthFormLayout.setOnClickListener {
             val intent = Intent(this, HealthFormActivity::class.java)
             startActivity(intent)
+            finish()
+        }
+        healthEdLayout.setOnClickListener{
+            val intent = Intent(this, HealtEdActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 
@@ -122,7 +137,7 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
                 Color.rgb(246, 234, 179),
                 Color.rgb(239, 194, 210),
                 Color.rgb(247, 199, 198),
-                Color.rgb(145, 168, 132)
+                Color.rgb(255, 196, 189)
         )
 
         var metricLine = 0f

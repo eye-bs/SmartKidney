@@ -1,152 +1,185 @@
 package th.ac.kku.smartkidney
 
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginBottom
+import androidx.core.view.marginTop
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LimitLine
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.EntryXComparator
 import com.github.mikephil.charting.utils.MPPointF
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.Float as Float1
 
 @Suppress("NAME_SHADOWING")
-class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLayout: LinearLayout){
+class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLayout: LinearLayout) {
 
-    val colors = arrayOf("#00C1C1","#13D967","#FCCA01","#E64242","#EA5388","#660000")
     lateinit var arrChart: JSONArray
-    
+
     @SuppressLint("SetTextI18n")
-    fun createLayout(){
+    fun createLayout() {
 
-        val rangeName = jsonObject.getJSONArray("rangeName")
         arrChart = jsonObject.getJSONArray("graph")
-
-
 
         for (i in 0 until arrChart.length()) {
 
-            var chartJSONObject = arrChart.getJSONObject(i)
+            val chartJSONObject = arrChart.getJSONObject(i)
 
             val linearLayout = LinearLayout(context)
             val textView = TextView(context)
             val lineChart = LineChart(context)
             val pieChart = PieChart(context)
-            val rangeLayout = LinearLayout(context)
 
-           var paramsForLayout: LinearLayout.LayoutParams = if(jsonObject.getString("name").equals(Constant.WATER)){
-               LinearLayout.LayoutParams(
-                   LinearLayout.LayoutParams.MATCH_PARENT,  1200
-               )
-           }else{
-               LinearLayout.LayoutParams(
-                   LinearLayout.LayoutParams.MATCH_PARENT,  1000
-               )
-           }
+            val paramsForLayout: LinearLayout.LayoutParams = if (jsonObject.getString("name").equals(Constant.WATER)) {
+                LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, 1200
+                )
+            } else {
+                LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, 1000
+                )
+            }
 
-            var paramsForTextView = RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
+            val paramsForTextView = RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
             )
 
-            var paramsForChart = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, 0, 1F
+            val paramsForChart = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, 0, 1F
             )
 
-            var paramsForRate = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
+
             paramsForTextView.setMargins(0, 50, 0, 0)
-            paramsForLayout.setMargins(50,50,50,50)
-            paramsForRate.setMargins(0, 50, 50, 20)
-            paramsForChart.setMargins(0,0,0,10)
+            paramsForLayout.bottomMargin = 60
+            paramsForChart.setMargins(0, 0, 0, 10)
 
             val view = View(context)
             view.layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1F)
 
             linearLayout.layoutParams = paramsForLayout
             textView.layoutParams = paramsForTextView
-            rangeLayout.layoutParams = paramsForRate
-
-
 
             linearLayout.orientation = LinearLayout.VERTICAL
             linearLayout.background = ContextCompat.getDrawable(context, R.drawable.white_card)
             linearLayout.elevation = 10F
-            rangeLayout.orientation = LinearLayout.HORIZONTAL
-
-            rangeLayout.addView(view)
+            linearLayout.setPadding(30, 0, 30, 50)
 
             textView.text = chartJSONObject.getString("name")
             textView.gravity = Gravity.CENTER
-            textView.setTextColor(ContextCompat.getColor(context,R.color.dimGray))
-
-            for (i in 0 until rangeName.length()) {
-                val rangeText = TextView(context)
-                rangeText.layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-                rangeText.text = rangeName.getString(i)
-                rangeText.textSize = 12f
-                rangeText.setTextColor(Color.parseColor(colors[i]))
-
-                rangeLayout.addView(rangeText)
-            }
+            textView.setTextColor(ContextCompat.getColor(context, R.color.dimGray))
 
 
-
-            if(jsonObject.getString("name").equals(Constant.WATER)){
+            if (jsonObject.getString("name") == Constant.WATER) {
 
                 val waterIn = 2000
                 val waterPerDay = 2300
 
-                textView.setTextColor(ContextCompat.getColor(context,R.color.lightSkyBlue))
+                textView.setTextColor(ContextCompat.getColor(context, R.color.lightSkyBlue))
                 linearLayout.addView(textView)
 
-                linearLayout.addView(createTextView("$waterIn ml",ContextCompat.getColor(context,R.color.dimGray),20F))
+                linearLayout.addView(
+                        createTextView(
+                                "$waterIn ml",
+                                ContextCompat.getColor(context, R.color.dimGray),
+                                20F
+                        )
+                )
 
                 pieChart.layoutParams = paramsForChart
                 PieChartSetUp(pieChart)
                 linearLayout.addView(pieChart)
 
-                linearLayout.addView(createTextView("$waterPerDay ml",ContextCompat.getColor(context,R.color.dimGray),20F))
-                linearLayout.addView(createTextView(chartJSONObject.getString("namePerDay"),ContextCompat.getColor(context,R.color.lightSkyBlue),16F))
+                linearLayout.addView(
+                        createTextView(
+                                "$waterPerDay ml",
+                                ContextCompat.getColor(context, R.color.dimGray),
+                                20F
+                        )
+                )
+                linearLayout.addView(
+                        createTextView(
+                                chartJSONObject.getString("namePerDay"),
+                                ContextCompat.getColor(context, R.color.lightSkyBlue),
+                                16F
+                        )
+                )
 
 
-
-            }else{
+            } else {
                 lineChart.layoutParams = paramsForChart
-                lineChartSetUp(lineChart ,chartJSONObject)
+                lineChartSetUp(lineChart, chartJSONObject)
                 linearLayout.addView(textView)
-                linearLayout.addView(rangeLayout)
                 linearLayout.addView(lineChart)
             }
 
             parentLayout.addView(linearLayout)
         }
+        //-----------add explain chart table-------------
+        val explainChartTable = jsonObject.getJSONArray("explainChartTable")
+        val explainGraphLayout = LinearLayout(context)
+        val tableLayout = TableLayout(context)
+
+        val paramsForExplainLayout = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        val paramsForTable = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+
+        explainGraphLayout.setPadding(20,20,20,20)
+        explainGraphLayout.orientation = LinearLayout.VERTICAL
+        explainGraphLayout.elevation = 10f
+        explainGraphLayout.background = context.getDrawable(R.drawable.white_card)
+
+        paramsForExplainLayout.setMargins(20,20,20,20)
+        explainGraphLayout.layoutParams = paramsForExplainLayout
+        tableLayout.layoutParams = paramsForTable
+
+        for(i in 0 until explainChartTable.length()){
+            val getRow = explainChartTable.getJSONArray(i)
+            val tableRow = TableRow(context)
+            tableRow.setPadding(5,5,5,5)
+            for (j in 0 until getRow.length()){
+                val textView = TextView(context)
+                var paramsForTextView:LinearLayout.LayoutParams = if(i == 0 && j == 2){
+                    LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,1f)
+                }else{
+                    LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,2f)
+                }
+                Log.wtf(Constant.TAG, getRow.getString(j))
+                textView.text = getRow.getString(j)
+                textView.gravity = Gravity.CENTER
+                textView.layoutParams = paramsForTextView
+                tableRow.addView(textView)
+
+            }
+            tableLayout.addView(tableRow)
+        }
+        explainGraphLayout.addView(tableLayout)
+        parentLayout.addView(explainGraphLayout)
+
     }
 
-    private fun createTextView(text: String, color: Int,textSize: Float): TextView{
+    private fun createTextView(text: String, color: Int, textSize: Float1): TextView {
 
         val params = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.MATCH_PARENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
         )
 
         var textView = TextView(context)
@@ -155,12 +188,12 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
         textView.text = text
         textView.textSize = textSize
         textView.setTextColor(color)
-       return textView
+        return textView
     }
 
-    private fun lineChartSetUp(setChart: LineChart, graphObject: JSONObject){
+    private fun lineChartSetUp(setChart: LineChart, graphObject: JSONObject) {
 
-        val min =  graphObject.getInt("min").toFloat()
+        val min = graphObject.getInt("min").toFloat()
         val max = graphObject.getInt("max").toFloat()
 
         setChart.setDrawGridBackground(false)
@@ -172,7 +205,12 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
         setChart.setScaleEnabled(false)
         setChart.setPinchZoom(true)
 
-        setChart.xAxis.isEnabled = false
+        val weekdays = arrayListOf<String>("", "อา", "จ", "อ", "พ", "พฤ", "ศ", "ส", "")
+
+        setChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        setChart.xAxis.axisMinimum = 0f
+        setChart.xAxis.axisMaximum = 8f
+        setChart.xAxis.valueFormatter = object : IndexAxisValueFormatter(weekdays) {}
 
         val leftAxis = setChart.axisLeft
         leftAxis.axisMinimum = min
@@ -187,47 +225,61 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
 
         setChart.invalidate()
 
-        setBackgroundChartColor(setChart , graphObject.getJSONArray("range"))
+        setBackgroundChartColor(setChart, graphObject.getJSONArray("range"))
 
-        setData(5,min,max,setChart)
+        setData(context, 7, min, max, setChart)
 
 
     }
 
-    private fun setData(count: Int , min: Float,max: Float , chart: LineChart) {
+    @TargetApi(Build.VERSION_CODES.M)
+    private fun setData(context: Context, count: Int, min: Float1, max: Float1, chart: LineChart) {
 
         val entries = ArrayList<Entry>()
-        for (i in 0 until count) {
-            val xVal = (min.toInt()..max.toInt()).random()
+
+        val colors = ArrayList<Int>()
+
+        for (i in 1..count) {
             val yVal = (min.toInt()..max.toInt()).random()
-            entries.add(Entry(xVal.toFloat(), yVal.toFloat()))
+            entries.add(Entry(i.toFloat(), yVal.toFloat()))
+
+//            if ( yVal <= 50 )
+//                colors.add( context.getColor( R.color.lightSkyBlue ) )
+//            else if (yVal in 51..100)
+//                colors.add( context.getColor( R.color.hippie_green ) )
+//            else if (yVal in 101..199)
+//                colors.add( context.getColor( R.color.carnation_pink ) )
+//            else if (yVal in 200..299)
+//                colors.add( context.getColor( R.color.red_orange ) )
+//            else
+//                colors.add( context.getColor( R.color.paleVioletRed ) )
+
         }
 
         Collections.sort(entries, EntryXComparator())
 
         val set1 = LineDataSet(entries, "DataSet 1")
 
-        set1.lineWidth = 1.5f
-        set1.circleRadius = 4f
-        set1.circleHoleRadius = 2.5f
-        set1.color = Color.BLACK
-        set1.setCircleColor(Color.BLACK)
-        set1.highLightColor = Color.BLACK
+        set1.lineWidth = 2f
+        set1.circleRadius = 5f
+        set1.circleHoleRadius = 5f
+        set1.color = Color.parseColor("#3B5998")
+        set1.setCircleColor(Color.parseColor("#3B5998"))
 
         val data = LineData(set1)
 
         chart.data = data
     }
 
-    private fun setBackgroundChartColor(chart: LineChart, rangeArr: JSONArray){
+    private fun setBackgroundChartColor(chart: LineChart, rangeArr: JSONArray) {
 
         val colors = intArrayOf(
-            Color.rgb(181 , 227, 240),
-            Color.rgb(193 , 227, 202),
-            Color.rgb(246 , 234, 179),
-            Color.rgb(248 , 212, 188),
-            Color.rgb(239 , 194, 210),
-            Color.rgb(248 , 178, 173)
+                Color.rgb(181, 227, 240),
+                Color.rgb(193, 227, 202),
+                Color.rgb(246, 234, 179),
+                Color.rgb(248, 212, 188),
+                Color.rgb(239, 194, 210),
+                Color.rgb(248, 178, 173)
 
         )
 
@@ -246,7 +298,7 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
         }
     }
 
-    fun PieChartSetUp(chart: PieChart){
+    fun PieChartSetUp(chart: PieChart) {
 
         chart.setUsePercentValues(true)
         chart.description.isEnabled = false
@@ -276,7 +328,7 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
         chart.animateY(1400, Easing.EaseInOutQuad)
         // chart.spin(2000, 0, 360);
 
-        val l = chart.getLegend()
+        val l = chart.legend
         l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
         l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
         l.orientation = Legend.LegendOrientation.VERTICAL
@@ -289,10 +341,10 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
         chart.setEntryLabelColor(Color.WHITE)
         chart.setEntryLabelTextSize(12f)
 
-        setDataPie(2,50F,chart)
+        setDataPie(2, 50F, chart)
     }
 
-    private fun setDataPie(count: Int, range: Float,chart: PieChart) {
+    private fun setDataPie(count: Int, range: Float1, chart: PieChart) {
 
         val entries = ArrayList<PieEntry>()
 
@@ -307,8 +359,8 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
 //            )
 //        }
 
-        entries.add(PieEntry(70F,70F))
-        entries.add(PieEntry(30F,30F))
+        entries.add(PieEntry(70F, 70F))
+        entries.add(PieEntry(30F, 30F))
 
         val dataSet = PieDataSet(entries, "")
 

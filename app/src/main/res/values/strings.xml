@@ -33,6 +33,7 @@
     </string>
     <string name="water_per_day">ปริมาณน้ำที่ควรดื่ม/วัน</string>
     <string name="bmi_th">ดัชนีมวลกาย</string>
+    <string name="checkFill">Please fill out this form.</string>
 
 
     <string-array name="risk_question">

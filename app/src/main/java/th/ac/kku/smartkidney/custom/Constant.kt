@@ -10,7 +10,10 @@ class Constant {
         const val TAG = "SmartKidneyTag"
         const val GRAPH_DETAIL_JSON = "graphFragment.json"
         const val ANALYZE_DETAL_JSON = "analyzeDetail.json"
+        const val HEALTHED_TOPIC_JSON = "healthEdTopic.json"
         const val BACK_TO_HOME = "BACK_TO_HOME"
+        const val HEALTH_ED_TOPIC = "เกร็ดความรู้"
+
 
     }
 }

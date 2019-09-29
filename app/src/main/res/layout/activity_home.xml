@@ -103,6 +103,7 @@
                     android:src="@drawable/alarm"/>
                 
                 <TextView
+                    android:id="@+id/nextAlarmHomeTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="นัดพบแพทย์ วันที่ 30 สิงหาคม 2562"
@@ -137,18 +138,39 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/healthEd"
-                        android:gravity="center"
-                        android:textSize="14sp"/>
+                        android:gravity="center"/>
                 </LinearLayout>
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"/>
-
                 <LinearLayout
+                        android:id="@+id/dailyRecommentLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="32dp"
+                        android:background="@drawable/white_card"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:layout_margin="10dp"
+                        android:elevation="10dp">
+
+                    <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/complain_2"/>
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dailyRecomment"
+                            android:gravity="center"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
                     android:id="@+id/healthFormLayout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/white_card"
                     android:orientation="horizontal"
@@ -159,43 +181,20 @@
                     android:layout_marginBottom="18dp"
                     android:elevation="10dp">
 
-                    <ImageView
+                <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/graph"
                         android:layout_marginEnd="5dp"/>
 
-                    <TextView
+                <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/healthForm"
-                        android:gravity="center"
-                        android:textSize="14sp"/>
-                </LinearLayout>
+                        android:gravity="center"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/dailyRecommentLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/white_card"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_margin="10dp"
-                android:elevation="10dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/complain_2"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dailyRecomment"
-                    android:gravity="center"/>
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
