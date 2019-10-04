@@ -3,16 +3,12 @@ package th.ac.kku.smartkidney
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.fragment_graph.*
 
 
 private const val ARG_PARAM1 = "param1"
@@ -44,7 +40,6 @@ class GraphFragment : Fragment() {
 
             val setupChart = SetupChart(obj!!,context!!,contentLayout)
             setupChart.createLayout()
-
 
     }
 

@@ -134,7 +134,6 @@ class AnalyzeActivity : AppCompatActivity() {
 
         var height = displayMetrics.heightPixels
         height -= height / 5
-        Log.wtf(Constant.TAG, "height:: $height")
         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height)
         mDialogView.findViewById<ScrollView>(R.id.scrollDialog).layoutParams = params
         mDialogView.dialogButton.text = "ปิด"

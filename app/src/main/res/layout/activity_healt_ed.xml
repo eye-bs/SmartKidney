@@ -15,12 +15,13 @@
         android:orientation="horizontal"
         android:background="@color/white"
         android:elevation="10dp"
-        android:padding="15dp">
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/healthEdHomeBt"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
             android:src="@drawable/less_than"
             android:elevation="10dp"
             android:layout_gravity="center"/>
@@ -32,6 +33,7 @@
             android:fontFamily="@font/thanamas"
             android:textSize="20sp"
             android:textColor="@color/jacksons_purple"
+            android:layout_gravity="center"
             android:gravity="center"/>
 
     </LinearLayout>

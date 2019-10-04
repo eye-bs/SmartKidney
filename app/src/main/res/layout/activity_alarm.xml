@@ -15,25 +15,28 @@
         android:orientation="horizontal"
         android:background="@color/white"
         android:elevation="10dp"
-        android:padding="15dp">
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/alarmHomeBt"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/less_than"
-            android:elevation="10dp"/>
+            android:background="@color/white"
+            android:padding="10dp" />
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/meeting"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_gravity="center"/>
         <ImageView
             android:id="@+id/addAlarmBt"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/plus"
+            android:padding="10dp"
             android:elevation="10dp" />
 
     </LinearLayout>
@@ -98,7 +101,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ยังไม่มีการนัดหมาย \n กดเครื่องหมาย '+' \nเพื่อเพิ่มการแจ้งเตือนนัดดพบแพทย์"
+            android:text="ยังไม่มีการนัดหมาย \n กดเครื่องหมาย '+' \nเพื่อเพิ่มการแจ้งเตือนนัดพบแพทย์"
             android:gravity="center"
             android:textSize="20sp"
             android:layout_centerInParent="true"/>

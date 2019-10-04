@@ -12,7 +12,7 @@ import java.io.InputStream
 
 class ReadJSON(val context: Context) {
 
-    fun readJSONfromFile(fileName: String): JSONArray? {
+    private fun readJSONfromFile(fileName: String): JSONArray? {
         try {
             lateinit var json: String
             val inputStream: InputStream = context.assets.open(fileName)

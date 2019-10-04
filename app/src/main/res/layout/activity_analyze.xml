@@ -25,14 +25,15 @@
             android:orientation="horizontal"
             android:background="@color/white"
             android:elevation="10dp"
-            android:padding="15dp">
+            android:padding="5dp">
 
             <ImageView
                 android:id="@+id/backAnalyzeBt"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/left_arrow"
-                android:elevation="10dp"
+                android:elevation="8dp"
+                android:padding="10dp"
                 android:layout_gravity="center"/>
             <TextView
                 android:id="@+id/header_form"
@@ -43,6 +44,7 @@
                 android:textSize="25sp"
                 android:text="แปลผล"
                 android:textColor="@color/red_orange"
+                android:layout_gravity="center"
                 android:gravity="center"/>
 
         </LinearLayout>

@@ -5,13 +5,6 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/user_menu"
-        android:orderInCategory="300"
-        android:title="User"
-        android:icon="@drawable/youtuber"
-        app:showAsAction="ifRoom"/>
-
-    <item
         android:id="@+id/add_menu"
         android:orderInCategory="500"
         android:title="add"

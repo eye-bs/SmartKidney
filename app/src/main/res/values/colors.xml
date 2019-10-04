@@ -12,6 +12,7 @@
     <color name="sunsetOrange">#F9514E</color>
     <color name="paleVioletRed">#E1669A</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="mantle">#91A884</color>
     <color name="selago">#F0EBF0</color>
     <color name="lavender">#EAE9F1</color>
@@ -26,16 +27,28 @@
     <color name="red_orange">#FA4138</color>
     <color name="hippie_green">#588558</color>
     <color name="jacksons_purple">#44477C</color>
+    <color name="atomic_tangerine">#F78A67</color>
 
     <color name="low_chart">#B5E3F0</color>
     <color name="normal_chart">#C1E3CA</color>
     <color name="preHigh_chart">#F6EAB3</color>
     <color name="high_chart">#F8D4BC</color>
     <color name="veryHigh_chart">#EFC1D2</color>
-    <color name="danger_chart">#F8B2AD</color>
+    <color name="danger_chart">#F2B4A2</color>
+    <color name="veryDanger_chart">#F8B2AD</color>
 
     <color name="dot_dark_screen3">#2278d4</color>
     <color name="dot_light_screen3">#93c6fd</color>
+
+    <array name="range_chart_arr">
+        <item>@color/low_chart</item>
+        <item>@color/normal_chart</item>
+        <item>@color/preHigh_chart</item>
+        <item>@color/high_chart</item>
+        <item>@color/veryHigh_chart</item>
+        <item>@color/danger_chart</item>
+        <item>@color/veryDanger_chart</item>
+    </array>
 
 
 </resources>

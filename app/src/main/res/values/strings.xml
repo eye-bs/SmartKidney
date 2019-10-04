@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">SmartKidney</string>
+    <string name="facebook_app_id">472780733306812</string>
+    <string name="fb_login_protocol_scheme">fb472780733306812</string>
+
     <string name="smart_kidney">SMART KIDNEY</string>
     <string name="login_with_google">ดำเนินการต่อด้วย Google</string>
     <string name="or">หรือ</string>
@@ -33,7 +36,7 @@
     </string>
     <string name="water_per_day">ปริมาณน้ำที่ควรดื่ม/วัน</string>
     <string name="bmi_th">ดัชนีมวลกาย</string>
-    <string name="checkFill">Please fill out this form.</string>
+    <string name="checkFill">กรุณากรอกข้อมูล</string>
 
 
     <string-array name="risk_question">
@@ -80,4 +83,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="saveandanalysis">บันทึก + แปลผล</string>
+    <string name="ok">ตกลง</string>
 </resources>

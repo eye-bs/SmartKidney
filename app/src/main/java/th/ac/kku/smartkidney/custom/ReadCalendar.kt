@@ -1,12 +1,22 @@
 package th.ac.kku.smartkidney
 
-import java.util.Date
-import java.util.HashSet
+import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.text.format.DateUtils
+import android.util.Log
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import android.provider.CalendarContract
+
+
 
 object ReadCalendar {
     private var cursor: Cursor? = null
@@ -17,10 +27,14 @@ object ReadCalendar {
         return calendarIdUser
     }
     fun getEventHashMapArr():ArrayList<HashMap<String,String>>{
+
         return hashMapEvent
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun readCalendar(context: Context):ArrayList<HashMap<String,String>> {
+
+        hashMapEvent.removeAll(hashMapEvent)
 
         val contentResolver = context.contentResolver
 
@@ -83,7 +97,7 @@ object ReadCalendar {
                         val end = Date(eventCursor.getLong(4))
                         val location = eventCursor.getString(5)
 
-                        if (description.contains("#SmartKidney")){
+                        if (description.contains("#SmartKidney") && begin.time >= now){
                             hashMap["title"] = title
                             hashMap["begin"] = begin.time.toString()
                             hashMap["end"] = end.time.toString()
@@ -97,4 +111,5 @@ object ReadCalendar {
         }
         return hashMapEvent
     }
+
 }

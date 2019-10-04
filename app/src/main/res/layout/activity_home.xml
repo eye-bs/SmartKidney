@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/selago"
+    android:background="@color/white"
     tools:context=".HomeActivity">
 
     <ScrollView
@@ -19,21 +19,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <ImageView
+                android:id="@+id/settingProfileBt"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/settings"
+                android:layout_gravity="end"/>
+            <TextView
+                android:id="@+id/textName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/white_card"
-                android:elevation="10dp"
-                android:layout_margin="10dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/edit"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="20dp"
-                    android:elevation="5dp"/>
+                android:text="Fname Lname"
+                android:textColor="@color/atomic_tangerine"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileImage"
@@ -42,73 +42,76 @@
                     android:src="@drawable/model"
                     app:civ_border_width="2dp"
                     app:civ_border_color="#00000000"
-                    android:layout_marginTop="35dp"
-                    android:elevation="5dp"/>
-                <TextView
-                    android:id="@+id/textName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fname Lname"
-                    android:layout_below="@id/profileImage"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
-                    android:textSize="20sp"/>
+                    android:elevation="5dp"/>
+
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/textName"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_centerHorizontal="true">
-                    <ImageView
-                        android:id="@+id/genderImage"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/female_sign"/>
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center">
+
                     <TextView
                         android:id="@+id/textGender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="gender"
+                        android:text="เพศ หญิง"
+                        android:textSize="14sp"
                         android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@id/genderImage"
                         />
                     <TextView
                         android:id="@+id/textOld"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="อายุ  ปี"
-                        android:layout_marginStart="30dp"
+                        android:text="อายุ 30 ปี"
+                        android:textSize="14sp"
+                        android:layout_marginStart="10dp"
                         android:layout_toEndOf="@id/textGender"/>
-
-                </RelativeLayout>
-
             </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/alarmLayout"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/white_card"
                 android:orientation="horizontal"
                 android:padding="10dp"
-                android:layout_margin="10dp"
-                android:elevation="10dp"
-                >
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/alarm"/>
+                android:layout_gravity="center">
                 
                 <TextView
                     android:id="@+id/nextAlarmHomeTextView"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="นัดพบแพทย์ วันที่ 30 สิงหาคม 2562"
+                    android:textSize="14sp"
                     android:gravity="center"/>
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/healthFormLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/salmon_card"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/healthForm"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lavender"
+                android:layout_marginTop="20dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -117,28 +120,25 @@
 
                 <LinearLayout
                     android:id="@+id/healthEdLayout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@drawable/white_card"
-                    android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="18dp"
-                    android:elevation="10dp">
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
 
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/agenda"
-                        android:layout_marginEnd="10dp"/>
+                        android:layout_gravity="center"/>
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/healthEd"
-                        android:gravity="center"/>
+                        android:textSize="14sp"
+                        android:layout_gravity="center"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -146,82 +146,77 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginTop="32dp"
                         android:background="@drawable/white_card"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:padding="10dp"
-                        android:layout_margin="10dp"
-                        android:elevation="10dp">
+                    android:layout_gravity="center">
 
                     <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/complain_2"/>
+                            android:src="@drawable/complain_2"
+                        android:layout_gravity="center"/>
 
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/dailyRecomment"
+                        android:textSize="14sp"
                             android:gravity="center"/>
                 </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:id="@+id/healthFormLayout"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/alarmLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@drawable/white_card"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:padding="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="18dp"
-                    android:elevation="10dp">
+                    android:layout_gravity="center">
 
-                <ImageView
+                    <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/graph"
-                        android:layout_marginEnd="5dp"/>
+                        android:src="@drawable/alarm"
+                        android:layout_gravity="center"/>
 
-                <TextView
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/healthForm"
+                        android:text="แจ้งเตือนนัดพบแพทย์"
+                        android:textSize="14sp"
                         android:gravity="center"/>
+                </LinearLayout>
             </LinearLayout>
 
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lavender"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="150dp"
+                    android:layout_height="180dp"
                     android:orientation="vertical"
-                    android:background="@drawable/white_card"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="18dp"
-                    android:elevation="10dp">
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/blood_pressure"
+                        android:text="ความดันโลหิตตัวบน"
                         android:textSize="12sp"
                         android:layout_margin="10dp"/>
 
                     <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/pressureChart"
+                        android:id="@+id/pressureUpperChart"
                         android:layout_width="match_parent"
                         android:layout_weight="1"
                         android:layout_height="0dp"
@@ -231,36 +226,44 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/lavender"/>
+
                 <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="150dp"
-                        android:orientation="vertical"
-                        android:background="@drawable/white_card"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="18dp"
-                        android:elevation="10dp">
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="180dp"
+                    android:orientation="vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp">
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/blood_sugar"
-                            android:textSize="12sp"
-                            android:layout_margin="10dp"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ความดันโลหิตตัวล่าง"
+                        android:textSize="12sp"
+                        android:layout_margin="10dp"/>
 
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/sugarChart"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="0dp"
-                    android:background="@drawable/white_card"/>
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/pressureLowerChart"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"
+                        android:background="@drawable/white_card"
+
+                        />
 
                 </LinearLayout>
 
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lavender"/>
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -270,14 +273,10 @@
                 <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_height="150dp"
+                        android:layout_height="180dp"
                         android:orientation="vertical"
-                        android:background="@drawable/white_card"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="18dp"
-                        android:elevation="10dp">
+                        android:layout_marginBottom="10dp">
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -291,46 +290,100 @@
                             android:layout_width="match_parent"
                             android:layout_weight="1"
                             android:layout_height="0dp"
-                            android:background="@drawable/white_card"
-
-                    />
+                            android:background="@drawable/white_card" />
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/lavender"/>
 
                 <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="150dp"
-                        android:orientation="vertical"
-                        android:background="@drawable/white_card"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="18dp"
-                        android:elevation="10dp">
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="180dp"
+                    android:orientation="vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp">
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/water_in"
-                            android:textSize="12sp"
-                            android:layout_margin="10dp"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/blood_sugar"
+                        android:textSize="12sp"
+                        android:layout_margin="10dp"/>
 
-                    <com.github.mikephil.charting.charts.PieChart
-                            android:id="@+id/waterChart"
-                            android:layout_width="match_parent"
-                            android:layout_weight="1"
-                            android:layout_height="0dp"
-                            android:background="@drawable/white_card"/>
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/sugarChart"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"
+                        android:background="@drawable/white_card"/>
 
                 </LinearLayout>
 
+            </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lavender"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="180dp"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/water_in"
+                        android:textSize="12sp"
+                        android:layout_margin="10dp"/>
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/waterChart"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"
+                        android:background="@drawable/white_card"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/lavender"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="180dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"/>
             </LinearLayout>
 
 
         </LinearLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/homeProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lavender"
+        android:visibility="invisible">
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="100dp" />
+    </RelativeLayout>
+
 
 
 

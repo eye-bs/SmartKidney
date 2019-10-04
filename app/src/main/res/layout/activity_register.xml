@@ -72,7 +72,7 @@
                     android:id="@+id/maleSelectorBt"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/male_gender_sign_2"/>
+                android:src="@drawable/male_gender_sign"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
                 android:id="@+id/hospital_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-            android:maxLines="1"
+                android:maxLines="1"
                 android:hint="@string/hospital" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,8 +166,17 @@
         android:textSize="20sp"
         android:elevation="5dp"/>
 
-
-
+    <RelativeLayout
+        android:id="@+id/registerProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lavender"
+        android:visibility="invisible">
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="100dp"/>
+    </RelativeLayout>
 
 
 </RelativeLayout>

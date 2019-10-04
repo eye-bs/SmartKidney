@@ -14,12 +14,13 @@
         android:orientation="horizontal"
         android:background="@color/white"
         android:elevation="10dp"
-        android:padding="15dp">
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/addAlarmBackBt"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
             android:src="@drawable/less_than"
             android:elevation="10dp"/>
         <TextView
@@ -27,6 +28,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="เพิ่มวันนัดพบแพทย์"
+            android:layout_gravity="center"
             android:gravity="center"/>
 
     </LinearLayout>

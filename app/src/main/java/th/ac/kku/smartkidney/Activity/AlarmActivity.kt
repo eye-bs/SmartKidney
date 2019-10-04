@@ -51,6 +51,7 @@ class AlarmActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 800 && resultCode == Activity.RESULT_OK) {
+            noAlarmLayout.visibility = View.GONE
             hashMapEvent = readCalendar(this)
             rootFutureAlarmLayout.removeAllViews()
             createFutureEvent(hashMapEvent)
@@ -67,12 +68,12 @@ class AlarmActivity : AppCompatActivity() {
     @TargetApi(Build.VERSION_CODES.M)
     fun createFutureEvent(hashMapEvent: ArrayList<HashMap<String, String>>) {
 
-        val timeFormat = SimpleDateFormat("EEEE 'ที่' dd MMMM 'เวลา' HH:mm 'น.'", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("EEEE 'ที่' d MMMM 'เวลา' HH:mm 'น.'", Locale.getDefault())
         val nextAlarm = hashMapEvent[0]
         nextAlarmTextView.text = "นัดครั้งถัดไป ${timeFormat.format(nextAlarm["begin"]!!.toLong())}"
-        for (hashMap in hashMapEvent) {
+        for (i in 1 until hashMapEvent.size) {
 
-            val getDateLong = hashMap["begin"]!!.toLong()
+            val getDateLong = hashMapEvent[i]["begin"]!!.toLong()
             val stDate = timeFormat.format(getDateLong)
 
             // create view

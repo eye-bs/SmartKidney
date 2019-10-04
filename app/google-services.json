@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1049673027239",
+    "firebase_url": "https://smartkidney-27940.firebaseio.com",
+    "project_id": "smartkidney-27940",
+    "storage_bucket": "smartkidney-27940.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049673027239:android:6f296ad2daccc2b96f9582",
+        "android_client_info": {
+          "package_name": "th.ac.kku.smartkidney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1049673027239-rs8tt9b158r9fj45oku5p1puf3b3erav.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "th.ac.kku.smartkidney",
+            "certificate_hash": "5cdab5c8ff5e00d8d6ebc453f403d894e70e65cf"
+          }
+        },
+        {
+          "client_id": "1049673027239-mdfo3baf1hsctm3r9is4s67sttq592tf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHGCFFoKFpY2P5SqrlhHuPPhTyuyAaLWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1049673027239-mdfo3baf1hsctm3r9is4s67sttq592tf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

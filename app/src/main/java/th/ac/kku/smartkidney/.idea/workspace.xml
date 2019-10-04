@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="70ca6214-b08a-4c6c-ba3a-148a7484b063" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../../../../../build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../assets/graphFragment.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../assets/graphFragment.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Activity/AddFormActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Activity/AddFormActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Activity/AlarmActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Activity/AlarmActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Activity/AnalyzeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Activity/AnalyzeActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Activity/HealthFormActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Activity/HealthFormActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Activity/HomeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Activity/HomeActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Activity/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Activity/LoginActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Activity/RegisterActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Activity/RegisterActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Fragment/GraphFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Fragment/GraphFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReadCalendar.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ReadCalendar.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom/SetupChart.kt" beforeDir="false" afterPath="$PROJECT_DIR$/custom/SetupChart.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/drawable-xhdpi/add.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/drawable-xhdpi/add.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/drawable-xhdpi/button.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/drawable-xhdpi/button.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/layout/activity_add_alarm.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/layout/activity_add_alarm.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/layout/activity_alarm.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/layout/activity_alarm.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/layout/activity_analyze.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/layout/activity_analyze.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/layout/activity_healt_ed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/layout/activity_healt_ed.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/layout/activity_health_form.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/layout/activity_health_form.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/layout/activity_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/layout/activity_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/layout/activity_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/layout/activity_register.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/layout/fragment_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/layout/fragment_graph.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/menu/menu_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/menu/menu_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../build.gradle" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../../../../.." />
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+        <option value="$PROJECT_DIR$/.idea/codeStyles/Project.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="976" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="smartkidney" type="b2602c69:ProjectViewProjectNode" />
+              <item name="smartkidney" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="android.sdk.path" value="D:/Users/Eye/AppData/Local/Android" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../../../../../AndroidProject/SimpleRetrofit" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="70ca6214-b08a-4c6c-ba3a-148a7484b063" name="Default Changelist" comment="" />
+      <created>1570108799150</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1570108799150</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.1601686" />
+      <window_info id="Structure" side_tool="true" />
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="Resources Explorer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info id="Captures" order="0" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="TODO" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Palette&#9;" />
+    </layout>
+  </component>
+</project>

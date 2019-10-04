@@ -19,17 +19,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_margin="20dp"/>
-            <LinearLayout
-                android:id="@+id/explainGraphLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="20dp"
-                android:elevation="10dp"
-                android:background="@drawable/white_card"
-                android:padding="20dp">
-
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

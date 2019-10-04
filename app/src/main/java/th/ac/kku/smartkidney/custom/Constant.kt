@@ -13,6 +13,7 @@ class Constant {
         const val HEALTHED_TOPIC_JSON = "healthEdTopic.json"
         const val BACK_TO_HOME = "BACK_TO_HOME"
         const val HEALTH_ED_TOPIC = "เกร็ดความรู้"
+        const val API_BASE_PATH = "http://103.74.254.119:1323/"
 
 
     }
