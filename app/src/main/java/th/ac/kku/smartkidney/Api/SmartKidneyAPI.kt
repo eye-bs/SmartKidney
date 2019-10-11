@@ -26,20 +26,22 @@ interface SmartKidneyAPI {
 
     @FormUrlEncoded
     @PATCH("users/{uid}")
-    fun editUserInfo(@Field("email")email: String,
-                       @Field("name")name: String,
-                       @Field("birthDate")birthDate: String,
-                       @Field("gender")gender: String,
-                       @Field("hospital")hospital: String,
-                       @Field("weight")weight: Int,
-                       @Field("height")height: Int)
-            : Observable<ResponseBody>
+    fun editUserInfo(@Path("uid") uid:String,
+                     @Field("email")email: String?,
+                       @Field("name")name: String?,
+                       @Field("birthDate")birthDate: String?,
+                       @Field("gender")gender: String?,
+                       @Field("hospital")hospital: String?,
+                       @Field("weight")weight: Int?,
+                       @Field("height")height: Int?)
+            : Observable<User>
 
     // blood pressure
     @GET("bp/{uid}")
     fun getBloodPressure(@Path("uid") uid:String,
-                         @Query("week") week: Int?,
-                         @Query("year") year: Int?)
+                         @Query("start") start: String?,
+                         @Query("end") end: String?,
+                         @Query("date") date: String?)
             : Observable<List<BloodPressure>>
 
     @FormUrlEncoded
@@ -52,8 +54,9 @@ interface SmartKidneyAPI {
     // blood sugar
     @GET("bs/{uid}")
     fun getBloodSugar(@Path("uid") uid:String,
-                         @Query("week") week: Int?,
-                         @Query("year") year: Int?)
+                      @Query("start") start: String?,
+                      @Query("end") end: String?,
+                      @Query("date") date: String?)
             : Observable<List<BloodSugar>>
 
     @FormUrlEncoded
@@ -64,17 +67,47 @@ interface SmartKidneyAPI {
             :Observable<BloodSugar>
 
     // glomerular infiltration
-    @GET("git/{uid}")
+    @GET("gir/{uid}")
     fun getKidneyLev(@Path("uid") uid:String,
-                      @Query("week") week: Int?,
-                      @Query("year") year: Int?)
+                     @Query("start") start: String?,
+                     @Query("end") end: String?,
+                     @Query("date") date: String?)
             : Observable<List<KidneyLev>>
 
     @FormUrlEncoded
-    @POST("git/{uid}")
+    @POST("gir/{uid}")
     fun postKidneyLev(@Path("uid") uid:String,
-                       @Field("cr") cr:Int)
+                       @Field("cr") cr:Double,
+                        @Field("egfr") egfr:Double)
             :Observable<KidneyLev>
+
+    // water
+    @GET("water/{uid}")
+    fun getWaterPerDaye(@Path("uid") uid:String,
+                     @Query("start") start: String?,
+                     @Query("end") end: String?,
+                        @Query("date") date: String?)
+            : Observable<List<WaterPerDay>>
+
+    @FormUrlEncoded
+    @POST("water/{uid}")
+    fun postWaterPerDay(@Path("uid") uid:String,
+                      @Field("waterIn") waterIn:Int)
+            :Observable<WaterPerDay>
+
+    // bmi
+    @GET("bmi/{uid}")
+    fun getBMI(@Path("uid") uid:String,
+                        @Query("start") start: String?,
+                        @Query("end") end: String?,
+               @Query("date") date: String?)
+            : Observable<List<BMI>>
+
+    @FormUrlEncoded
+    @POST("bmi/{uid}")
+    fun postBMI(@Path("uid") uid:String,
+                        @Field("bmi") bmi:Double)
+            :Observable<BMI>
 
 
 }

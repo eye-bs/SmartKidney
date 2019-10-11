@@ -2,6 +2,7 @@ package th.ac.kku.smartkidney
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -28,6 +29,7 @@ class AnalyzeActivity : AppCompatActivity() {
     lateinit var analyzeObject: JSONObject
     lateinit var getAnalytics: JSONObject
     var buttonBG: Int? = null
+    var name: String = ""
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,83 +38,52 @@ class AnalyzeActivity : AppCompatActivity() {
 
         val input1 = intent.getStringExtra("input1")
         val input2 = intent.getStringExtra("input2")
-        val name = intent.getStringExtra("name")
+        name = intent.getStringExtra("graphName")
         buttonBG = intent.getStringExtra("buttonBG").toInt()
 
         setResultLayout(input1, input2, name)
 
-        backAnalyzeBt.setOnClickListener {
-            showDialogRisk(buttonBG!!)
-
+        resultButton.setOnClickListener {
+            if (getAnalytics.getString("suggest") != "") {
+                showDialogSuggest(buttonBG!!)
+            } else {
+                val intent = Intent()
+                intent.putExtra("graphName",name)
+                setResult(Activity.RESULT_OK , intent)
+                finish()
+            }
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun setResultLayout(input1: String, input2: String, name: String) {
         val calcInput = CalcInput(this)
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR) + 543
-        val month = c.get(Calendar.MONTH)
-        val monthThai = resources.getStringArray(R.array.month_th)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-        val hour = c.get(Calendar.HOUR_OF_DAY)
-        val minite = c.get(Calendar.MINUTE)
         var level: Int? = null
 
-        saveDateTextView.text = "บันทึกวันที่ $day ${monthThai[month]} $year"
-        saveTimeTextview.text = "เวลา $hour:$minite น."
+        if(name != Constant.WATER){
+            when (name) {
+                Constant.BLOOD_PRESSURE -> {
+                    level = calcInput.calcBloodPressure(input1.toInt(), input2.toInt())!!
+                }
+                Constant.KIDNEY_FILTRATION_RATE -> {
+                    level = ApiObject.instant.kidneyRange
+                }
+                Constant.BLOOD_SUGAR_LEV -> {
+                    level = calcInput.calcGlucose(input1.toFloat(), input2.toFloat())
+                }
+            }
+            analyzeObject = readJSON.getJSONObject(Constant.ANALYZE_DETAL_JSON, name)!!
+            getAnalytics = analyzeObject.getJSONArray("analytics").getJSONObject(level!!)
+            val result =  Html.fromHtml(getAnalytics.getString("result"))
+            resultHeader.setTextColor(Color.parseColor(getAnalytics.getString("color")))
+            analyzeTextview.text = result
+            headerAnalyze.setTextColor(Color.parseColor(getAnalytics.getString("color")))
+            resultButton.background = getDrawable(buttonBG!!)
 
-
-        when (name) {
-            Constant.BLOOD_PRESSURE -> {
-                level = calcInput.calcBloodPressure(input1.toInt(), input2.toInt())!!
-                inputTextView1.text = "ความดันตัวบน $input1 mmHg"
-                inputTextView2.text = "ความดันตัวล่าง $input2 mmHg"
-            }
-            Constant.KIDNEY_FILTRATION_RATE -> {
-                level = calcInput.calcKidney(input1.toFloat(), 22, "female")
-                inputTextView1.text = "ค่า Cr $input1 mg/dL"
-                inputTextView2.visibility = View.GONE
-            }
-            Constant.BLOOD_SUGAR_LEV -> {
-                level = calcInput.calcGlucose(input1.toFloat(), input2.toFloat())
-                inputTextView1.text = "ค่าระดับน้ำตาล $input1 mg/dL"
-                inputTextView2.text = "ค่าระดับน้ำตาลสะสม $input2 HbA1c/dL"
-            }
+        }else {
+            setResult(Activity.RESULT_OK)
+            finish()
         }
-
-        analyzeObject = readJSON.getJSONObject(Constant.ANALYZE_DETAL_JSON, name)!!
-        getAnalytics = analyzeObject.getJSONArray("analytics").getJSONObject(level!!)
-        analyzeTextview.text = Html.fromHtml(getAnalytics.getString("result"))
-    }
-
-    private fun showDialogRisk(buttonBG: Int) {
-        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
-        val mBuilder = AlertDialog.Builder(this)
-                .setView(mDialogView)
-        mDialogView.contentDialog.text = Html.fromHtml(getAnalytics.getString("risk"))
-        mDialogView.dialogHeader.setTextColor(Color.parseColor(getAnalytics.getString("color")))
-        mDialogView.dialogButton.background = getDrawable(buttonBG)
-        val mAlertDialog = mBuilder.create()
-
-        mAlertDialog.setCancelable(false)
-        mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        mAlertDialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
-        if (getAnalytics.getString("suggest") == "") {
-            mDialogView.dialogButton.text = "ปิด"
-        }
-
-        mDialogView.dialogButton.setOnClickListener {
-            mAlertDialog.dismiss()
-            if (getAnalytics.getString("suggest") != "") {
-                showDialogSuggest(buttonBG)
-            } else {
-                setResult(Activity.RESULT_OK)
-                finish()
-            }
-        }
-        mAlertDialog.show()
     }
 
     private fun showDialogSuggest(buttonBG: Int) {
@@ -140,7 +111,9 @@ class AnalyzeActivity : AppCompatActivity() {
 
         mDialogView.dialogButton.setOnClickListener {
             mAlertDialog.dismiss()
-            setResult(Activity.RESULT_OK)
+            val intent = Intent()
+            intent.putExtra("graphName",name)
+            setResult(Activity.RESULT_OK , intent)
             finish()
 
         }
@@ -148,7 +121,7 @@ class AnalyzeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        showDialogRisk(buttonBG!!)
+        showDialogSuggest(buttonBG!!)
     }
 
 

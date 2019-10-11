@@ -1,6 +1,9 @@
 package th.ac.kku.smartkidney
 
+import android.annotation.TargetApi
 import android.content.Intent
+import android.graphics.Canvas
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
@@ -8,14 +11,26 @@ import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_healt_ed.*
+import android.graphics.Bitmap
+import android.graphics.Color
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.util.Log
+import com.ekn.gruzer.gaugelibrary.Range
+
 
 @Suppress("DEPRECATION")
 class HealtEdActivity : AppCompatActivity() {
 
+    @TargetApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_healt_ed)
+
+
 
         createTopicView()
 
@@ -59,9 +74,27 @@ class HealtEdActivity : AppCompatActivity() {
 
                 textView.layoutParams = paramTextView
                 linearLayoutRow.addView(textView)
+
+                textView.setOnClickListener {
+                    val intent = Intent(this,HealthEdContentActivity::class.java)
+                    intent.putExtra("topic" , textView.text)
+                    startActivity(intent)
+                    finish()
+                }
+
                 count++
+
+                //-----------On click--------------------
+
+
             }
             rootViewHealthEdTopic.addView(linearLayoutRow)
         }
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

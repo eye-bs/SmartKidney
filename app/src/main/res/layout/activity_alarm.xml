@@ -8,6 +8,12 @@
         android:background="@color/lavender"
         tools:context=".AlarmActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/alarm_wall"
+        android:scaleType="centerCrop"/>
+
     <LinearLayout
         android:id="@+id/alarmHeaderLayout"
         android:layout_width="match_parent"
@@ -23,12 +29,15 @@
             android:layout_height="40dp"
             android:src="@drawable/less_than"
             android:background="@color/white"
+            android:layout_gravity="center"
             android:padding="10dp" />
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/meeting"
+            android:fontFamily="@font/raingan"
+            android:textSize="30sp"
             android:gravity="center"
             android:layout_gravity="center"/>
         <ImageView
@@ -37,7 +46,8 @@
             android:layout_height="40dp"
             android:src="@drawable/plus"
             android:padding="10dp"
-            android:elevation="10dp" />
+            android:elevation="10dp"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 
@@ -57,20 +67,20 @@
                 android:orientation="horizontal"
                 android:padding="10dp"
                 android:layout_margin="30dp"
-                android:elevation="10dp"
-                >
+                android:elevation="10dp">
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/alarm"/>
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/megaphone"
+                    android:layout_gravity="center"/>
 
                 <TextView
                     android:id="@+id/nextAlarmTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="นัดครั้งถัดไป วันที่ 30 สิงหาคม 2562 09.00 น."
-                    android:textSize="13sp"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
             <TextView
@@ -97,13 +107,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/alarmHeaderLayout"
-        android:background="@color/lavender">
+        android:background="@drawable/alarm_wall">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ยังไม่มีการนัดหมาย \n กดเครื่องหมาย '+' \nเพื่อเพิ่มการแจ้งเตือนนัดพบแพทย์"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:layout_centerInParent="true"/>
 
     </RelativeLayout>

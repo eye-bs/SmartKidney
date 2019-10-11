@@ -7,6 +7,12 @@
     android:background="@color/white"
     tools:context=".HomeActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/home_wall"
+        android:alpha="0.7"
+        android:scaleType="centerCrop"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,9 +27,10 @@
 
             <ImageView
                 android:id="@+id/settingProfileBt"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/settings"
+                android:elevation="5dp"
                 android:layout_gravity="end"/>
             <TextView
                 android:id="@+id/textName"
@@ -56,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="เพศ หญิง"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:layout_marginStart="5dp"
                         />
                     <TextView
@@ -64,7 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="อายุ 30 ปี"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:layout_marginStart="10dp"
                         android:layout_toEndOf="@id/textGender"/>
             </RelativeLayout>
@@ -81,7 +88,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="นัดพบแพทย์ วันที่ 30 สิงหาคม 2562"
-                    android:textSize="14sp"
+                    android:textFontWeight="5"
+                    android:textStyle="bold"
                     android:gravity="center"/>
             </LinearLayout>
 
@@ -107,16 +115,12 @@
                     android:gravity="center"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/lavender"
-                android:layout_marginTop="20dp"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/white_card">
 
                 <LinearLayout
                     android:id="@+id/healthEdLayout"
@@ -125,6 +129,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/white_card"
                     android:orientation="vertical"
+                    android:padding="10dp"
                     android:layout_gravity="center">
 
                     <ImageView
@@ -137,7 +142,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/healthEd"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:layout_gravity="center"/>
                 </LinearLayout>
 
@@ -161,7 +166,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/dailyRecomment"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                             android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
@@ -184,15 +189,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="แจ้งเตือนนัดพบแพทย์"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:gravity="center"/>
                 </LinearLayout>
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/lavender"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -201,6 +201,7 @@
                 android:layout_marginTop="20dp">
 
                 <LinearLayout
+                    android:id="@+id/upperBpHomeLay"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="180dp"
@@ -212,7 +213,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ความดันโลหิตตัวบน"
-                        android:textSize="12sp"
                         android:layout_margin="10dp"/>
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -232,6 +232,7 @@
                     android:background="@color/lavender"/>
 
                 <LinearLayout
+                    android:id="@+id/lowerBpHomeLay"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="180dp"
@@ -243,7 +244,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ความดันโลหิตตัวล่าง"
-                        android:textSize="12sp"
                         android:layout_margin="10dp"/>
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -271,6 +271,7 @@
                     android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/gitHomeLay"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="180dp"
@@ -282,7 +283,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/glomerular"
-                            android:textSize="12sp"
                             android:layout_margin="10dp"/>
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -300,6 +300,7 @@
                     android:background="@color/lavender"/>
 
                 <LinearLayout
+                    android:id="@+id/bsHomeLay"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="180dp"
@@ -311,7 +312,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/blood_sugar"
-                        android:textSize="12sp"
                         android:layout_margin="10dp"/>
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -335,6 +335,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:id="@+id/waterHomeLay"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="180dp"
@@ -346,7 +347,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/water_in"
-                        android:textSize="12sp"
                         android:layout_margin="10dp"/>
 
                     <com.github.mikephil.charting.charts.PieChart
@@ -383,8 +383,5 @@
             android:layout_height="match_parent"
             android:layout_margin="100dp" />
     </RelativeLayout>
-
-
-
 
 </RelativeLayout>

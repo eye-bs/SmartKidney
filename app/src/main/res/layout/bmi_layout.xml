@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_card"
+    android:elevation="5dp">
+
+        <com.ekn.gruzer.gaugelibrary.HalfGauge
+            android:id="@+id/bmiGauge"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+        <LinearLayout
+            android:id="@+id/bmiEditTextLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="30dp">
+          <EditText
+              android:id="@+id/weightEditText"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:inputType="numberDecimal"
+              android:hint="น้ำหนัก (kg)"/>
+
+            <EditText
+                android:id="@+id/heightEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="40dp"
+                android:inputType="numberDecimal"
+                android:hint="ส่วนสูง (cm)"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/bmiSavButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/gradient_green"
+            android:paddingStart="20dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="8dp"
+            android:text="บันทึก"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:elevation="5dp"/>
+
+
+</LinearLayout>

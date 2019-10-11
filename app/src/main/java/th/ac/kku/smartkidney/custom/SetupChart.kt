@@ -7,10 +7,14 @@ import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.res.use
+import com.ekn.gruzer.gaugelibrary.HalfGauge
+import com.ekn.gruzer.gaugelibrary.Range
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
@@ -24,24 +28,166 @@ import com.github.mikephil.charting.utils.EntryXComparator
 import com.github.mikephil.charting.utils.MPPointF
 import org.json.JSONArray
 import org.json.JSONObject
+import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 import kotlin.Float as Float1
 
-@Suppress("NAME_SHADOWING")
-class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLayout: LinearLayout? ) {
+@Suppress("NAME_SHADOWING", "DEPRECATION")
+class SetupChart(
+    private val jsonObject: JSONObject?,
+    val context: Context,
+    private val parentLayout: LinearLayout?,
+    private val constantName: String
+) {
 
-    lateinit var arrChart: JSONArray
+    private lateinit var arrChart: JSONArray
+    private val arrValueGraph1 = ArrayList<kotlin.Float>()
+    private val arrValueGraph2 = ArrayList<kotlin.Float>()
+    private var count: Int = 7
+    private val hashBP = ApiObject.instant.bpHashByWeek[ApiObject.instant.weekQuery]
+    private val hashBS = ApiObject.instant.bsHashByWeek[ApiObject.instant.weekQuery]
+    private val hashGir = ApiObject.instant.girHashByWeek[ApiObject.instant.weekQuery]
 
-    fun setValueFromApi(){
+
+    @SuppressLint("UseSparseArrays")
+    fun isHasValue(): Boolean {
+        arrValueGraph1.clear()
+        arrValueGraph2.clear()
+        var startDate: Int?
+        var endDate: Int?
+
+        if (parentLayout != null) {
+            when {
+                hashBP != null && constantName == Constant.BLOOD_PRESSURE -> {
+                    val keys = arrayListOf<Int>()
+                    for (k in hashBP.keys) {
+                        keys.add(k)
+                    }
+                    startDate = Constant.formatOfDetail.parse(hashBP[keys[0]]!!.date).date
+                    endDate =
+                        Constant.formatOfDetail.parse(hashBP[keys[keys.lastIndex]]!!.date).date
+                    count = endDate - startDate + 1
+                    for (i in startDate..endDate) {
+                        if (hashBP[i] == null) {
+                            arrValueGraph1.add(0f)
+                            arrValueGraph2.add(0f)
+                        } else {
+                            arrValueGraph1.add(hashBP[i]!!.systolic.toFloat())
+                            arrValueGraph2.add(hashBP[i]!!.diastolic.toFloat())
+                        }
+                    }
+                    return true
+                }
+                hashBS != null && constantName == Constant.BLOOD_SUGAR_LEV -> {
+                    val keys = arrayListOf<Int>()
+                    for (k in hashBS.keys) {
+                        keys.add(k)
+                    }
+                    startDate = Constant.formatOfDetail.parse(hashBS[keys[0]]!!.date).date
+                    endDate =
+                        Constant.formatOfDetail.parse(hashBS[keys[keys.lastIndex]]!!.date).date
+                    count = endDate - startDate + 1
+                    for (i in startDate..endDate) {
+                        if (hashBS[i] == null) {
+                            arrValueGraph1.add(0f)
+                            arrValueGraph2.add(0f)
+                        } else {
+                            arrValueGraph1.add(hashBS[i]!!.sugarLevel.toFloat())
+                            arrValueGraph2.add(hashBS[i]!!.hba1c.toFloat())
+                        }
+                    }
+                    return true
+                }
+                hashGir != null && constantName == Constant.KIDNEY_FILTRATION_RATE -> {
+                    val keys = arrayListOf<Int>()
+                    for (k in hashGir.keys) {
+                        keys.add(k)
+                    }
+                    startDate = Constant.formatOfDetail.parse(hashGir[keys[0]]!!.date).date
+                    endDate =
+                        Constant.formatOfDetail.parse(hashGir[keys[keys.lastIndex]]!!.date).date
+                    count = endDate - startDate + 1
+                    for (i in startDate..endDate) {
+                        if (hashGir[i] == null) {
+                            arrValueGraph1.add(0f)
+                            arrValueGraph2.add(0f)
+                        } else {
+                            arrValueGraph1.add(hashGir[i]!!.egfr.toFloat())
+                            arrValueGraph2.add(hashGir[i]!!.cr.toFloat())
+                        }
+                    }
+                    return true
+                }
+                constantName == Constant.WATER -> {
+                    return true
+                }
+                constantName == Constant.BMI -> {
+
+                    val bmiArr = ApiObject.instant.bmi
+                    if (bmiArr.isNotEmpty()) {
+                        count = bmiArr.size
+                        for (i in 0 until bmiArr.size) {
+                            arrValueGraph1.add(bmiArr[i].toFloat())
+                        }
+                    }
+
+                    return true
+                }
+                else -> {
+                    return false
+                }
+            }
+
+        } else {
+            when (constantName) {
+                Constant.BLOOD_PRESSURE -> {
+                    val bpPerDay = ApiObject.instant.bloodPressurePerDay
+                    if (bpPerDay.isNotEmpty()) {
+                        count = bpPerDay.size
+                        for (i in bpPerDay.indices) {
+                            arrValueGraph1.add(bpPerDay[i].systolic.toFloat())
+                            arrValueGraph2.add(bpPerDay[i].diastolic.toFloat())
+                        }
+                    }
+                    return true
+                }
+                Constant.BLOOD_SUGAR_LEV -> {
+                    val bsPerDay = ApiObject.instant.bloodSugarPerDay
+                    if (bsPerDay.isNotEmpty()) {
+                        count = bsPerDay.size
+                        for (i in bsPerDay.indices) {
+                            arrValueGraph1.add(bsPerDay[i].sugarLevel.toFloat())
+                            arrValueGraph2.add(bsPerDay[i].hba1c.toFloat())
+                        }
+                    }
+                    return true
+                }
+                Constant.KIDNEY_FILTRATION_RATE -> {
+                    val girPerDay = ApiObject.instant.kidneyLevPerDay
+                    if (girPerDay.isNotEmpty()) {
+                        count = girPerDay.size
+                        for (i in girPerDay.indices) {
+                            arrValueGraph1.add(girPerDay[i].egfr.toFloat())
+                            arrValueGraph2.add(girPerDay[i].cr.toFloat())
+                        }
+                    }
+                    return true
+                }
+                Constant.WATER -> {
+                    return true
+                }
+                else -> return false
+            }
+        }
 
     }
+
 
     @SuppressLint("SetTextI18n")
     fun createLayout() {
 
-        arrChart = jsonObject.getJSONArray("graph")
+        arrChart = jsonObject!!.getJSONArray("graph")
 
         for (i in 0 until arrChart.length()) {
 
@@ -53,7 +199,7 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
             val pieChart = PieChart(context)
 
             val paramsForLayout: LinearLayout.LayoutParams =
-                if (jsonObject.getString("name").equals(Constant.WATER)) {
+                if (jsonObject.getString("name") == Constant.WATER) {
                     LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, 1500
                     )
@@ -96,27 +242,25 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
 
             if (jsonObject.getString("name") == Constant.WATER) {
 
-                val waterIn = 2000
-                val waterPerDay = 2300
 
                 textView.setTextColor(ContextCompat.getColor(context, R.color.lightSkyBlue))
                 linearLayout.addView(textView)
 
                 linearLayout.addView(
                     createTextView(
-                        "$waterIn ml",
+                        "${ApiObject.instant.waterIn} ml",
                         ContextCompat.getColor(context, R.color.dimGray),
                         20F
                     )
                 )
 
                 pieChart.layoutParams = paramsForChart
-                PieChartSetUp(pieChart)
+                pieChartSetUp(pieChart)
                 linearLayout.addView(pieChart)
 
                 linearLayout.addView(
                     createTextView(
-                        "$waterPerDay ml",
+                        "${ApiObject.instant.waterPerDay} ml",
                         ContextCompat.getColor(context, R.color.dimGray),
                         20F
                     )
@@ -130,6 +274,72 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
                 )
 
             } else {
+
+                if (jsonObject.getString("name") == Constant.BMI) {
+                    val viewBMI = LayoutInflater.from(context).inflate(R.layout.bmi_layout, null)
+                    val paramForBmi = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                    paramForBmi.setMargins(0, 0, 0, 10)
+                    val bmiGauge = viewBMI.findViewById<HalfGauge>(R.id.bmiGauge)
+
+                    val range = Range()
+                    range.color = Color.parseColor("#41BDC9")
+                    range.from = 13.4
+                    range.to = 18.4
+
+                    val range2 = Range()
+                    range2.color = Color.parseColor("#40D0AE")
+                    range2.from = 18.5
+                    range2.to = 22.9
+
+                    val range3 = Range()
+                    range3.color = Color.parseColor("#FFC569")
+                    range3.from = 23.0
+                    range3.to = 24.9
+
+                    val range4 = Range()
+                    range4.color = Color.parseColor("#F69271")
+                    range4.from = 25.0
+                    range4.to = 29.9
+
+                    val range5 = Range()
+                    range5.color = Color.parseColor("#FC7977")
+                    range5.from = 30.0
+                    range5.to = 35.0
+
+                    //add color ranges to gauge
+
+                    bmiGauge.addRange(range)
+                    bmiGauge.addRange(range2)
+                    bmiGauge.addRange(range3)
+                    bmiGauge.addRange(range4)
+                    bmiGauge.addRange(range5)
+
+                    //set min max and current value
+                    bmiGauge.minValue = 13.4
+                    bmiGauge.maxValue = 35.0
+                    bmiGauge.value = 0.0
+
+                    viewBMI.findViewById<TextView>(R.id.bmiSavButton).setOnClickListener {
+                        val df2 = DecimalFormat("#.#")
+                        val weightEditText = viewBMI.findViewById<EditText>(R.id.weightEditText)
+                        val heightEditText = viewBMI.findViewById<EditText>(R.id.heightEditText)
+                        val weight = weightEditText.text.toString().toFloat()
+                        val height = heightEditText.text.toString().toFloat() / 100
+                        val bmi = weight / (height * height)
+                        bmiGauge.value = df2.format(bmi).toDouble()
+
+                        val apiHandler = ApiHandler(context, null, null)
+                        val id = ApiObject.instant.user!!.id
+                        apiHandler.postBmi(id, bmiGauge.value)
+                    }
+                    viewBMI.layoutParams = paramForBmi
+
+                    parentLayout!!.addView(viewBMI)
+
+                }
                 lineChart.layoutParams = paramsForChart
                 lineChartSetUp(lineChart, chartJSONObject)
                 linearLayout.addView(textView)
@@ -158,7 +368,7 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
             explainGraphLayout.elevation = 10f
             explainGraphLayout.background = context.getDrawable(R.drawable.white_card)
 
-            tableLayout.setPadding(10,10,10,10)
+            tableLayout.setPadding(10, 10, 10, 10)
             paramsForTable.bottomMargin = 50
 
             paramsForExplainLayout.setMargins(20, 20, 20, 20)
@@ -168,21 +378,25 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
             for (i in 0 until explainChartTable.length()) {
                 val getRow = explainChartTable.getJSONArray(i)
                 val tableRow = TableRow(context)
-                if(i==0){
+                if (i == 0) {
                     tableRow.setPadding(15, 5, 5, 15)
-                }else{
+                } else {
                     tableRow.setPadding(15, 5, 5, 5)
-                    val colors = context.resources.obtainTypedArray(R.array.range_chart_arr).use { ta ->
-                        IntArray(ta.length()) { ta.getColor(it, 0) }
-                    }
-                    tableRow.setBackgroundColor(colors[i-1])
+                    val colors =
+                        context.resources.obtainTypedArray(R.array.range_chart_arr).use { ta ->
+                            IntArray(ta.length()) { ta.getColor(it, 0) }
+                        }
+                    tableRow.setBackgroundColor(colors[i - 1])
                 }
                 for (j in 0 until getRow.length()) {
                     val textView = TextView(context)
-                    val paramsForTextView = TableRow.LayoutParams( TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f)
+                    val paramsForTextView = TableRow.LayoutParams(
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        1f
+                    )
 
                     textView.text = getRow.getString(j)
-                    textView.textSize = 14f
                     textView.layoutParams = paramsForTextView
                     tableRow.addView(textView)
 
@@ -226,14 +440,14 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
         setChart.setPinchZoom(true)
 
         setChart.xAxis.axisMinimum = 0f
-        setChart.xAxis.axisMaximum = 8f
-        if (parentLayout != null){
-            val weekdays = arrayListOf<String>("", "อา", "จ", "อ", "พ", "พฤ", "ศ", "ส", "")
-            setChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-            setChart.xAxis.valueFormatter = object : IndexAxisValueFormatter(weekdays) {}
-        }else{
-            setChart.xAxis.isEnabled = false
-        }
+        setChart.xAxis.axisMaximum = (count + 2).toFloat()
+        if (graphObject.getString("name") != Constant.BMI) {
+            if (parentLayout != null) {
+                val weekdays = arrayListOf("", "อา", "จ", "อ", "พ", "พฤ", "ศ", "ส", "")
+                setChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+                setChart.xAxis.valueFormatter = object : IndexAxisValueFormatter(weekdays) {}
+            }
+        }else  setChart.xAxis.isEnabled = false
 
 
         val leftAxis = setChart.axisLeft
@@ -251,45 +465,57 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
 
         setBackgroundChartColor(setChart, graphObject.getJSONArray("range"))
 
-        setData(7, min, max, setChart)
+        setData(count, setChart, graphObject.getString("name"))
 
 
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    fun setData(count: Int, min: Float1, max: Float1, chart: LineChart) {
+    fun setData(count: Int, chart: LineChart, chartName: String) {
 
-        val entries = ArrayList<Entry>()
-
-        for (i in 1..count) {
-            val yVal = (min.toInt()..max.toInt()).random()
-            entries.add(Entry(i.toFloat(), yVal.toFloat()))
+        val selData = if (chartName == "ความดันโลหิตตัวล่าง(mmHg)") {
+            arrValueGraph2
+        } else {
+            arrValueGraph1
         }
 
-        Collections.sort(entries, EntryXComparator())
+        if (selData.size != 0) {
+            val entries = ArrayList<Entry>()
+            for (i in 1..count) {
+                val yVal = selData.get(i - 1)
+                if (yVal != 0f) {
+                    entries.add(Entry(i.toFloat(), yVal))
+                }
+            }
 
-        val set1 = LineDataSet(entries, "DataSet 1")
+            Collections.sort(entries, EntryXComparator())
 
-        set1.lineWidth = 2f
-        set1.circleRadius = 3.5f
-        set1.circleHoleRadius = 3.5f
-        set1.color = Color.parseColor("#3B5998")
-        set1.setCircleColor(Color.parseColor("#3B5998"))
+            val set1 = LineDataSet(entries, "DataSet 1")
 
-        val data = LineData(set1)
+            set1.lineWidth = 2f
+            set1.circleRadius = 3.5f
+            set1.circleHoleRadius = 3.5f
+            set1.color = Color.parseColor("#ffffff")
+            set1.setCircleColor(Color.parseColor("#ffffff"))
+            set1.valueTextSize = 16f
+            set1.valueTypeface = ResourcesCompat.getFont(context, R.font.baijamjuree)
 
-        chart.data = data
+            val data = LineData(set1)
+            chart.data = data
+        }
+
+
     }
 
-    fun setBackgroundChartColor(chart: LineChart, rangeArr: JSONArray) {
+    private fun setBackgroundChartColor(chart: LineChart, rangeArr: JSONArray) {
 
         val colors = intArrayOf(
-            Color.rgb(181, 227, 240),
-            Color.rgb(193, 227, 202),
-            Color.rgb(246, 234, 179),
-            Color.rgb(248, 212, 188),
-            Color.rgb(239, 194, 210),
-            Color.rgb(248, 178, 173)
+            Color.parseColor("#41BDC9"), // blue
+            Color.parseColor("#40D0AE"),//green
+            Color.parseColor("#FFC569"), //yellow
+            Color.parseColor("#F69271"), //orange
+            Color.parseColor("#FC7977"), // red
+            Color.rgb(206, 46, 73)  // red wine
         )
 
         for (i in 0 until rangeArr.length()) {
@@ -307,7 +533,7 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
         }
     }
 
-    fun PieChartSetUp(chart: PieChart) {
+    fun pieChartSetUp(chart: PieChart) {
 
         chart.setUsePercentValues(true)
         chart.description.isEnabled = false
@@ -348,44 +574,54 @@ class SetupChart(val jsonObject: JSONObject, val context: Context, val parentLay
 
         // entry label styling
         chart.setEntryLabelColor(Color.WHITE)
-        chart.setEntryLabelTextSize(12f)
+        chart.setEntryLabelTextSize(11f)
 
-        setDataPie(2, 50F, chart)
+        setDataPie(chart)
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    fun setDataPie(count: Int, range: Float1, chart: PieChart) {
+    fun setDataPie(chart: PieChart) {
 
-        val entries = ArrayList<PieEntry>()
+        val waterIn = ApiObject.instant.waterIn
+        val waterPerDay = ApiObject.instant.waterPerDay
 
-        entries.add(PieEntry(70F, 70F))
-        entries.add(PieEntry(30F, 30F))
+        if (waterPerDay != 0) {
+            val waterInPercent = (waterIn * 100 / waterPerDay).toFloat()
+            val waterPerDayPercent = (100 - waterInPercent)
 
-        val dataSet = PieDataSet(entries, "")
+            val entries = ArrayList<PieEntry>()
 
-        dataSet.setDrawIcons(false)
+            entries.add(PieEntry(waterInPercent, waterInPercent)) // in
+            entries.add(PieEntry(waterPerDayPercent, waterPerDayPercent)) // per day
 
-        dataSet.sliceSpace = 3f
-        dataSet.iconsOffset = MPPointF(0f, 40f)
-        dataSet.selectionShift = 5f
+            val dataSet = PieDataSet(entries, "")
 
-        // add a lot of colors
+            dataSet.setDrawIcons(false)
 
-        val colors = ArrayList<Int>()
-        colors.add(Color.parseColor("#93D0FE"))
-        colors.add(Color.parseColor("#D6D6D6"))
+            dataSet.sliceSpace = 3f
+            dataSet.iconsOffset = MPPointF(0f, 40f)
+            dataSet.selectionShift = 5f
 
-        dataSet.colors = colors
+            // add a lot of colors
 
-        val data = PieData(dataSet)
+            val colors = ArrayList<Int>()
+            colors.add(Color.parseColor("#93D0FE"))
+            colors.add(Color.parseColor("#D6D6D6"))
 
-        data.setValueFormatter(PercentFormatter(chart))
-        data.setValueTextSize(0f)
-        data.setValueTextColor(context.getColor(R.color.mariner))
-        chart.data = data
+            dataSet.colors = colors
 
-        chart.highlightValues(null)
+            val data = PieData(dataSet)
 
-        chart.invalidate()
+            data.setValueFormatter(PercentFormatter(chart))
+            data.setValueTextSize(0f)
+            data.setValueTextColor(context.getColor(R.color.mariner))
+            chart.data = data
+
+            chart.highlightValues(null)
+
+            chart.invalidate()
+        }
+
+
     }
 }

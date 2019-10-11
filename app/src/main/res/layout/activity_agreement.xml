@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".AgreementActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/kidney_handshek"
+        android:layout_margin="30dp"
+        android:layout_above="@id/acceptButton"/>
+
     <TextView
             android:id="@+id/agreement_header"
             android:layout_width="wrap_content"
@@ -13,7 +20,7 @@
             android:text="@string/Agreement"
             android:textColor="@color/paleVioletRed"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="40dp"
             android:textSize="30sp"/>
 
     <View
@@ -26,6 +33,7 @@
         android:layout_marginEnd="30dp"/>
 
     <TextView
+        android:id="@+id/agreementContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/agreement_header"
@@ -33,6 +41,17 @@
             android:layout_margin="30dp"
             android:textColor="@android:color/black"
             android:lineSpacingExtra="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ข้อมูลทุกอย่างที่คุณบันทึกจะถูกเก็บไว้เป็นความลับ !"
+        android:layout_margin="30dp"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textColor="@color/paleVioletRed"
+        android:layout_below="@id/agreementContent"
+        android:layout_centerInParent="true"/>
 
     <TextView
             android:id="@+id/acceptButton"
@@ -47,13 +66,8 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:elevation="5dp"
-        android:fontFamily="@font/thanamas"
-        android:textSize="25sp"
-
+        android:fontFamily="@font/raingan"
+        android:textSize="30sp"
         />
-
-
-
-
 
 </RelativeLayout>

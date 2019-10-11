@@ -16,36 +16,25 @@
         />
     <ImageView
         android:id="@+id/iconAppLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/kidney"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:src="@drawable/logo_app_v2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"/>
 
-    <TextView
-        android:id="@+id/textSK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/smart_kidney"
-        android:fontFamily="@font/abeezee"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/iconAppLogin"
-        android:layout_marginTop="30dp"
-        android:textSize="30sp"
-        android:textColor="@color/navyBlue"/>
 
     <RelativeLayout
         android:id="@+id/google_login_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textSK"
+        android:layout_below="@id/iconAppLogin"
         android:background="@drawable/google_login_bg"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="74dp"
+        android:layout_marginTop="60dp"
         android:elevation="5dp">
         <ImageView
             android:id="@+id/googleIcon"
@@ -58,7 +47,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_with_google"
             android:layout_toEndOf="@id/googleIcon"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_marginStart="10dp"
             android:textColor="@android:color/white"
             android:layout_centerVertical="true"
@@ -99,38 +88,18 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <com.facebook.login.widget.LoginButton
         android:id="@+id/facebook_login_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/view_or"
-        android:background="@drawable/facebook_login_bg"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:layout_centerHorizontal="true"
+        android:layout_alignStart="@id/google_login_bt"
+        android:layout_alignEnd="@id/google_login_bt"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_marginTop="20dp"
-        android:elevation="5dp"
-        android:orientation="horizontal"
-        >
-        <ImageView
-            android:id="@+id/facebookIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:src="@drawable/facebook_letter_logo" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/login_with_facebook"
-            android:textSize="20sp"
-            android:layout_marginStart="10dp"
-            android:gravity="center"
-            android:textColor="@android:color/white" />
-
-    </LinearLayout>
+        android:textSize="16sp"
+        android:elevation="5dp"/>
 
     <TextView
         android:id="@+id/textSingUp"
@@ -141,6 +110,20 @@
         android:textSize="20sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="30dp"
+        android:visibility="invisible"/>
+
+    <RelativeLayout
+        android:id="@+id/loginProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lavender"
+        android:visibility="invisible">
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="100dp" />
+    </RelativeLayout>
+
 
 </RelativeLayout>

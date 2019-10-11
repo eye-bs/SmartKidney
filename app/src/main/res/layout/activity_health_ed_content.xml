@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HealthEdContentActivity"
+    android:background="@color/lavender">
+
+    <LinearLayout
+        android:id="@+id/headerHealthEd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:elevation="10dp"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/healthEdContentBt"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:src="@drawable/less_than"
+            android:elevation="10dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/headerHealthEdTv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/healthEd"
+            android:fontFamily="@font/raingan"
+            android:textSize="30sp"
+            android:textColor="@color/jacksons_purple"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+                android:id="@+id/imageHealthEdContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/healthed1_intro_kidney"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</LinearLayout>

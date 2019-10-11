@@ -6,8 +6,9 @@
         <item name="colorPrimary">@color/mariner</item>
         <item name="colorPrimaryDark">@color/malibu</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/baijamjuree</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/nithan</item>
+        <item name="android:textStyle">bold</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -17,8 +18,9 @@
         <item name="colorPrimary">@color/mariner</item>
         <item name="colorPrimaryDark">@color/malibu</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/baijamjuree</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/nithan</item>
+        <item name="android:textStyle">bold</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -36,11 +38,13 @@
     </style>
 
     <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

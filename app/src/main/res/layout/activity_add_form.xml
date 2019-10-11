@@ -29,8 +29,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/thanamas"
-            android:textSize="25sp"
+                android:fontFamily="@font/raingan"
+            android:textSize="30sp"
                 android:text="แบบบันทึกสุขภาพ"
                 android:gravity="center"/>
 

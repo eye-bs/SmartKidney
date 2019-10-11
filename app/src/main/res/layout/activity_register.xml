@@ -4,15 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     tools:context=".RegisterActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="#CEF4D2"/>
 
     <TextView
         android:id="@+id/text_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register"
-        android:textColor="@color/cornflowerBlue"
+        android:textColor="#007881"
         android:textSize="25sp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="50dp"/>
@@ -20,8 +24,8 @@
     <ImageView
         android:id="@+id/objRegister"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/obj_register"
+        android:layout_height="300dp"
+        android:src="@drawable/tele_kidney"
         android:layout_alignParentBottom="true"/>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -156,7 +160,7 @@
         android:layout_below="@id/hospital_text_input"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:background="@drawable/register_bt_bg"
+        android:background="@drawable/gradient_green"
         android:paddingStart="20dp"
         android:paddingTop="8dp"
         android:paddingEnd="20dp"

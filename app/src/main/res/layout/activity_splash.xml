@@ -8,12 +8,16 @@
 
         tools:context=".SplashActivity">
 
-    <ProgressBar
+    <RelativeLayout
         android:id="@+id/splashProgressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        android:layout_margin="100dp"/>
+        android:background="@color/lavender">
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="100dp" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

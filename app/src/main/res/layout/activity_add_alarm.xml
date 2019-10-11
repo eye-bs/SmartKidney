@@ -22,12 +22,16 @@
             android:layout_height="40dp"
             android:padding="10dp"
             android:src="@drawable/less_than"
+            android:layout_gravity="center"
             android:elevation="10dp"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="เพิ่มวันนัดพบแพทย์"
+            android:fontFamily="@font/raingan"
+            android:textSize="30sp"
+            android:textStyle="bold"
             android:layout_gravity="center"
             android:gravity="center"/>
 

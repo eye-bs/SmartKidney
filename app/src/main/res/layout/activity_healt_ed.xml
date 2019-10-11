@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,7 +9,14 @@
     android:orientation="vertical"
     android:background="@color/lavender">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/health_ed_wall"
+        android:scaleType="centerCrop"/>
+
     <LinearLayout
+        android:id="@+id/headerHealthEd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -30,8 +37,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/healthEd"
-            android:fontFamily="@font/thanamas"
-            android:textSize="20sp"
+            android:fontFamily="@font/raingan"
+            android:textSize="30sp"
             android:textColor="@color/jacksons_purple"
             android:layout_gravity="center"
             android:gravity="center"/>
@@ -43,7 +50,8 @@
         android:layout_height="match_parent"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:layout_below="@+id/headerHealthEd">
         <LinearLayout
             android:id="@+id/rootViewHealthEdTopic"
             android:layout_width="match_parent"
@@ -52,5 +60,4 @@
         </LinearLayout>
     </ScrollView>
 
-
-</LinearLayout>
+</RelativeLayout>

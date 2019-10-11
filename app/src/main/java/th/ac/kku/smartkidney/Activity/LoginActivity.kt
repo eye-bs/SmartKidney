@@ -24,6 +24,7 @@ import com.facebook.*
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -32,12 +33,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_splash.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
 @Suppress("DEPRECATION")
@@ -61,7 +64,6 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-
         //------------------Prepare Login--------------------
         if (ConnectivityHelper.isConnectedToNetwork(this)) {
 
@@ -94,6 +96,23 @@ class LoginActivity : AppCompatActivity() {
 //            AppEventsLogger.activateApp(this)
 //            callbackManager = CallbackManager.Factory.create()
 
+        callbackManager = CallbackManager.Factory.create()
+
+        facebook_login_bt.setReadPermissions("email", "public_profile")
+        facebook_login_bt.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                handleFacebookAccessToken(loginResult.accessToken)
+            }
+
+            override fun onCancel() {
+            }
+
+            override fun onError(error: FacebookException) {
+            }
+        })
+
+        /////////////////////////////
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -109,7 +128,6 @@ class LoginActivity : AppCompatActivity() {
             .build()
 
         google_login_bt.setOnClickListener { signIn() }
-        facebook_login_bt.setOnClickListener { facbookButtonOnclick() }
 
     }
 
@@ -154,10 +172,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callbackManager.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == RC_SIGN_IN) {
-            if (!ApiObject.instant.firstLogin!!){
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                 try {
                     // Google Sign In was successful, authenticate with Firebase
@@ -165,13 +182,7 @@ class LoginActivity : AppCompatActivity() {
                     firebaseAuthWithGoogle(account!!)
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately
-                    Log.w(Constant.TAG, "Google sign in failed", e)
                 }
-            }else{
-                val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                startActivity(intent)
-            }
-
         }
         if (requestCode == RC_REGISTER) {
             if (resultCode == Activity.RESULT_OK) {
@@ -202,12 +213,9 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(
                 this
             ) { task ->
-                Log.d(Constant.TAG, "login is " + task.isSuccessful)
 
                 if (task.isSuccessful) {
-                    val user = mAuth!!.currentUser
-                    val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
-                    startActivityForResult(intent, RC_REGISTER)
+                        loginApiCall(mAuth!!.currentUser!!.email!!)
                 } else {
                     Toast.makeText(
                         this@LoginActivity, "Authentication failed.",
@@ -225,6 +233,61 @@ class LoginActivity : AppCompatActivity() {
         }
         if (!permissions)
             ActivityCompat.requestPermissions(this, permissionsId, callbackId)
+    }
+
+
+    private fun handleFacebookAccessToken(token: AccessToken) {
+
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        mAuth!!.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    val user =  mAuth!!.currentUser
+                    loginApiCall(mAuth!!.currentUser!!.email!!)
+
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+
+                }
+
+            }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun loginApiCall(email: String) {
+        loginProgressBar.visibility = View.VISIBLE
+        google_login_bt.elevation = 0f
+        facebook_login_bt.elevation = 0f
+
+        val observable = ApiService.loginApiCall().login(email)
+        observable.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ loginResponse ->
+                ApiObject.instant.firstLogin = loginResponse.firstLogin
+
+                if (ApiObject.instant.firstLogin!!) {
+
+                } else {
+                    ApiObject.instant.user = loginResponse.users
+                    val id = loginResponse.users.id
+                    val intent = Intent(this, HomeActivity::class.java)
+                    val apiHandler = ApiHandler(this,loginProgressBar,intent)
+                    apiHandler.comboGetBloodPressure(id)
+                }
+
+            }, { error ->
+                println(error.message.toString())
+                loginProgressBar.visibility = View.INVISIBLE
+                google_login_bt.elevation = 5f
+                facebook_login_bt.elevation = 5f
+                val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+                startActivityForResult(intent, RC_REGISTER)
+            }
+            )
     }
 
 }

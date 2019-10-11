@@ -1,13 +1,12 @@
 package th.ac.kku.smartkidney
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_health_form.*
 
 
@@ -54,7 +53,7 @@ class HealthFormActivity : AppCompatActivity() {
         nev_bar.itemIconTintList = null
         nev_bar.menu.findItem(R.id.pressure_nev).icon = getDrawable(R.drawable.pressure)
 
-
+        val getGraphName = intent.getStringExtra("graphName")
 
         healthFormHomeBt.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
@@ -78,9 +77,15 @@ class HealthFormActivity : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener true
         }
 
-        val getGraphName = intent.getStringExtra("graphName")
+
         for (i in nameFormArr.indices) {
             if (getGraphName == nameFormArr[i]) {
+                graphFragment = GraphFragment.newInstance(getGraphName)
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.layout_fragment_container, graphFragment)
+                    .commit()
+
                 nev_bar.menu.findItem(itemIdArr[i]).isChecked = true
                 onNevBarOnclick(itemIdArr[i])
             }
@@ -94,8 +99,13 @@ class HealthFormActivity : AppCompatActivity() {
 
     }
 
-    private fun onNevBarOnclick(item: Int) {
-        val item = nev_bar.menu.findItem(item)
+    private fun onNevBarOnclick(getitem: Int) {
+        val item = nev_bar.menu.findItem(getitem)
+        if (item == nev_bar.menu.findItem(R.id.bmi_nev)) {
+            addFormBt.visibility = View.INVISIBLE
+        } else {
+            addFormBt.visibility = View.VISIBLE
+        }
         for (i in itemIdArr.indices) {
             if (item.itemId == itemIdArr[i]) {
                 item.icon = getDrawable(iconArrColor[i])
@@ -111,7 +121,13 @@ class HealthFormActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 1000 && resultCode == Activity.RESULT_OK && data != null) {
+
+
+            val intent = Intent(this, HealthFormActivity::class.java)
+            intent.putExtra("graphName", data.getStringExtra("graphName"))
+            startActivity(intent)
+
         }
     }
 
@@ -119,43 +135,5 @@ class HealthFormActivity : AppCompatActivity() {
         val input = Intent(this, HomeActivity::class.java)
         startActivity(input)
         finish()
-    }
-
-    @SuppressLint("CheckResult")
-    fun onGetApi(id: String, week: Int?, year: Int?) {
-        val observable = ApiService.loginApiCall().getBloodPressure(id, week, year)
-        observable.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ getBloodPressure ->
-                ApiObject.instant.isNewData = true
-                ApiObject.instant.bloodPressure = getBloodPressure
-            }, { error ->
-                ApiObject.instant.notFound404 = true
-                println(error.message.toString())
-            })
-
-        val observable2 = ApiService.loginApiCall().getKidneyLev(id, week, year)
-        observable2.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ getKidneyLev ->
-                ApiObject.instant.isNewData = true
-                ApiObject.instant.kidneyLev = getKidneyLev
-            }, { error ->
-                ApiObject.instant.notFound404 = true
-                println(error.message.toString())
-            })
-
-        val observable3 = ApiService.loginApiCall().getBloodSugar(id, week, year)
-        observable3.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ getBloodSugar ->
-                ApiObject.instant.isNewData = true
-                ApiObject.instant.bloodSugar = getBloodSugar
-
-            }, { error ->
-                ApiObject.instant.notFound404 = true
-                println(error.message.toString())
-            })
-
     }
 }

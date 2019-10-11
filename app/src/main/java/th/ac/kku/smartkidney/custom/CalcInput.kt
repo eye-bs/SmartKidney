@@ -1,6 +1,7 @@
 package th.ac.kku.smartkidney
 
 import android.content.Context
+import android.util.Log
 
 class CalcInput(val context: Context){
 
@@ -17,7 +18,7 @@ class CalcInput(val context: Context){
             0
         }
     }
-    fun calcKidney(cr:Float,age: Int,gender:String):Int {
+    fun calcKidney(cr:Float,age: Int,gender:String):Double {
         var eGFR: Double
         var doubleAge = age.toDouble()
         eGFR = if (gender == "female") {
@@ -34,7 +35,7 @@ class CalcInput(val context: Context){
             }
         }
 
-      return when {
+        ApiObject.instant.kidneyRange = when{
           eGFR >= 90 -> 0
           eGFR >= 60 -> 1
           eGFR >= 45 -> 2
@@ -43,6 +44,7 @@ class CalcInput(val context: Context){
           eGFR < 15 -> 5
           else -> 0
       }
+        return eGFR
     }
 
     fun calcGlucose(glucose:Float,glucoseCumulative:Float):Int{

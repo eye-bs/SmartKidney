@@ -49,6 +49,8 @@ dependencies {
     implementation 'me.riddhimanadib.bottom-nav-bar:bottom-nav-bar:1.0.1'
     implementation 'com.github.florent37:SingleDateAndTimePicker:v2.0.4'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.ekn.gruzer.gaugelibrary:gaugelibrary:0.1.0'
+    implementation 'com.inthecheesefactory.thecheeselibrary:adjustable-imageview:1.0.0'
     /** Retrofit2 RxJava */
     implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'

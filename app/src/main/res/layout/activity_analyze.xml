@@ -27,21 +27,14 @@
             android:elevation="10dp"
             android:padding="5dp">
 
-            <ImageView
-                android:id="@+id/backAnalyzeBt"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/left_arrow"
-                android:elevation="8dp"
-                android:padding="10dp"
-                android:layout_gravity="center"/>
             <TextView
-                android:id="@+id/header_form"
+                android:id="@+id/headerAnalyze"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/thanamas"
-                android:textSize="25sp"
+                android:fontFamily="@font/raingan"
+                android:textSize="30sp"
+                android:padding="10dp"
                 android:text="แปลผล"
                 android:textColor="@color/red_orange"
                 android:layout_gravity="center"
@@ -65,49 +58,9 @@
                     android:padding="20dp"
                     android:background="@drawable/white_card"
                     android:elevation="10dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="บันทึกเรียบร้อย"
-                        android:textColor="@color/hippie_green"
-                        android:textSize="20sp"
-                        android:gravity="center"/>
-                    <TextView
-                        android:id="@+id/saveDateTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="บันทึกวันที่  19 สิงหาคม 2562"
-                        android:layout_marginTop="20dp" />
-                    <TextView
-                        android:id="@+id/saveTimeTextview"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="เวลา 09.00 น."
-                        android:layout_marginTop="20dp"/>
-                    <TextView
-                        android:id="@+id/inputTextView1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ความดันตัวบน 120 mmHg"
-                        android:layout_marginTop="20dp"/>
-                    <TextView
-                        android:id="@+id/inputTextView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ความดันตัวล่าง 120 mmHg"
-                        android:layout_marginTop="20dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_margin="30dp"
-                    android:padding="20dp"
-                    android:background="@drawable/white_card"
-                    android:elevation="10dp">
 
                     <TextView
+                        android:id="@+id/resultHeader"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
@@ -122,7 +75,21 @@
                         android:padding="5dp"/>
 
                 </LinearLayout>
-
+                <TextView
+                    android:id="@+id/resultButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/gradient_pressure_fab"
+                    android:layout_gravity="center"
+                    android:paddingStart="20dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="8dp"
+                    android:text="คำแนะนำ"
+                    android:textColor="@android:color/white"
+                    android:elevation="5dp" />
 
             </LinearLayout>
         </ScrollView>

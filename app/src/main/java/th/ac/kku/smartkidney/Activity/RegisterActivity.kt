@@ -35,8 +35,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        setMarginBg()
-
         maleSelectorBt.setOnClickListener {
 
             if (!toggleButtonMale) {
@@ -78,6 +76,7 @@ class RegisterActivity : AppCompatActivity() {
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ registerResponse ->
+                ApiObject.instant.user = registerResponse
                 registerProgressBar.visibility = View.INVISIBLE
                 setResult(Activity.RESULT_OK)
                 finish()
@@ -96,22 +95,6 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    fun setMarginBg() {
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-        //obj size 934 * 422
-        var objWidth = 934
-        var width = displayMetrics.widthPixels
-        if (width > objWidth) {
-            width -= objWidth
-        } else width = objWidth - width
-
-        val param = objRegister.layoutParams as RelativeLayout.LayoutParams
-        param.setMargins(0, 0, 0, width * -1)
-        objRegister.layoutParams = param
-    }
-
     @SuppressLint("SimpleDateFormat")
     fun selectBirthDate() {
         val c = Calendar.getInstance()
@@ -128,7 +111,7 @@ class RegisterActivity : AppCompatActivity() {
             val toDate = parser.parse(getDate)
             val formatter = SimpleDateFormat("dd MMMM", Locale.getDefault())
             val formattedDate = formatter.format(toDate)
-            val birthDateApi = SimpleDateFormat("dd/MM/yyyy")
+            val birthDateApi = SimpleDateFormat("yyyy-MM-dd")
             birthDate = birthDateApi.format(toDate)
 
             var setYear = year
