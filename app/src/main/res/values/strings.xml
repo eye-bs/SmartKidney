@@ -65,6 +65,10 @@
         <item name="5">#F6C7C7</item>
     </string-array>
 
+    <string-array name="bp_suggestion_img">
+
+    </string-array>
+
     <string-array name="month_th">
         <item name="jan">มกราคม</item>
         <item name="feb">กุมภาพันธ์</item>

@@ -4,13 +4,14 @@ import androidx.viewpager.widget.PagerAdapter
 import android.view.ViewGroup
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
 
 
-class ImageAdapter(val context:Context ,val imageArr: ArrayList<Drawable>) : PagerAdapter() {
+class ImageAdapter(val context:Context, private val imageArr: ArrayList<Drawable>) : PagerAdapter() {
 
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {

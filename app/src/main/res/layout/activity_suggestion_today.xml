@@ -24,6 +24,7 @@
             android:layout_gravity="center"
             android:elevation="10dp"/>
         <TextView
+            android:id="@+id/headerSuggest"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -42,22 +43,9 @@
         android:text="ยังมีมีข้อมูลสำหรับวันนี้"
         android:textSize="30sp"
         android:gravity="center"/>
-
-    <ScrollView
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </ScrollView>
-
-
-
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

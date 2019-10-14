@@ -36,6 +36,7 @@
     <color name="veryHigh_chart">#EFC1D2</color>
     <color name="danger_chart">#F2B4A2</color>
     <color name="veryDanger_chart">#F8B2AD</color>
+    <color name="bg_main_color">#c5edff</color>
 
     <color name="dot_dark_screen3">#2278d4</color>
     <color name="dot_light_screen3">#93c6fd</color>

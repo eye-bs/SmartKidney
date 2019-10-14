@@ -2,7 +2,6 @@ package th.ac.kku.smartkidney
 
 import android.annotation.TargetApi
 import android.content.Intent
-import android.graphics.Canvas
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,15 +10,9 @@ import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_healt_ed.*
-import android.graphics.Bitmap
-import android.graphics.Color
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.util.Log
-import com.ekn.gruzer.gaugelibrary.Range
+import android.view.ViewGroup
 
 
 @Suppress("DEPRECATION")
@@ -46,6 +39,7 @@ class HealtEdActivity : AppCompatActivity() {
         val topicObj = readJSON.getJSONObject(Constant.HEALTHED_TOPIC_JSON,Constant.HEALTH_ED_TOPIC)
         val topicArr = topicObj!!.getJSONArray("topic")
         var count = 0
+        val textViewArr = arrayListOf<TextView>()
 
         for (i in 0 until 4){
             val linearLayoutRow = LinearLayout(this)
@@ -75,20 +69,20 @@ class HealtEdActivity : AppCompatActivity() {
                 textView.layoutParams = paramTextView
                 linearLayoutRow.addView(textView)
 
-                textView.setOnClickListener {
-                    val intent = Intent(this,HealthEdContentActivity::class.java)
-                    intent.putExtra("topic" , textView.text)
-                    startActivity(intent)
-                    finish()
-                }
+                textViewArr.add(textView)
 
                 count++
 
-                //-----------On click--------------------
-
-
             }
             rootViewHealthEdTopic.addView(linearLayoutRow)
+        }
+        for (k in textViewArr.indices){
+            textViewArr[k].setOnClickListener {
+                ApiObject.instant.healthEdPostion = k
+                val intent = Intent(this,HealthEdContentActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 

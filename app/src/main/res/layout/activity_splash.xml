@@ -5,19 +5,40 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:context=".SplashActivity"
+    android:background="@color/bg_main_color">
 
-        tools:context=".SplashActivity">
+    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/bg_header"/>
+
+    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/bg_with_kidney_footer"
+        android:layout_alignParentBottom="true"/>
+
+    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/logo_app_v2"/>
 
     <RelativeLayout
         android:id="@+id/splashProgressBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/lavender">
+        android:layout_height="match_parent">
         <ProgressBar
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="100dp" />
     </RelativeLayout>
-
 
 </RelativeLayout>

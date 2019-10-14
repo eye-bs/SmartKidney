@@ -4,54 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/white_card"
-    android:padding="20dp"
+
     >
 
-    <TextView
-        android:id="@+id/dialogHeader"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/red_orange"
-        android:text="ภาวะเสี่ยง"/>
+        android:orientation="horizontal"
+        android:padding="20dp">
+        <TextView
+            android:id="@+id/dialogHeader"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/red_orange"
+            android:text="ภาวะเสี่ยง"/>
 
+        <ImageView
+            android:id="@+id/dialogButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/close" />
+
+    </LinearLayout>
     <ScrollView
-        android:id="@+id/scrollDialog"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
-            <TextView
-                android:id="@+id/contentDialog"
+            android:orientation="vertical">
+            <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+                android:id="@+id/imageDialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="10dp"
-                android:layout_marginTop="20dp"
-                />
+                android:adjustViewBounds="true"/>
 
-            <TextView
-                android:id="@+id/dialogButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/gradient_pressure_fab"
-                android:layout_gravity="end"
-                android:paddingStart="20dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="8dp"
-                android:text="คำแนะนำ"
-                android:textColor="@android:color/white"
-                android:elevation="5dp" />
         </LinearLayout>
     </ScrollView>
+
+
+
 
 
 

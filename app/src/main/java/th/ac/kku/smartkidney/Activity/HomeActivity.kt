@@ -87,10 +87,7 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
     }
 
     private fun setUserDetail(){
-
         val userObject = ApiObject.instant.user
-       Log.wtf(Constant.TAG," mDatabaseHelper.data ${ mDatabaseHelper.data}")
-
        try{
 
            val data = mDatabaseHelper.getImgData(Constant.NAME_ATT)
@@ -109,6 +106,7 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
            }
 
        }catch (e:Exception){
+           Log.wtf(Constant.TAG,"No image")
 
            if(userObject!!.gender == "male"){
                profileImage.setImageDrawable(getDrawable(R.drawable.male))
@@ -179,6 +177,7 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
         var height = displayMetrics.heightPixels / 4
 
         val paramForChartLay = LinearLayout.LayoutParams(0,height,1f)
+        paramForChartLay.setMargins(0,0,18,0)
         upperBpHomeLay.layoutParams = paramForChartLay
         lowerBpHomeLay.layoutParams = paramForChartLay
         gitHomeLay.layoutParams = paramForChartLay

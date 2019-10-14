@@ -50,8 +50,7 @@
                 android:id="@+id/imageHealthEdContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/healthed1_intro_kidney"/>
+                android:adjustViewBounds="true" />
 
         </LinearLayout>
 

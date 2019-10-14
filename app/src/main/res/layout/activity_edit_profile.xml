@@ -57,7 +57,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="150dp"
-                    android:src="@drawable/model"
+                    android:src="@drawable/female"
                     app:civ_border_width="2dp"
                     app:civ_border_color="#00000000"
                     android:layout_marginTop="20dp"
@@ -104,22 +104,29 @@
                         android:inputType="text"
                         android:hint="ชื่อ"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/birthDateTextInput"
-                    style="@style/TextInputLayoutAppearance.register"
+                <LinearLayout
+                    android:id="@+id/editBirthDateView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    app:errorEnabled="true">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/birthDateEditText"
+                    android:layout_marginTop="18dp">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/birthDateTextInput"
+                        style="@style/TextInputLayoutAppearance.register"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:inputType="text"
-                        android:hint="วันเกิด"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:errorEnabled="true">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/birthDateEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:inputType="text"
+                            android:hint="วันเกิด"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/hospitalTextInput"
                     style="@style/TextInputLayoutAppearance.register"
@@ -176,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="40dp"
                 android:background="@drawable/gradient_glucose_fab"
                 android:layout_gravity="center"
                 android:paddingStart="20dp"

@@ -46,9 +46,10 @@ class SetupChart(
     private val arrValueGraph1 = ArrayList<kotlin.Float>()
     private val arrValueGraph2 = ArrayList<kotlin.Float>()
     private var count: Int = 7
-    private val hashBP = ApiObject.instant.bpHashByWeek[ApiObject.instant.weekQuery]
+    private val hashBP = ApiObject.instant.bloodPressure[ApiObject.instant.weekQuery]
     private val hashBS = ApiObject.instant.bsHashByWeek[ApiObject.instant.weekQuery]
     private val hashGir = ApiObject.instant.girHashByWeek[ApiObject.instant.weekQuery]
+
 
 
     @SuppressLint("UseSparseArrays")
@@ -65,9 +66,9 @@ class SetupChart(
                     for (k in hashBP.keys) {
                         keys.add(k)
                     }
+                    keys.sort()
                     startDate = Constant.formatOfDetail.parse(hashBP[keys[0]]!!.date).date
-                    endDate =
-                        Constant.formatOfDetail.parse(hashBP[keys[keys.lastIndex]]!!.date).date
+                    endDate = Constant.formatOfDetail.parse(hashBP[keys[keys.lastIndex]]!!.date).date
                     count = endDate - startDate + 1
                     for (i in startDate..endDate) {
                         if (hashBP[i] == null) {
@@ -85,6 +86,7 @@ class SetupChart(
                     for (k in hashBS.keys) {
                         keys.add(k)
                     }
+                    keys.sort()
                     startDate = Constant.formatOfDetail.parse(hashBS[keys[0]]!!.date).date
                     endDate =
                         Constant.formatOfDetail.parse(hashBS[keys[keys.lastIndex]]!!.date).date
@@ -105,6 +107,7 @@ class SetupChart(
                     for (k in hashGir.keys) {
                         keys.add(k)
                     }
+                    keys.sort()
                     startDate = Constant.formatOfDetail.parse(hashGir[keys[0]]!!.date).date
                     endDate =
                         Constant.formatOfDetail.parse(hashGir[keys[keys.lastIndex]]!!.date).date
@@ -452,11 +455,16 @@ class SetupChart(
         setChart.xAxis.axisMinimum = 0f
         setChart.xAxis.axisMaximum = (count + 2).toFloat()
         if (graphObject.getString("name") != Constant.BMI) {
-            if (parentLayout != null) {
+
+            if(parentLayout != null){
                 val weekdays = arrayListOf("", "อา", "จ", "อ", "พ", "พฤ", "ศ", "ส", "")
                 setChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
                 setChart.xAxis.valueFormatter = object : IndexAxisValueFormatter(weekdays) {}
+            }else{
+                setChart.xAxis.isEnabled = false
             }
+
+
         }else  setChart.xAxis.isEnabled = false
 
 

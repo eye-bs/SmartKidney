@@ -2,6 +2,7 @@ package th.ac.kku.smartkidney
 
 import android.content.Context
 import android.text.Layout
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,9 @@ class MyViewPagerAdapter(val context: Context, private val getCount: Int, privat
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = layoutInflater!!.inflate(R.layout.slide_layout, container, false)
+        if(arrLayout[position].parent != null){
+            (arrLayout[position].parent as ViewGroup).removeView(arrLayout[position])
+        }
         view.rootViewSlide.addView(arrLayout[position])
 
         container.addView(view)

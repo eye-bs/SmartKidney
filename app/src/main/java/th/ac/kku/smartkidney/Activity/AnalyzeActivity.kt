@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
 import android.util.DisplayMetrics
@@ -16,20 +17,22 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
 import kotlinx.android.synthetic.main.activity_analyze.*
 import kotlinx.android.synthetic.main.custom_dialog.view.*
 import org.json.JSONObject
 import java.util.*
 
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class AnalyzeActivity : AppCompatActivity() {
 
-    val readJSON = ReadJSON(this)
-    lateinit var analyzeObject: JSONObject
-    lateinit var getAnalytics: JSONObject
-    var buttonBG: Int? = null
+    private val readJSON = ReadJSON(this)
+    private lateinit var analyzeObject: JSONObject
+    private lateinit var getAnalytics: JSONObject
+    private var buttonBG: Int? = null
     var name: String = ""
+    private val imageArr = arrayListOf<Drawable>()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,6 +83,16 @@ class AnalyzeActivity : AppCompatActivity() {
             headerAnalyze.setTextColor(Color.parseColor(getAnalytics.getString("color")))
             resultButton.background = getDrawable(buttonBG!!)
 
+            val img =  getAnalytics.getJSONArray("img")
+            for (i in 0 until img.length()){
+                if (img.getString(i) != ""){
+                    val resources = this.resources
+                    val resourceId = resources.getIdentifier(img.getString(i), "drawable", this.packageName)
+                    val drawable = resources.getDrawable(resourceId)
+                    imageArr.add(drawable)
+                }
+            }
+
         }else {
             setResult(Activity.RESULT_OK)
             finish()
@@ -90,10 +103,11 @@ class AnalyzeActivity : AppCompatActivity() {
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
                 .setView(mDialogView)
-        mDialogView.contentDialog.text = Html.fromHtml(getAnalytics.getString("suggest"))
+   //     mDialogView.contentDialog.text = Html.fromHtml(getAnalytics.getString("suggest"))
         mDialogView.dialogHeader.setTextColor(Color.parseColor(getAnalytics.getString("color")))
-        mDialogView.dialogButton.background = getDrawable(buttonBG)
+       // mDialogView.dialogButton.background = getDrawable(buttonBG)
         mDialogView.dialogHeader.text = "คำแนะนำ"
+        mDialogView.imageDialog.setImageDrawable(imageArr[0])
         val mAlertDialog = mBuilder.create()
 
         mAlertDialog.setCancelable(false)
@@ -106,8 +120,8 @@ class AnalyzeActivity : AppCompatActivity() {
         var height = displayMetrics.heightPixels
         height -= height / 5
         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height)
-        mDialogView.findViewById<ScrollView>(R.id.scrollDialog).layoutParams = params
-        mDialogView.dialogButton.text = "ปิด"
+        //mDialogView.findViewById<ScrollView>(R.id.scrollDialog).layoutParams = params
+       // mDialogView.dialogButton.text = "ปิด"
 
         mDialogView.dialogButton.setOnClickListener {
             mAlertDialog.dismiss()
@@ -123,6 +137,5 @@ class AnalyzeActivity : AppCompatActivity() {
     override fun onBackPressed() {
         showDialogSuggest(buttonBG!!)
     }
-
 
 }

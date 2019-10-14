@@ -14,6 +14,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
 import kotlinx.android.synthetic.main.activity_suggest.*
 
 @Suppress("DEPRECATION")
@@ -51,19 +52,19 @@ class SuggestActivity : AppCompatActivity() {
         }
     }
 
-    fun slideViewLayout(numPage: Int):ArrayList<LinearLayout>{
+    private fun slideViewLayout(numPage: Int):ArrayList<LinearLayout>{
         val layoutArray =  ArrayList<LinearLayout>()
 
         for (i in 0 until numPage){
             val linearLayout = LinearLayout(this)
-            val imageView = ImageView(this)
+            val imageView = AdjustableImageView(this)
             val param = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+            imageView.adjustViewBounds = true
             if(i == 0){
                 imageView.setImageDrawable(getDrawable(R.drawable.suggest1_slide_into))
             }else{
                 imageView.setImageDrawable(getDrawable(R.drawable.suggest2_slide_into))
             }
-            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
             linearLayout.layoutParams = param
             imageView.layoutParams = param
             linearLayout.addView(imageView)

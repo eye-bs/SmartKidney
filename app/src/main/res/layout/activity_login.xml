@@ -4,23 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/bg_main_color"
     tools:context=".LoginActivity">
 
-    <ImageView
-        android:id="@+id/objLogin"
+    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/obj_login_1"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/bg_header"/>
 
-        />
-    <ImageView
+    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/bg_footer"
+        android:layout_alignParentBottom="true"/>
+
+    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
         android:id="@+id/iconAppLogin"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:src="@drawable/logo_app_v2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"/>
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/logo_app_v2"/>
 
 
     <RelativeLayout
@@ -118,6 +125,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/lavender"
+        android:alpha="0.8"
         android:visibility="invisible">
         <ProgressBar
             android:layout_width="match_parent"

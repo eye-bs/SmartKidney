@@ -32,16 +32,23 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
 
     @SuppressLint("CheckResult")
     fun editUserInfo(id:String,email:String?,name:String?,birthDate:String?,gender:String?,hospital:String?,weight:Int?,height:Int?){
-        progressBar!!.visibility = View.VISIBLE
+        if (progressBar != null){
+            progressBar.visibility = View.VISIBLE
+        }
+
         val observable = ApiService.loginApiCall().editUserInfo(id,email,name,birthDate, gender, hospital, weight, height)
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ editUserInfo ->
-                progressBar!!.visibility = View.INVISIBLE
+                if (progressBar != null){
+                    progressBar.visibility = View.INVISIBLE
+                }
                 getUsers(id)
 
             }, { error ->
-                progressBar!!.visibility = View.INVISIBLE
+                if (progressBar != null){
+                    progressBar.visibility = View.INVISIBLE
+                }
                 println(error.message.toString())
 
             }
@@ -67,15 +74,52 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ getBloodPressure ->
-                ApiObject.instant.bloodPressure = getBloodPressure
 
-                val hashHelpers = HashMap<Int , BloodPressure>()
+//---------------------------------/TEST------------------!!!!!!!!!
+
+                val hashAll = HashMap<Int, HashMap<Int,BloodPressure>>()
+                val hashWeek = HashMap<Int,BloodPressure>()
+                var stackWeek = HashMap<Int,Int>()
+
                 for (i in getBloodPressure.indices){
-                    val dateString = getBloodPressure[i].date
-                    val date = Constant.formatOfDetail.parse(dateString)
-                    hashHelpers[date.date] = getBloodPressure[i]
+                    val testDateString = getBloodPressure[i].date
+                    val testDate = Constant.formatOfDetail.parse(testDateString)
+                    calendar.time = testDate
+                    val week = calendar.get(Calendar.WEEK_OF_YEAR)
+                    hashWeek[testDate.date] = getBloodPressure[i]
+                    stackWeek[week] = week
                 }
-                ApiObject.instant.bpHashByWeek[ApiObject.instant.weekQuery!!] = hashHelpers
+
+                val keysWeekOfYear = ArrayList<Int>()
+                for (k in stackWeek.keys){
+                    keysWeekOfYear.add(k)
+                }
+                keysWeekOfYear.sort()
+                for(i in keysWeekOfYear.indices){
+                    calendar.set(Calendar.WEEK_OF_YEAR, keysWeekOfYear[i])
+                    calendar.set(Calendar.DAY_OF_WEEK , Calendar.SUNDAY)
+                    val hashWeekHelper = HashMap<Int,BloodPressure>()
+                    for (j in 1..7){
+                        val pointer = calendar.get(Calendar.DATE)
+                        if (hashWeek[pointer] != null){
+                            val data = hashWeek[pointer]
+                            hashWeekHelper[pointer] = data!!
+                        }
+                        calendar.add(Calendar.DATE , 1)
+                    }
+                    hashAll[keysWeekOfYear[i]] = hashWeekHelper
+                }
+                ApiObject.instant.bloodPressure = hashAll
+
+//---------------------------------/TEST------------------!!!!!!!!!
+
+//                val hashHelpers = HashMap<Int , BloodPressure>()
+//                for (i in getBloodPressure.indices){
+//                    val dateString = getBloodPressure[i].date
+//                    val date = Constant.formatOfDetail.parse(dateString)
+//                    hashHelpers[date.date] = getBloodPressure[i]
+//                }
+//                ApiObject.instant.bpHashByWeek[ApiObject.instant.weekQuery!!] = hashHelpers
 
                 //------Per day------------------
                 val observablePerDay = ApiService.loginApiCall().getBloodPressure(id,null,null,date)
@@ -303,20 +347,61 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
     @SuppressLint("CheckResult")
     fun comboGetBloodPressure(id: String ) {
 
-        val observable = ApiService.loginApiCall().getBloodPressure(id,ApiObject.instant.startDateQuery,ApiObject.instant.endDateQuery,null)
+        val observable = ApiService.loginApiCall().getBloodPressure(id,null,null,null)
 
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ getBloodPressure ->
-                ApiObject.instant.bloodPressure = getBloodPressure
 
-                val hashHelpers = HashMap<Int , BloodPressure>()
+
+//---------------------------------/TEST------------------!!!!!!!!!
+
+                val hashAll = HashMap<Int, HashMap<Int,BloodPressure>>()
+                val hashWeek = HashMap<Int,BloodPressure>()
+                var stackWeek = HashMap<Int,Int>()
+
                 for (i in getBloodPressure.indices){
-                    val dateString = getBloodPressure[i].date
-                    val date = Constant.formatOfDetail.parse(dateString)
-                    hashHelpers[date.date] = getBloodPressure[i]
+                    val testDateString = getBloodPressure[i].date
+                    val testDate = Constant.formatOfDetail.parse(testDateString)
+                    calendar.time = testDate
+                    val week = calendar.get(Calendar.WEEK_OF_YEAR)
+                    hashWeek[testDate.date] = getBloodPressure[i]
+                    stackWeek[week] = week
                 }
-                ApiObject.instant.bpHashByWeek[ApiObject.instant.weekQuery!!] = hashHelpers
+
+
+
+                val keysWeekOfYear = ArrayList<Int>()
+                for (k in stackWeek.keys){
+                    keysWeekOfYear.add(k)
+                }
+                keysWeekOfYear.sort()
+                for(i in keysWeekOfYear.indices){
+                    calendar.set(Calendar.WEEK_OF_YEAR, keysWeekOfYear[i])
+                    calendar.set(Calendar.DAY_OF_WEEK , Calendar.SUNDAY)
+                    val hashWeekHelper = HashMap<Int,BloodPressure>()
+                    for (j in 1..7){
+                        val pointer = calendar.get(Calendar.DATE)
+                        if (hashWeek[pointer] != null){
+                            val data = hashWeek[pointer]
+                            hashWeekHelper[pointer] = data!!
+                        }
+                        calendar.add(Calendar.DATE , 1)
+                    }
+                    hashAll[keysWeekOfYear[i]] = hashWeekHelper
+                }
+                ApiObject.instant.bloodPressure = hashAll
+
+//---------------------------------/TEST------------------!!!!!!!!!
+
+//                val hashHelpers = HashMap<Int , BloodPressure>()
+//                for (i in getBloodPressure.indices){
+//                    val dateString = getBloodPressure[i].date
+//                    val date = Constant.formatOfDetail.parse(dateString)
+//                    hashHelpers[date.date] = getBloodPressure[i]
+//                }
+//
+//                ApiObject.instant.bpHashByWeek[ApiObject.instant.weekQuery!!] = hashHelpers
 
                 //------Per day------------------
                 val observablePerDay = ApiService.loginApiCall().getBloodPressure(id,null,null,date)
@@ -326,6 +411,7 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
                         ApiObject.instant.bloodPressurePerDay = getBloodPressurePerDaye
                         comboGetKidneyLev(id)
                     },{ error ->
+                        comboGetKidneyLev(id)
                         println(error.message.toString())
                     })
                 //---------------------------------------
@@ -363,6 +449,7 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
                         ApiObject.instant.kidneyLevPerDay = getKidneyLevPerDaye
                         comboGetBloodSugar(id)
                     },{ error ->
+                        comboGetBloodSugar(id)
                         println(error.message.toString())
                     })
                 //---------------------------------------
@@ -399,6 +486,7 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
                         comboGetWaterPerDay(id)
 
                     },{ error ->
+                        comboGetWaterPerDay(id)
                         println(error.message.toString())
                     })
                 //---------------------------------------

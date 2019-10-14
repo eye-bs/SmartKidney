@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/kidney_disease"
-        android:textColor="@color/mantle"
+        android:textColor="@android:color/black"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
         android:textSize="20sp"/>
@@ -49,6 +49,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
                     android:text="@string/risk_form_warning"/>
 
             </LinearLayout>
@@ -61,10 +62,12 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
                 android:text="@string/done"
-                android:textColor="@color/mantle"
+                android:textColor="#1D3826"
                 android:background="@drawable/riskform_bt_bg"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:elevation="5dp"
                 android:fontFamily="@font/raingan"
                 android:textSize="30sp"

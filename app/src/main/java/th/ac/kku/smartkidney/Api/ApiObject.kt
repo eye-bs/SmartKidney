@@ -5,7 +5,7 @@ class ApiObject{
     var id: String? = null
     var user: User? = null
     var age:Int? = null
-    var bloodPressure = listOf<BloodPressure>()
+    var bloodPressure = HashMap<Int, HashMap<Int,BloodPressure>>()
     var kidneyLev = listOf<KidneyLev>()
     var bloodSugar = listOf<BloodSugar>()
     var waterIn = 0
@@ -24,6 +24,7 @@ class ApiObject{
     var bloodSugarPerDay = listOf<BloodSugar>()
 
     var kidneyRange:Int? = null
+    var healthEdPostion:Int? = null
 
     private constructor(){
         println("ser obj")

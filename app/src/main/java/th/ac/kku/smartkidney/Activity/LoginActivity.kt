@@ -58,7 +58,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        setMarginBg()
+        if (Build.VERSION.SDK_INT >= 21) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        }
 
         textSingUp.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
@@ -154,21 +156,6 @@ class LoginActivity : AppCompatActivity() {
                     val myUserObj = mAuth!!.currentUser
                 }
             }
-    }
-
-    private fun setMarginBg() {
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-        //obs size 1214 * 619
-        var width = displayMetrics.widthPixels
-        if (width > 1214) {
-            width -= 1214
-        } else width = 1214 - width
-
-        val param = objLogin.layoutParams as RelativeLayout.LayoutParams
-        param.setMargins(0, width * -1, 0, 0)
-        objLogin.layoutParams = param
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -12,11 +12,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.activity_home.*
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,6 +29,10 @@ class EditProfileActivity : AppCompatActivity() {
     lateinit var imageUri: Uri
     private lateinit var cropIntent: Intent
     val userObject = ApiObject.instant.user
+    val formatter = SimpleDateFormat("dd MMMM", Locale.getDefault())
+    val birthDateApi = SimpleDateFormat("yyyy-MM-dd")
+    val c = Calendar.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,36 +42,51 @@ class EditProfileActivity : AppCompatActivity() {
         setData()
 
         editProfileBt.setOnClickListener {
-            val name = nameEditText.text.toString()
-            val birthDate = birthDate
-            val hospital = hospitalDateEditText.text.toString()
-            val weight = weightDateEditText.text.toString()
-            val height = heightDateEditText.text.toString()
-            val apiHandler = ApiHandler(this, editProfileProgressBar, null)
-
-            apiHandler.editUserInfo(
-                userObject!!.id,
-                null,
-                name,
-                birthDate,
-                null,
-                hospital,
-                weight.toInt(),
-                height.toInt()
-            )
-
-            val bitmapp = (profileImage.drawable as BitmapDrawable).bitmap
-            val stream = ByteArrayOutputStream()
-            bitmapp.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            val imgByteArr = stream.toByteArray()
-            mDatabaseHelper.updateImage(imgByteArr, Constant.NAME_ATT)
-
+            when{
+                TextUtils.isEmpty(nameEditText.text) -> nameEditText.error = this.getString(R.string.checkFill)
+                TextUtils.isEmpty(birthDateEditText.text) -> birthDateEditText.error = this.getString(R.string.checkFill)
+                TextUtils.isEmpty(hospitalDateEditText.text) -> hospitalDateEditText.error = this.getString(R.string.checkFill)
+                TextUtils.isEmpty(weightDateEditText.text) -> weightDateEditText.error = this.getString(R.string.checkFill)
+                TextUtils.isEmpty(heightDateEditText.text) -> heightDateEditText.error = this.getString(R.string.checkFill)
+                else -> onSaveClick()
+            }
         }
         profileEditImage.setOnClickListener { openGallery() }
-        birthDateTextInput.setOnClickListener { selectBirthDate() }
+        editBirthDateView.setOnClickListener { selectBirthDate() }
     }
 
-    fun setData() {
+    private fun onSaveClick(){
+        val name = nameEditText.text.toString()
+        val birthDate = birthDate
+        val hospital = hospitalDateEditText.text.toString()
+        val weight = weightDateEditText.text.toString()
+        val height = heightDateEditText.text.toString()
+        val apiHandler = ApiHandler(this, editProfileProgressBar, null)
+
+        apiHandler.editUserInfo(
+            userObject!!.id,
+            null,
+            name,
+            birthDate,
+            null,
+            hospital,
+            weight.toInt(),
+            height.toInt()
+        )
+
+        val bitmap = (profileEditImage.drawable as BitmapDrawable).bitmap
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val imgByteArr = stream.toByteArray()
+        mDatabaseHelper.deleteName(Constant.NAME_ATT)
+        mDatabaseHelper.addData(Constant.NAME_ATT,imgByteArr)
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
+    private fun setData() {
 
 
         val data = mDatabaseHelper.getImgData(Constant.NAME_ATT)
@@ -79,21 +98,30 @@ class EditProfileActivity : AppCompatActivity() {
         val bitmap = BitmapFactory.decodeByteArray(imgV, 0, imgV!!.size)
         profileEditImage.setImageBitmap(bitmap)
 
-        nameEditText.setText(userObject!!.name)
-        birthDateEditText.setText(userObject.birthDate)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
+        val bDate = userObject!!.birthDate
+        val paserBDate = dateFormat.parse(bDate)
+        val formattedDate = formatter.format(paserBDate)
+        birthDate = birthDateApi.format(paserBDate)
+        c.time = paserBDate
+        var setYear = c.get(Calendar.YEAR)
+        if (Locale.getDefault().displayCountry == "ไทย") {
+            setYear += 543
+        }
+        nameEditText.setText(userObject.name)
+        birthDateEditText.setText("$formattedDate $setYear")
         hospitalDateEditText.setText(userObject.hospital)
-        weightDateEditText.setText("1")
-        heightDateEditText.setText("1")
+        weightDateEditText.setText(userObject.weight.toString())
+        heightDateEditText.setText(userObject.height.toString())
 
     }
 
     @SuppressLint("SimpleDateFormat")
     fun selectBirthDate() {
-        val c = Calendar.getInstance()
+
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-
 
         val dpd = DatePickerDialog(
             this,
@@ -103,11 +131,8 @@ class EditProfileActivity : AppCompatActivity() {
                 val getDate = "" + year + "-" + (monthOfYear + 1) + "-" + dayOfMonth + "T09:55:00"
                 val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                 val toDate = parser.parse(getDate)
-                val formatter = SimpleDateFormat("dd MMMM", Locale.getDefault())
                 val formattedDate = formatter.format(toDate)
-                val birthDateApi = SimpleDateFormat("yyyy-MM-dd")
                 birthDate = birthDateApi.format(toDate)
-
                 var setYear = year
                 if (Locale.getDefault().displayCountry == "ไทย") {
                     setYear += 543
@@ -118,8 +143,6 @@ class EditProfileActivity : AppCompatActivity() {
             month,
             day
         )
-
-
         dpd.show()
     }
 

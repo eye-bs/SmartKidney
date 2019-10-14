@@ -17,14 +17,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="16dp"
-            android:background="@color/white">
+            android:background="@color/lavender">
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ToolbarTheme" >
+                app:theme="@style/ToolbarTheme"
+            android:background="@color/white">
             <LinearLayout
                 android:id="@+id/healthFormHomeBt"
                 android:layout_width="wrap_content"
@@ -48,8 +49,39 @@
                 android:background="@color/white"
                 app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
                 app:itemTextAppearanceInactive="@style/BottomNavigationView"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/white_card"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:padding="10dp"
+            android:elevation="10dp">
+            <ImageView
+                android:id="@+id/weekLeftBt"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/left"
+                android:elevation="5dp"/>
+            <TextView
+                android:id="@+id/weekTextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="13/10/2019 - 19/10/2019"
+                android:gravity="center"/>
+            <ImageView
+                android:id="@+id/weekRightBt"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/right"
+                android:elevation="5dp"/>
+        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
         <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"

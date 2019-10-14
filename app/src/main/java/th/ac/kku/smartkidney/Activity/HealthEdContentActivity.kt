@@ -15,13 +15,11 @@ class HealthEdContentActivity : AppCompatActivity() {
         val readJSON = ReadJSON(this)
         val topicObj = readJSON.getJSONObject(Constant.HEALTHED_TOPIC_JSON,Constant.HEALTH_ED_TOPIC)
         val topicArr = topicObj!!.getJSONArray("topic")
-        val topic = intent.getStringExtra("topic")
-        val imageArr = arrayOf(R.drawable.healthed1_intro_kidney)
-        for (i in 0 until topicArr.length()){
-            if(topic == topicArr[i]){
-                imageHealthEdContent.setImageDrawable(getDrawable(imageArr[i]))
-            }
-        }
+        val topic =  ApiObject.instant.healthEdPostion
+        Log.wtf(Constant.TAG , "topic $topic")
+        val imageArr = arrayOf(R.drawable.healthed1,R.drawable.healthed2,R.drawable.healthed3,R.drawable.healthed4,R.drawable.healthed5,R.drawable.healthed6,R.drawable.healthed7)
+
+        imageHealthEdContent.setImageDrawable(getDrawable(imageArr[topic!!]))
 
         healthEdContentBt.setOnClickListener{
             val intent = Intent(this,HealtEdActivity::class.java)

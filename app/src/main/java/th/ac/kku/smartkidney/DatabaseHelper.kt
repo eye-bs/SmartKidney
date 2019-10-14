@@ -96,12 +96,17 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, TABLE_NAME, n
      * @param oldName
      */
     fun updateImage(newImage: ByteArray, name: String) {
-        val db = this.writableDatabase
-        val query = "UPDATE " + TABLE_NAME + " SET " + COL3 +
-                " = '" + newImage + "' WHERE " + COL2 + " = '" + name + "'"
-        Log.d(TAG, "updateName: query: $query")
-        Log.d(TAG, "updateImage: Setting name to newImage")
-        db.execSQL(query)
+        Log.d(TAG, "updating Image...")
+        try {
+            val db = this.writableDatabase
+            val query = "UPDATE " + TABLE_NAME + " SET " + COL3 +
+                    " = '" + newImage + "' WHERE " + COL2 + " = '" + name + "'"
+            Log.d(TAG, "updateName: query: $query")
+            Log.d(TAG, "updateImage: Setting name to newImage")
+            db.execSQL(query)
+        }catch (e:Exception){
+            Log.wtf(Constant.TAG,"Update image Error $e")
+        }
     }
 
     /**
@@ -109,11 +114,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, TABLE_NAME, n
      * @param id
      * @param name
      */
-    fun deleteName(id: Int, name: String) {
+    fun deleteName(name: String) {
         val db = this.writableDatabase
-        val query = ("DELETE FROM " + TABLE_NAME + " WHERE "
-                + COL1 + " = '" + id + "'" +
-                " AND " + COL2 + " = '" + name + "'")
+        val query = ("DELETE FROM $TABLE_NAME WHERE $COL2 = '$name'")
         Log.d(TAG, "deleteName: query: $query")
         Log.d(TAG, "deleteName: Deleting $name from database.")
         db.execSQL(query)
@@ -122,7 +125,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, TABLE_NAME, n
     companion object {
         private const val TAG = "DatabaseHelper"
 
-        private const val TABLE_NAME = "people_table_final"
+        private const val TABLE_NAME = "people_table_1"
         private const val COL1 = "ID"
         private const val COL2 = "name"
         private const val COL3 = "img"

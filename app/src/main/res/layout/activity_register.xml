@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".RegisterActivity"
+    android:background="@color/bg_main_color">
 
-    <ImageView
+    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="#CEF4D2"/>
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/bg_header"/>
+
 
     <TextView
         android:id="@+id/text_register"
@@ -20,7 +24,12 @@
         android:textSize="25sp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="50dp"/>
-
+    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/bg_footer"
+        android:layout_alignParentBottom="true"/>
     <ImageView
         android:id="@+id/objRegister"
         android:layout_width="match_parent"
@@ -166,7 +175,7 @@
         android:paddingEnd="20dp"
         android:paddingBottom="8dp"
         android:text="@string/register"
-        android:textColor="@android:color/white"
+        android:textColor="#2D2F31"
         android:textSize="20sp"
         android:elevation="5dp"/>
 
@@ -175,7 +184,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/lavender"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        android:alpha="0.8">
         <ProgressBar
             android:layout_width="match_parent"
             android:layout_height="match_parent"
