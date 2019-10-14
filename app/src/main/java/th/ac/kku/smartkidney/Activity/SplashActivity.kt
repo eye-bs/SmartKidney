@@ -1,5 +1,6 @@
 package th.ac.kku.smartkidney
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Dialog
@@ -24,6 +25,8 @@ import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Build
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -38,6 +41,9 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        val callbackId = 42
+        checkPermissions(callbackId, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR , Manifest.permission.READ_EXTERNAL_STORAGE)
 
         calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
         ApiObject.instant.startDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
@@ -110,6 +116,15 @@ class SplashActivity : AppCompatActivity() {
                 finish()
             }
             )
+    }
+
+    private fun checkPermissions(callbackId: Int, vararg permissionsId: String) {
+        var permissions = true
+        for (p in permissionsId) {
+            permissions = permissions && ContextCompat.checkSelfPermission(this, p) == PackageManager.PERMISSION_GRANTED
+        }
+        if (!permissions)
+            ActivityCompat.requestPermissions(this, permissionsId, callbackId)
     }
 
 }

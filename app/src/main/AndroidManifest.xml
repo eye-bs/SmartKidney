@@ -5,6 +5,8 @@
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -18,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SuggestionTodayActivity"></activity>
+
+        <activity android:name=".SuggestionTodayActivity" />
         <activity android:name=".HealthEdContentActivity" />
         <activity android:name=".AddAlarmActivity" />
         <activity android:name=".HealtEdActivity" />
@@ -29,6 +32,9 @@
         <activity
             android:name=".AddFormActivity"
             android:theme="@style/ActivityTheme" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:theme="@style/ActivityTheme"/>
         <activity
             android:name=".RegisterActivity"
             android:theme="@style/ActivityTheme" />

@@ -5,6 +5,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
+import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -326,14 +327,23 @@ class SetupChart(
                         val df2 = DecimalFormat("#.#")
                         val weightEditText = viewBMI.findViewById<EditText>(R.id.weightEditText)
                         val heightEditText = viewBMI.findViewById<EditText>(R.id.heightEditText)
-                        val weight = weightEditText.text.toString().toFloat()
-                        val height = heightEditText.text.toString().toFloat() / 100
-                        val bmi = weight / (height * height)
-                        bmiGauge.value = df2.format(bmi).toDouble()
 
-                        val apiHandler = ApiHandler(context, null, null)
-                        val id = ApiObject.instant.user!!.id
-                        apiHandler.postBmi(id, bmiGauge.value)
+                        when {
+                            TextUtils.isEmpty(weightEditText.text) -> weightEditText.error = context.getString(R.string.checkFill)
+                            TextUtils.isEmpty(heightEditText.text) -> heightEditText.error = context.getString(R.string.checkFill)
+                            else -> {
+                                val weight = weightEditText.text.toString().toFloat()
+                                val height = heightEditText.text.toString().toFloat() / 100
+                                val bmi = weight / (height * height)
+                                bmiGauge.value = df2.format(bmi).toDouble()
+
+                                val apiHandler = ApiHandler(context, null, null)
+                                val id = ApiObject.instant.user!!.id
+                                apiHandler.postBmi(id, bmiGauge.value)
+                            }
+                        }
+
+
                     }
                     viewBMI.layoutParams = paramForBmi
 

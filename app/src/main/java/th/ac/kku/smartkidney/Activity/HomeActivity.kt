@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -11,6 +14,7 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.github.mikephil.charting.charts.LineChart
@@ -26,6 +30,8 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_suggestion_today.*
 import retrofit2.Retrofit
+import java.io.ByteArrayOutputStream
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -38,6 +44,7 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
     lateinit var mAuth: FirebaseAuth
     lateinit  var currentUser:FirebaseUser
     private val calendar = Calendar.getInstance()
+    lateinit var mDatabaseHelper:DatabaseHelper
 
     @TargetApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +53,7 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
 
         mAuth = FirebaseAuth.getInstance()
         currentUser = mAuth.currentUser!!
+        mDatabaseHelper = DatabaseHelper(this)
 
         setUserDetail()
         createChart()
@@ -79,10 +87,48 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
     }
 
     private fun setUserDetail(){
+
         val userObject = ApiObject.instant.user
-        Picasso.with(this)
-            .load(currentUser.photoUrl.toString())
-            .into(profileImage)
+       Log.wtf(Constant.TAG," mDatabaseHelper.data ${ mDatabaseHelper.data}")
+
+       try{
+
+           val data = mDatabaseHelper.getImgData(Constant.NAME_ATT)
+           var imgV: ByteArray? = null
+           while (data!!.moveToNext()) {
+               // itemID = data.getInt(0);
+               imgV = data.getBlob(0)
+           }
+
+           val bitmap = BitmapFactory.decodeByteArray(imgV, 0, imgV!!.size)
+
+           if (imgV != null) {
+               profileImage.setImageBitmap(bitmap)
+           } else {
+               Log.wtf(Constant.TAG,"No ID associated with that name")
+           }
+
+       }catch (e:Exception){
+
+           if(userObject!!.gender == "male"){
+               profileImage.setImageDrawable(getDrawable(R.drawable.male))
+
+           }else{
+               profileImage.setImageDrawable(getDrawable(R.drawable.female))
+           }
+
+           val bitmapp = (profileImage.drawable as BitmapDrawable).bitmap
+           val stream = ByteArrayOutputStream()
+           bitmapp.compress(Bitmap.CompressFormat.PNG, 100, stream)
+           val imgByteArr =  stream.toByteArray()
+           mDatabaseHelper.addData(Constant.NAME_ATT, imgByteArr)
+       }
+
+//            Picasso.with(this)
+//                .load(currentUser.photoUrl.toString())
+//                .into(profileImage)
+
+
         textName.text = userObject!!.name
 
         // gender
@@ -227,11 +273,14 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
         }
 
         settingProfileBt.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            signOut()
-            val intent = Intent(this , LoginActivity::class.java)
+            val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
             finish()
+//            FirebaseAuth.getInstance().signOut()
+//            signOut()
+//            val intent = Intent(this , LoginActivity::class.java)
+//            startActivity(intent)
+//            finish()
         }
     }
 

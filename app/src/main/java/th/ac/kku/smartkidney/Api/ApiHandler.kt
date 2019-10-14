@@ -32,12 +32,16 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
 
     @SuppressLint("CheckResult")
     fun editUserInfo(id:String,email:String?,name:String?,birthDate:String?,gender:String?,hospital:String?,weight:Int?,height:Int?){
+        progressBar!!.visibility = View.VISIBLE
         val observable = ApiService.loginApiCall().editUserInfo(id,email,name,birthDate, gender, hospital, weight, height)
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ editUserInfo ->
+                progressBar!!.visibility = View.INVISIBLE
+                getUsers(id)
 
             }, { error ->
+                progressBar!!.visibility = View.INVISIBLE
                 println(error.message.toString())
 
             }

@@ -35,6 +35,14 @@
             android:gravity="center"/>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/noDataTodayTv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="ยังมีมีข้อมูลสำหรับวันนี้"
+        android:textSize="30sp"
+        android:gravity="center"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

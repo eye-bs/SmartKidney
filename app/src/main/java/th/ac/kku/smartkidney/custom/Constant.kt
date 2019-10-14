@@ -18,5 +18,7 @@ class Constant {
         const val API_BASE_PATH = "http://45.76.50.243:1323/"
         val formatOfDetail = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         val formatOfGetbyDate = SimpleDateFormat("yyyy-MM-dd")
+        const val NAME_ATT = "UserProfile"
+        const val PICK_IMAGE = 100
     }
 }
