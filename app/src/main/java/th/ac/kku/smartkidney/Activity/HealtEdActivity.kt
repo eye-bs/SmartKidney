@@ -13,6 +13,10 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_healt_ed.*
 import android.util.Log
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
+import android.content.ActivityNotFoundException
+import android.R.id
+import android.net.Uri
 
 
 @Suppress("DEPRECATION")
@@ -48,13 +52,13 @@ class HealtEdActivity : AppCompatActivity() {
             linearLayoutRow.layoutParams = paramRow
 
             for (j  in 0 until 2){
-                if (i == 3 && j == 1){
-                    val view = View(this)
-                    val paramView = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,1f)
-                    view.layoutParams = paramView
-                    linearLayoutRow.addView(view)
-                    break
-                }
+//                if (i == 3 && j == 1){
+//                    val view = View(this)
+//                    val paramView = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,1f)
+//                    view.layoutParams = paramView
+//                    linearLayoutRow.addView(view)
+//                    break
+//                }
                 val textView = TextView(this)
                 val paramTextView = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,1f)
 
@@ -78,10 +82,23 @@ class HealtEdActivity : AppCompatActivity() {
         }
         for (k in textViewArr.indices){
             textViewArr[k].setOnClickListener {
-                ApiObject.instant.healthEdPostion = k
-                val intent = Intent(this,HealthEdContentActivity::class.java)
-                startActivity(intent)
-                finish()
+                if (k == textViewArr.lastIndex){
+                    val id = "1eRVGFxfgd8"
+                    val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
+                    val webIntent = Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://www.youtube.com/watch?v=$id"))
+                    try {
+                        this.startActivity(appIntent)
+                    } catch (ex: ActivityNotFoundException) {
+                        this.startActivity(webIntent)
+                    }
+                }else{
+                    ApiObject.instant.healthEdPostion = k
+                    val intent = Intent(this,HealthEdContentActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
             }
         }
     }

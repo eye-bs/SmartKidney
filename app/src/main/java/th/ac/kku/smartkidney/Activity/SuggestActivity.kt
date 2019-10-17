@@ -23,6 +23,7 @@ class SuggestActivity : AppCompatActivity() {
     private var myViewPagerAdapter: MyViewPagerAdapter? = null
     lateinit var dots: Array<TextView>
     private var layouts: IntArray? = null
+    var bgArr = arrayOf(R.drawable.home_wall , R.drawable.blue_bg)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +68,7 @@ class SuggestActivity : AppCompatActivity() {
             }
             linearLayout.layoutParams = param
             imageView.layoutParams = param
+            linearLayout.background = getDrawable(bgArr[i])
             linearLayout.addView(imageView)
             layoutArray.add(linearLayout)
         }

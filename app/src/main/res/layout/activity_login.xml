@@ -7,6 +7,29 @@
     android:background="@color/bg_main_color"
     tools:context=".LoginActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/logonuthai"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/hsai"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ckdnet"/>
+    </LinearLayout>
+
     <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,92 +44,99 @@
         android:src="@drawable/bg_footer"
         android:layout_alignParentBottom="true"/>
 
-    <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
-        android:id="@+id/iconAppLogin"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="50dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/logo_app_v2"/>
-
-
     <RelativeLayout
-        android:id="@+id/google_login_bt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iconAppLogin"
-        android:background="@drawable/google_login_bg"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:elevation="5dp">
-        <ImageView
-            android:id="@+id/googleIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/google"
-            android:layout_centerVertical="true"/>
-        <TextView
+        android:layout_centerInParent="true">
+
+        <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+            android:id="@+id/iconAppLogin"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_app_v2"/>
+
+
+        <RelativeLayout
+            android:id="@+id/google_login_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_with_google"
-            android:layout_toEndOf="@id/googleIcon"
-            android:textSize="18sp"
-            android:layout_marginStart="10dp"
-            android:textColor="@android:color/white"
-            android:layout_centerVertical="true"
+            android:layout_below="@id/iconAppLogin"
+            android:background="@drawable/google_login_bg"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:layout_centerHorizontal="true"
+            android:elevation="5dp">
+            <ImageView
+                android:id="@+id/googleIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/google"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_with_google"
+                android:layout_toEndOf="@id/googleIcon"
+                android:textSize="18sp"
+                android:layout_marginStart="10dp"
+                android:textColor="@android:color/white"
+                android:layout_centerVertical="true"
             />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/view_or"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/google_login_bt"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp">
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/dimGray"
+                android:layout_gravity="center"
+            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/or"
+                android:textColor="@color/dimGray"
+
+                android:layout_margin="10dp"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/dimGray"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/facebook_login_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_or"
+            android:layout_alignStart="@id/google_login_bt"
+            android:layout_alignEnd="@id/google_login_bt"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
+            android:elevation="5dp"/>
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/view_or"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/google_login_bt"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp">
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="@color/dimGray"
-            android:layout_gravity="center"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/or"
-            android:textColor="@color/dimGray"
-             
-            android:layout_margin="10dp"/>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="@color/dimGray"
-            android:layout_gravity="center"/>
-
-    </LinearLayout>
-
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/facebook_login_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view_or"
-        android:layout_alignStart="@id/google_login_bt"
-        android:layout_alignEnd="@id/google_login_bt"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_marginTop="20dp"
-        android:textSize="16sp"
-        android:elevation="5dp"/>
 
     <TextView
         android:id="@+id/textSingUp"
@@ -119,6 +149,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
         android:visibility="invisible"/>
+
+
 
     <RelativeLayout
         android:id="@+id/loginProgressBar"

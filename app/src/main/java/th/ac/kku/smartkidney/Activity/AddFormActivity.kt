@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -12,7 +11,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,10 +22,10 @@ import androidx.core.widget.ImageViewCompat
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_form.*
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.choose_bottle_dialog.view.*
 import kotlinx.android.synthetic.main.edit_weight_dialog.view.*
 import org.json.JSONObject
+import java.util.*
 
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "DEPRECATION")
@@ -35,7 +33,7 @@ class AddFormActivity : AppCompatActivity() {
 
     lateinit var getChartName: String
     var buttonBgId: Int? = null
-    var egfr:Double? = null
+    var egfr: Double? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,11 +53,11 @@ class AddFormActivity : AppCompatActivity() {
         saveAndAnalysisBt.setOnClickListener {
             when {
                 TextUtils.isEmpty(form_edit_text1.text) -> form_edit_text1.error =
-                    getString(R.string.checkFill)
+                        getString(R.string.checkFill)
                 TextUtils.isEmpty(form_edit_text2.text) -> {
-                    if(getChartName == Constant.BLOOD_PRESSURE){
+                    if (getChartName == Constant.BLOOD_PRESSURE) {
                         form_edit_text2.error = getString(R.string.checkFill)
-                    }else{
+                    } else {
                         onSaveButtonClick()
                     }
                 }
@@ -82,19 +80,24 @@ class AddFormActivity : AppCompatActivity() {
             Constant.BLOOD_PRESSURE -> {
                 saveAndAnalysisBt.background = getDrawable(R.drawable.gradient_pressure_fab)
                 buttonBgId = R.drawable.gradient_pressure_fab
+                imgFooterAddForm.setImageDrawable(getDrawable(R.drawable.bp_add_form))
             }
             Constant.KIDNEY_FILTRATION_RATE -> {
                 saveAndAnalysisBt.background = getDrawable(R.drawable.gradient_kidney_fab)
                 buttonBgId = R.drawable.gradient_kidney_fab
+                imgFooterAddForm.setImageDrawable(getDrawable(R.drawable.tele_kidney))
             }
             Constant.BLOOD_SUGAR_LEV -> {
                 saveAndAnalysisBt.background = getDrawable(R.drawable.gradient_glucose_fab)
                 buttonBgId = R.drawable.gradient_glucose_fab
+                imgFooterAddForm.setImageDrawable(getDrawable(R.drawable.bs_add_form))
             }
             Constant.WATER -> {
                 saveAndAnalysisBt.background = getDrawable(R.drawable.gradient_water_fab)
                 buttonBgId = R.drawable.gradient_water_fab
+                imgFooterAddForm.setImageDrawable(getDrawable(R.drawable.water_add_form))
                 weightTextView.text = "น้ำหนัก ${ApiObject.instant.user!!.weight} kg"
+                waterPerDayAdd.text = "ปริมาณน้ำที่ควรได้รับต่อวัน ${ApiObject.instant.waterPerDay} ml"
                 showDialogChooseCup()
                 editWeightBt.setOnClickListener { showDialogChangeWeight() }
 
@@ -118,13 +121,13 @@ class AddFormActivity : AppCompatActivity() {
     }
 
     private fun onSaveButtonClick() {
-        val param1 =  form_edit_text1.text.toString()
-        val param2 =  form_edit_text2.text.toString()
+        val param1 = form_edit_text1.text.toString()
+        val param2 = form_edit_text2.text.toString()
         val calcInput = CalcInput(this)
-        egfr = calcInput.calcKidney(param1.toFloat() , ApiObject.instant.age!! , ApiObject.instant.user!!.gender)
+        egfr = calcInput.calcKidney(param1.toFloat(), ApiObject.instant.age!!, ApiObject.instant.user!!.gender)
 
         if (ConnectivityHelper.isConnectedToNetwork(this)) {
-            onPostApi(getChartName , ApiObject.instant.user!!.id,param1 , param2)
+            onPostApi(getChartName, ApiObject.instant.user!!.id, param1, param2)
         } else {
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.connect_falied_dialog)
@@ -148,7 +151,7 @@ class AddFormActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 500 && resultCode == Activity.RESULT_OK && data != null) {
-            setResult(Activity.RESULT_OK , data)
+            setResult(Activity.RESULT_OK, data)
             finish()
         }
 
@@ -158,38 +161,38 @@ class AddFormActivity : AppCompatActivity() {
     private fun showDialogChooseCup() {
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.choose_bottle_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
-            .setView(mDialogView)
+                .setView(mDialogView)
 
         var stackCup: ImageView? = null
         var cupSize: Int? = null
 
         val layoutArr = arrayOf(
-            mDialogView.cup100Layout,
-            mDialogView.cup200Layout,
-            mDialogView.cup300Layout,
-            mDialogView.cup400Layout,
-            mDialogView.cup500Layout,
-            mDialogView.cup600Layout
+                mDialogView.cup100Layout,
+                mDialogView.cup200Layout,
+                mDialogView.cup300Layout,
+                mDialogView.cup400Layout,
+                mDialogView.cup500Layout,
+                mDialogView.cup600Layout
         )
         val imageArr = arrayOf(
-            mDialogView.cup100Image,
-            mDialogView.cup200Image,
-            mDialogView.cup300Image,
-            mDialogView.cup400Image,
-            mDialogView.cup500Image,
-            mDialogView.cup600Image
+                mDialogView.cup100Image,
+                mDialogView.cup200Image,
+                mDialogView.cup300Image,
+                mDialogView.cup400Image,
+                mDialogView.cup500Image,
+                mDialogView.cup600Image
         )
         for (i in layoutArr.indices) {
             layoutArr[i].setOnClickListener {
                 ImageViewCompat.setImageTintList(
-                    imageArr[i],
-                    ColorStateList.valueOf(getColor(R.color.cornflowerBlue))
+                        imageArr[i],
+                        ColorStateList.valueOf(getColor(R.color.cornflowerBlue))
                 )
                 cupSize = i + 1
                 if (stackCup != null) {
                     ImageViewCompat.setImageTintList(
-                        stackCup!!,
-                        ColorStateList.valueOf(getColor(R.color.black))
+                            stackCup!!,
+                            ColorStateList.valueOf(getColor(R.color.black))
                     )
                 }
                 if (stackCup != imageArr[i]) {
@@ -202,8 +205,8 @@ class AddFormActivity : AppCompatActivity() {
         mAlertDialog.setCancelable(false)
         mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         mAlertDialog.window!!.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
         mDialogView.cancelDialogBt.setOnClickListener {
@@ -223,8 +226,8 @@ class AddFormActivity : AppCompatActivity() {
 
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.edit_weight_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
-            .setView(mDialogView)
-            .setTitle("แก้ไขน้ำหนัก")
+                .setView(mDialogView)
+                .setTitle("แก้ไขน้ำหนัก")
         val mAlertDialog = mBuilder.create()
 
         mDialogView.saveWeightButton.setOnClickListener {
@@ -232,9 +235,8 @@ class AddFormActivity : AppCompatActivity() {
             val weight = mDialogView.textInputEditText.text.toString()
             weightTextView.text = "น้ำหนัก $weight kg"
 
-            val apiHandler = ApiHandler(this,null,null)
-            val birthDate = ApiObject.instant.user!!.birthDate
-            apiHandler.editUserInfo(ApiObject.instant.user!!.id,null,null,null,null,null,weight.toInt(),null)
+            val apiHandler = ApiHandler(this, null, null)
+            apiHandler.editUserInfo(ApiObject.instant.user!!.id, null, null, null, null, null, weight.toInt(), null)
 
         }
         mAlertDialog.show()
@@ -244,71 +246,94 @@ class AddFormActivity : AppCompatActivity() {
         setResult(Activity.RESULT_CANCELED)
         finish()
     }
+
     @SuppressLint("CheckResult")
     fun onPostApi(chartName: String, id: String, param1: String, param2: String) {
 
-        val num2 = if(param2 == ""){0}else{param2.toInt()}
+        val num2 = if (param2 == "") {
+            0
+        } else {
+            param2.toInt()
+        }
 
         ApiObject.instant.isNewData = true
         when (chartName) {
             Constant.BLOOD_PRESSURE -> {
                 val observable = ApiService.loginApiCall().postBloodPressure(id, param1.toInt(), num2)
                 observable.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ postBloodPressure ->
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ postBloodPressure ->
 
-                        val apiHandler = ApiHandler(this,null,null)
-                        apiHandler.getBloodPressure(id)
+                            val bpAll = ApiObject.instant.bloodPressure
+                            val bpPerDay = ApiObject.instant.bloodPressurePerDay
+                            bpPerDay.add(postBloodPressure)
+                            val calendar = Calendar.getInstance()
+                            bpAll[ApiObject.instant.currentWeek]!![calendar.get(Calendar.DATE)] = postBloodPressure
 
-                    }, { error ->
-                        showDialogFailApi()
-                        println(error.message.toString())
-                    })
+//                            val apiHandler = ApiHandler(this, null, null)
+//                            apiHandler.getBloodPressure(id)
+
+                        }, { error ->
+                            showDialogFailApi()
+                            println(error.message.toString())
+                        })
             }
             Constant.KIDNEY_FILTRATION_RATE -> {
-                val observable = ApiService.loginApiCall().postKidneyLev(id, param1.toDouble(),egfr!!)
+                val observable = ApiService.loginApiCall().postKidneyLev(id, param1.toDouble(), egfr!!)
                 observable.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ postKidneyLev ->
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ postKidneyLev ->
 
-                        val apiHandler = ApiHandler(this,null,null)
-                        apiHandler.getKidneyLev(id)
+                            val girAll = ApiObject.instant.kidneyLev
+                            val girPerDay = ApiObject.instant.kidneyLevPerDay
+                            girPerDay.add(postKidneyLev)
+                            val calendar = Calendar.getInstance()
+                            girAll[ApiObject.instant.currentWeek]!![calendar.get(Calendar.DATE)] = postKidneyLev
 
-                    }, { error ->
-                        showDialogFailApi()
-                        println(error.message.toString())
-                    })
+//                            val apiHandler = ApiHandler(this, null, null)
+//                            apiHandler.getKidneyLev(id)
+
+                        }, { error ->
+                            showDialogFailApi()
+                            println(error.message.toString())
+                        })
             }
             Constant.BLOOD_SUGAR_LEV -> {
-                val observable = ApiService.loginApiCall().postBloodSugar(id, param1.toInt(),num2)
+                val observable = ApiService.loginApiCall().postBloodSugar(id, param1.toInt(), num2)
                 observable.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ postBloodSugar ->
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ postBloodSugar ->
 
-                        val apiHandler = ApiHandler(this,null,null)
-                        apiHandler.getBloodSugar(id)
+                            val bsAll = ApiObject.instant.bloodSugar
+                            val bsPerDay = ApiObject.instant.bloodSugarPerDay
+                            bsPerDay.add(postBloodSugar)
+                            val calendar = Calendar.getInstance()
+                            bsAll[ApiObject.instant.currentWeek]!![calendar.get(Calendar.DATE)] = postBloodSugar
 
-                    }, { error ->
-                        showDialogFailApi()
-                        println(error.message.toString())
-                    })
+//                            val apiHandler = ApiHandler(this, null, null)
+//                            apiHandler.getBloodSugar(id)
+
+                        }, { error ->
+                            showDialogFailApi()
+                            println(error.message.toString())
+                        })
             }
             Constant.WATER -> {
                 val observable = ApiService.loginApiCall().postWaterPerDay(id, param1.toInt())
                 observable.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ postWaterPerDay ->
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ postWaterPerDay ->
 
-                        val intent = Intent(this, HealthFormActivity::class.java)
-                        intent.putExtra("graphName" , Constant.WATER)
+                            val intent = Intent(this, HealthFormActivity::class.java)
+                            intent.putExtra("graphName", Constant.WATER)
 
-                        val apiHandler = ApiHandler(this,null,intent)
-                        apiHandler.getWaterPerDay(id)
+                            val apiHandler = ApiHandler(this, null, intent)
+                            apiHandler.getWaterPerDay(id)
 
-                    }, { error ->
-                        showDialogFailApi()
-                        println(error.message.toString())
-                    })
+                        }, { error ->
+                            showDialogFailApi()
+                            println(error.message.toString())
+                        })
             }
         }
     }

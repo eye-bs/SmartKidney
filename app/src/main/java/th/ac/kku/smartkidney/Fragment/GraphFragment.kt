@@ -82,9 +82,10 @@ class GraphFragment : Fragment() {
             val progressBar = ProgressBar(context)
             progressBar.visibility = View.VISIBLE
             val apiHandler = ApiHandler(context!! , null , null)
-            val birthDate = ApiObject.instant.user!!.birthDate
             apiHandler.editUserInfo(ApiObject.instant.user!!.id , null,null,null,null,null,m_Text.toInt(),null)
             apiHandler.getUsers(ApiObject.instant.user!!.id)
+            val waterPerDay = m_Text.toInt() * 2.2 * 30 / 2
+            ApiObject.instant.waterPerDay = waterPerDay.toInt()
 
         }
         builder.setNegativeButton(

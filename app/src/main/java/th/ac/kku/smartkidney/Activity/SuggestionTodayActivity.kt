@@ -1,6 +1,7 @@
 package th.ac.kku.smartkidney
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,11 +20,11 @@ class SuggestionTodayActivity : AppCompatActivity() {
     private val readJSON = ReadJSON(this)
     lateinit var analyzeObject: JSONObject
     lateinit var getAnalytics:JSONObject
-    val imageArr = arrayListOf<Drawable>()
+    private val imageArr = arrayListOf<Drawable>()
     val consArr = arrayListOf<String>()
-
     private var myViewPagerAdapter: MyViewPagerAdapter? = null
-    private var layouts: IntArray? = null
+    private var imgColor:String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +45,13 @@ class SuggestionTodayActivity : AppCompatActivity() {
 
             if (bpArr.isNotEmpty()){
                 val lastBp = bpArr[bpArr.lastIndex]
-                level = calcInput.calcBloodPressure(lastBp.systolic, lastBp.diastolic)!!
+                level = calcInput.calcBloodPressure((lastBp.systolic).toFloat(), (lastBp.diastolic).toFloat())!!
                 getImage(Constant.BLOOD_PRESSURE , level)
                 consArr.add(Constant.BLOOD_PRESSURE)
             }
             if (bsArr.isNotEmpty()){
                 val lastBs = bsArr[bsArr.lastIndex]
-                level = calcInput.calcGlucose(lastBs.sugarLevel.toFloat(),lastBs.hba1c.toFloat())
+                level = calcInput.calcGlucose(lastBs.sugarLevel.toFloat())
                 getImage(Constant.BLOOD_SUGAR_LEV , level)
                 consArr.add(Constant.BLOOD_SUGAR_LEV)
             }
@@ -78,6 +79,7 @@ class SuggestionTodayActivity : AppCompatActivity() {
         analyzeObject = readJSON.getJSONObject(Constant.ANALYZE_DETAL_JSON, name)!!
         getAnalytics = analyzeObject.getJSONArray("analytics").getJSONObject(level)
         val img =  getAnalytics.getJSONArray("img")
+       imgColor =  getAnalytics.getString("img_color")
         for (i in 0 until img.length()){
             if (img.getString(i) != "") {
                 val resources = this.resources
@@ -101,6 +103,7 @@ class SuggestionTodayActivity : AppCompatActivity() {
             imageView.setImageDrawable(imageArr[i])
             linearLayout.layoutParams = param
             imageView.layoutParams = param
+            linearLayout.setBackgroundColor(Color.parseColor(imgColor))
             linearLayout.addView(imageView)
             layoutArray.add(linearLayout)
         }

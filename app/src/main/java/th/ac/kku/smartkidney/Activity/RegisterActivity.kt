@@ -36,9 +36,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        }
 
         maleSelectorBt.setOnClickListener {
 
@@ -66,7 +63,7 @@ class RegisterActivity : AppCompatActivity() {
                 TextUtils.isEmpty(birthday_edit_text.text) -> birthday_edit_text.error = getString(R.string.checkFill)
                 TextUtils.isEmpty(hospital_edit_text.text) -> hospital_edit_text.error = getString(R.string.checkFill)
                 else -> {
-                    registerApi(mAuth!!.email!!,mAuth!!.displayName!!,birthDate,selGender(),hospital_edit_text.text.toString())
+                    registerApi(mAuth!!.email!!,mAuth.displayName!!,birthDate,selGender(),hospital_edit_text.text.toString())
                 }
             }
 

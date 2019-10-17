@@ -31,18 +31,17 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        }
-
         val callbackId = 42
         checkPermissions(callbackId, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR , Manifest.permission.READ_EXTERNAL_STORAGE)
+
+        ApiObject.instant.resetData()
 
         calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
         ApiObject.instant.startDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
         calendar.add(Calendar.DAY_OF_MONTH , 6)
         ApiObject.instant.endDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
         ApiObject.instant.weekQuery = calendar.get(Calendar.WEEK_OF_YEAR)
+        ApiObject.instant.currentWeek = calendar.get(Calendar.WEEK_OF_YEAR)
 
         if (ConnectivityHelper.isConnectedToNetwork(this)) {
 

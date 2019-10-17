@@ -104,8 +104,7 @@
                         android:inputType="text"
                         android:hint="ชื่อ"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <LinearLayout
-                    android:id="@+id/editBirthDateView"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp">
@@ -121,9 +120,14 @@
                             android:layout_height="wrap_content"
                             android:maxLines="1"
                             android:inputType="text"
+                            android:editable="false"
                             android:hint="วันเกิด"/>
                     </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
+                    <View
+                        android:id="@+id/editBirthDateView"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp" />
+                </RelativeLayout>
 
 
 

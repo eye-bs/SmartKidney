@@ -37,7 +37,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-@Suppress("DEPRECATION", "IMPLICIT_CAST_TO_ANY")
+@Suppress("DEPRECATION", "IMPLICIT_CAST_TO_ANY", "NAME_SHADOWING")
 class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
 
     private lateinit var hashMapEvent: ArrayList<HashMap<String, String>>
@@ -54,42 +54,17 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
         mAuth = FirebaseAuth.getInstance()
         currentUser = mAuth.currentUser!!
         mDatabaseHelper = DatabaseHelper(this)
+        ApiObject.instant.weekQuery = ApiObject.instant.currentWeek
 
         setUserDetail()
         createChart()
         onButtonClick()
 
-//        if(ApiObject.instant.isNewData){
-//            homeProgressBar.visibility = View.VISIBLE
-//            if (ConnectivityHelper.isConnectedToNetwork(this)) {
-//                ApiObject.instant.isNewData = false
-//                val id = ApiObject.instant.user!!.id
-//                val intent = Intent(this, HomeActivity::class.java)
-//                val apiHandler = ApiHandler(this,homeProgressBar,intent)
-//                apiHandler.comboGetBloodPressure(id)
-//
-//            } else {
-//
-//                val dialog = Dialog(this)
-//                dialog.setContentView(R.layout.connect_falied_dialog)
-//                dialog.setCancelable(false)
-//
-//                val button1 = dialog.findViewById<TextView>(R.id.button_dialog)
-//                button1.setOnClickListener {
-//                    dialog.cancel()
-//                    val intent = Intent(this,HomeActivity::class.java)
-//                    startActivity(intent)
-//                    finish()
-//                }
-//                dialog.show()
-//            }
-//        }
     }
 
     private fun setUserDetail(){
         val userObject = ApiObject.instant.user
        try{
-
            val data = mDatabaseHelper.getImgData(Constant.NAME_ATT)
            var imgV: ByteArray? = null
            while (data!!.moveToNext()) {
@@ -98,15 +73,9 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
            }
 
            val bitmap = BitmapFactory.decodeByteArray(imgV, 0, imgV!!.size)
-
-           if (imgV != null) {
-               profileImage.setImageBitmap(bitmap)
-           } else {
-               Log.wtf(Constant.TAG,"No ID associated with that name")
-           }
+           profileImage.setImageBitmap(bitmap)
 
        }catch (e:Exception){
-           Log.wtf(Constant.TAG,"No image")
 
            if(userObject!!.gender == "male"){
                profileImage.setImageDrawable(getDrawable(R.drawable.male))
@@ -222,11 +191,6 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
         finish()
     }
 
-    private fun signOut() {
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener { }
-    }
     fun onButtonClick(){
         val intent = Intent(this, HealthFormActivity::class.java)
         pressureUpperChart.setOnClickListener {
@@ -245,7 +209,7 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
             intent.putExtra("graphName" , Constant.BLOOD_SUGAR_LEV)
             startActivity(intent)
         }
-        waterChart.setOnClickListener {
+        waterChartHomeLay.setOnClickListener {
             intent.putExtra("graphName" , Constant.WATER)
             startActivity(intent)
         }

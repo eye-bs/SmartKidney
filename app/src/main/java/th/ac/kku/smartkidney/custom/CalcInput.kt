@@ -5,7 +5,7 @@ import android.util.Log
 
 class CalcInput(val context: Context){
 
-    fun calcBloodPressure(upper: Int , lower: Int):Int?{
+    fun calcBloodPressure(upper: Float , lower: Float):Int?{
         return if (upper >= 160 || lower >= 100){
             4
         }else if (upper > 139 || lower > 89){
@@ -47,7 +47,7 @@ class CalcInput(val context: Context){
         return eGFR
     }
 
-    fun calcGlucose(glucose:Float,glucoseCumulative:Float):Int{
+    fun calcGlucose(glucose:Float):Int{
         return when {
             glucose < 50 -> 0
             glucose < 70 -> 1
@@ -55,6 +55,26 @@ class CalcInput(val context: Context){
             glucose < 181 -> 3
             glucose < 241 -> 4
             glucose >= 241 -> 5
+            else -> 0
+        }
+    }
+    fun calchba1c(glucose:Float,hba1c:Float):Int{
+        return when {
+            hba1c < 7 -> 0
+            hba1c in 7.0..8.0 -> {
+                if(glucose in 70.0..130.0){
+                    2
+                }else{
+                    1
+                }
+            }
+            hba1c > 8 -> {
+                if (glucose in 70.0..130.0){
+                    4
+                }else {
+                    3
+                }
+            }
             else -> 0
         }
     }

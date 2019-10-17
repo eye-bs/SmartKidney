@@ -3,6 +3,7 @@ package th.ac.kku.smartkidney
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.text.TextUtils
@@ -47,8 +48,8 @@ class SetupChart(
     private val arrValueGraph2 = ArrayList<kotlin.Float>()
     private var count: Int = 7
     private val hashBP = ApiObject.instant.bloodPressure[ApiObject.instant.weekQuery]
-    private val hashBS = ApiObject.instant.bsHashByWeek[ApiObject.instant.weekQuery]
-    private val hashGir = ApiObject.instant.girHashByWeek[ApiObject.instant.weekQuery]
+    private val hashBS = ApiObject.instant.bloodSugar[ApiObject.instant.weekQuery]
+    private val hashGir = ApiObject.instant.kidneyLev[ApiObject.instant.weekQuery]
 
 
 
@@ -56,70 +57,87 @@ class SetupChart(
     fun isHasValue(): Boolean {
         arrValueGraph1.clear()
         arrValueGraph2.clear()
-        var startDate: Int?
-        var endDate: Int?
+
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.WEEK_OF_YEAR , ApiObject.instant.weekQuery!!)
+        calendar.set(Calendar.DAY_OF_WEEK , Calendar.SUNDAY)
+        var date = calendar.get(Calendar.DATE)
+       // calendar.add(Calendar.DATE , 6)
+       // val endDate = calendar.get(Calendar.DATE)
 
         if (parentLayout != null) {
+            count = 7
             when {
                 hashBP != null && constantName == Constant.BLOOD_PRESSURE -> {
                     val keys = arrayListOf<Int>()
-                    for (k in hashBP.keys) {
-                        keys.add(k)
-                    }
-                    keys.sort()
-                    startDate = Constant.formatOfDetail.parse(hashBP[keys[0]]!!.date).date
-                    endDate = Constant.formatOfDetail.parse(hashBP[keys[keys.lastIndex]]!!.date).date
-                    count = endDate - startDate + 1
-                    for (i in startDate..endDate) {
-                        if (hashBP[i] == null) {
+//                    for (k in 0 until 6) {
+//                        keys.add(date)
+//                        calendar.add(Calendar.DATE , 1)
+//                        date = calendar.get(Calendar.DATE)
+//                    }
+                    for (i in 0 until 7) {
+                        if (hashBP[date] == null) {
                             arrValueGraph1.add(0f)
                             arrValueGraph2.add(0f)
                         } else {
-                            arrValueGraph1.add(hashBP[i]!!.systolic.toFloat())
-                            arrValueGraph2.add(hashBP[i]!!.diastolic.toFloat())
+                            arrValueGraph1.add(hashBP[date]!!.systolic.toFloat())
+                            arrValueGraph2.add(hashBP[date]!!.diastolic.toFloat())
                         }
+                        calendar.add(Calendar.DATE , 1)
+                        date = calendar.get(Calendar.DATE)
                     }
                     return true
                 }
                 hashBS != null && constantName == Constant.BLOOD_SUGAR_LEV -> {
-                    val keys = arrayListOf<Int>()
-                    for (k in hashBS.keys) {
-                        keys.add(k)
-                    }
-                    keys.sort()
-                    startDate = Constant.formatOfDetail.parse(hashBS[keys[0]]!!.date).date
-                    endDate =
-                        Constant.formatOfDetail.parse(hashBS[keys[keys.lastIndex]]!!.date).date
-                    count = endDate - startDate + 1
-                    for (i in startDate..endDate) {
-                        if (hashBS[i] == null) {
+//                    val keys = arrayListOf<Int>()
+//                    for (k in hashBS.keys) {
+//                        keys.add(k)
+//                    }
+
+                    for (i in 0 until 7) {
+                        if (hashBS[date] == null) {
                             arrValueGraph1.add(0f)
                             arrValueGraph2.add(0f)
                         } else {
-                            arrValueGraph1.add(hashBS[i]!!.sugarLevel.toFloat())
-                            arrValueGraph2.add(hashBS[i]!!.hba1c.toFloat())
+                            arrValueGraph1.add(hashBS[date]!!.sugarLevel.toFloat())
+                            arrValueGraph2.add(hashBS[date]!!.hba1c.toFloat())
                         }
+
+                        calendar.add(Calendar.DATE , 1)
+                        date = calendar.get(Calendar.DATE)
+//                        if (hashBS[keys[i]] == null) {
+//                            arrValueGraph1.add(0f)
+//                            arrValueGraph2.add(0f)
+//                        } else {
+//                            arrValueGraph1.add(hashBS[keys[keys[i]]]!!.sugarLevel.toFloat())
+//                            arrValueGraph2.add(hashBS[keys[keys[i]]]!!.hba1c.toFloat())
+//                        }
                     }
                     return true
                 }
                 hashGir != null && constantName == Constant.KIDNEY_FILTRATION_RATE -> {
-                    val keys = arrayListOf<Int>()
-                    for (k in hashGir.keys) {
-                        keys.add(k)
-                    }
-                    keys.sort()
-                    startDate = Constant.formatOfDetail.parse(hashGir[keys[0]]!!.date).date
-                    endDate =
-                        Constant.formatOfDetail.parse(hashGir[keys[keys.lastIndex]]!!.date).date
-                    count = endDate - startDate + 1
-                    for (i in startDate..endDate) {
-                        if (hashGir[i] == null) {
+//                    val keys = arrayListOf<Int>()
+//                    for (k in hashGir.keys) {
+//                        keys.add(k)
+//                    }
+                    for (i in 0 until 7) {
+                        if (hashGir[date] == null) {
                             arrValueGraph1.add(0f)
                             arrValueGraph2.add(0f)
                         } else {
-                            arrValueGraph1.add(hashGir[i]!!.egfr.toFloat())
-                            arrValueGraph2.add(hashGir[i]!!.cr.toFloat())
+                            arrValueGraph1.add(hashGir[date]!!.egfr.toFloat())
+                            arrValueGraph2.add(hashGir[date]!!.cr.toFloat())
                         }
+
+                        calendar.add(Calendar.DATE , 1)
+                        date = calendar.get(Calendar.DATE)
+//                        if (hashGir[keys[i]] == null) {
+//                            arrValueGraph1.add(0f)
+//                            arrValueGraph2.add(0f)
+//                        } else {
+//                            arrValueGraph1.add(hashGir[i]!!.egfr.toFloat())
+//                            arrValueGraph2.add(hashGir[i]!!.cr.toFloat())
+//                        }
                     }
                     return true
                 }
@@ -127,7 +145,6 @@ class SetupChart(
                     return true
                 }
                 constantName == Constant.BMI -> {
-
                     val bmiArr = ApiObject.instant.bmi
                     if (bmiArr.isNotEmpty()) {
                         count = bmiArr.size
@@ -281,6 +298,10 @@ class SetupChart(
 
                 if (jsonObject.getString("name") == Constant.BMI) {
                     val viewBMI = LayoutInflater.from(context).inflate(R.layout.bmi_layout, null)
+                    val weightEditText = viewBMI.findViewById<EditText>(R.id.weightEditText)
+                    val heightEditText = viewBMI.findViewById<EditText>(R.id.heightEditText)
+                    val df2 = DecimalFormat("#.#")
+
                     val paramForBmi = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
@@ -326,10 +347,16 @@ class SetupChart(
                     bmiGauge.maxValue = 35.0
                     bmiGauge.value = 0.0
 
+                    val w = ApiObject.instant.user!!.weight
+                    val h = ApiObject.instant.user!!.height
+                    if (w != 0 && h != 0){
+                        weightEditText.setText(w.toString())
+                        heightEditText.setText(h.toString())
+                        val bmiApi =  ApiObject.instant.bmi
+                        bmiGauge.value = df2.format(bmiApi[bmiApi.lastIndex]).toDouble()
+                    }
+
                     viewBMI.findViewById<TextView>(R.id.bmiSavButton).setOnClickListener {
-                        val df2 = DecimalFormat("#.#")
-                        val weightEditText = viewBMI.findViewById<EditText>(R.id.weightEditText)
-                        val heightEditText = viewBMI.findViewById<EditText>(R.id.heightEditText)
 
                         when {
                             TextUtils.isEmpty(weightEditText.text) -> weightEditText.error = context.getString(R.string.checkFill)
@@ -338,15 +365,13 @@ class SetupChart(
                                 val weight = weightEditText.text.toString().toFloat()
                                 val height = heightEditText.text.toString().toFloat() / 100
                                 val bmi = weight / (height * height)
-                                bmiGauge.value = df2.format(bmi).toDouble()
-
-                                val apiHandler = ApiHandler(context, null, null)
+                                val intent = Intent(context, HealthFormActivity::class.java)
+                                val apiHandler = ApiHandler(context, null, intent)
                                 val id = ApiObject.instant.user!!.id
-                                apiHandler.postBmi(id, bmiGauge.value)
+                                apiHandler.editUserInfo(id,null,null,null,null,null,weight.toInt(),(height*100).toInt())
+                                apiHandler.postBmi(id, df2.format(bmi).toDouble())
                             }
                         }
-
-
                     }
                     viewBMI.layoutParams = paramForBmi
 
@@ -453,7 +478,7 @@ class SetupChart(
         setChart.setPinchZoom(true)
 
         setChart.xAxis.axisMinimum = 0f
-        setChart.xAxis.axisMaximum = (count + 2).toFloat()
+        setChart.xAxis.axisMaximum = (count + 1).toFloat()
         if (graphObject.getString("name") != Constant.BMI) {
 
             if(parentLayout != null){
@@ -486,6 +511,7 @@ class SetupChart(
         setData(count, setChart, graphObject.getString("name"))
 
 
+
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -496,6 +522,7 @@ class SetupChart(
         } else {
             arrValueGraph1
         }
+
 
         if (selData.size != 0) {
             val entries = ArrayList<Entry>()
@@ -515,7 +542,7 @@ class SetupChart(
             set1.circleHoleRadius = 3.5f
             set1.color = Color.parseColor("#ffffff")
             set1.setCircleColor(Color.parseColor("#ffffff"))
-            set1.valueTextSize = 16f
+            set1.valueTextSize = 12f
             set1.valueTypeface = ResourcesCompat.getFont(context, R.font.baijamjuree)
 
             val data = LineData(set1)
@@ -528,12 +555,12 @@ class SetupChart(
     private fun setBackgroundChartColor(chart: LineChart, rangeArr: JSONArray) {
 
         val colors = intArrayOf(
-            Color.parseColor("#41BDC9"), // blue
-            Color.parseColor("#40D0AE"),//green
-            Color.parseColor("#FFC569"), //yellow
-            Color.parseColor("#F69271"), //orange
-            Color.parseColor("#FC7977"), // red
-            Color.rgb(206, 46, 73)  // red wine
+            Color.parseColor("#0079C4"), // blue
+            Color.parseColor("#67BE45"),//green
+            Color.parseColor("#FFC90B"), //yellow
+            Color.parseColor("#F68C25"), //orange
+            Color.parseColor("#D34136"), // red
+                Color.parseColor("#AB0536")  // red wine
         )
 
         for (i in 0 until rangeArr.length()) {
@@ -602,13 +629,19 @@ class SetupChart(
 
         val waterIn = ApiObject.instant.waterIn
         val waterPerDay = ApiObject.instant.waterPerDay
-
+        var waterInPercent = 0f
+        var waterPerDayPercent = 0f
         if (waterPerDay != 0) {
-            val waterInPercent = (waterIn * 100 / waterPerDay).toFloat()
-            val waterPerDayPercent = (100 - waterInPercent)
+            if(waterIn >= waterPerDay){
+                waterInPercent = 100f
+                waterPerDayPercent = 0f
+
+            }else{
+                waterInPercent = (waterIn * 100 / waterPerDay).toFloat()
+                waterPerDayPercent = (100 - waterInPercent)
+            }
 
             val entries = ArrayList<PieEntry>()
-
             entries.add(PieEntry(waterInPercent, waterInPercent)) // in
             entries.add(PieEntry(waterPerDayPercent, waterPerDayPercent)) // per day
 
@@ -633,10 +666,10 @@ class SetupChart(
             data.setValueFormatter(PercentFormatter(chart))
             data.setValueTextSize(0f)
             data.setValueTextColor(context.getColor(R.color.mariner))
+
             chart.data = data
-
+            chart.centerText = "${(waterIn * 100 / waterPerDay).toFloat()} %"
             chart.highlightValues(null)
-
             chart.invalidate()
         }
 

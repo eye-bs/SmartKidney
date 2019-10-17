@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Html
 import android.util.DisplayMetrics
@@ -33,6 +34,10 @@ class AnalyzeActivity : AppCompatActivity() {
     private var buttonBG: Int? = null
     var name: String = ""
     private val imageArr = arrayListOf<Drawable>()
+    var levelHabc1:Int? = null
+    private lateinit var alnalytics: JSONObject
+    private val soundArr = arrayOf(R.raw.lev1,R.raw.lev2,R.raw.lev3,R.raw.lev4,R.raw.lev5,R.raw.lev4,R.raw.lev4,R.raw.lev4)
+
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +53,7 @@ class AnalyzeActivity : AppCompatActivity() {
 
         resultButton.setOnClickListener {
             if (getAnalytics.getString("suggest") != "") {
-                showDialogSuggest(buttonBG!!)
+                showDialogSuggest()
             } else {
                 val intent = Intent()
                 intent.putExtra("graphName",name)
@@ -66,17 +71,27 @@ class AnalyzeActivity : AppCompatActivity() {
         if(name != Constant.WATER){
             when (name) {
                 Constant.BLOOD_PRESSURE -> {
-                    level = calcInput.calcBloodPressure(input1.toInt(), input2.toInt())!!
+                    level = calcInput.calcBloodPressure(input1.toFloat(), input2.toFloat())!!
                 }
                 Constant.KIDNEY_FILTRATION_RATE -> {
                     level = ApiObject.instant.kidneyRange
                 }
                 Constant.BLOOD_SUGAR_LEV -> {
-                    level = calcInput.calcGlucose(input1.toFloat(), input2.toFloat())
+                    level = calcInput.calcGlucose(input1.toFloat())
+                    if (level == 3){
+                        imgBsHigh.visibility = View.VISIBLE
+                    }
+                    else if(level == 4){
+                        imgBsVeryHigh.visibility = View.VISIBLE
+                    }
+                    if(input2 != ""){
+                        levelHabc1 = calcInput.calchba1c(input1.toFloat(),input2.toFloat())
+                    }
                 }
             }
+            soundHandle(level!!,name)
             analyzeObject = readJSON.getJSONObject(Constant.ANALYZE_DETAL_JSON, name)!!
-            getAnalytics = analyzeObject.getJSONArray("analytics").getJSONObject(level!!)
+            getAnalytics = analyzeObject.getJSONArray("analytics").getJSONObject(level)
             val result =  Html.fromHtml(getAnalytics.getString("result"))
             resultHeader.setTextColor(Color.parseColor(getAnalytics.getString("color")))
             analyzeTextview.text = result
@@ -93,20 +108,63 @@ class AnalyzeActivity : AppCompatActivity() {
                 }
             }
 
+            if(levelHabc1 != null){
+                val jSONhbalc = readJSON.getJSONObject(Constant.ANALYZE_DETAL_JSON, "HbA1c")!!
+                alnalytics = jSONhbalc.getJSONArray("analytics").getJSONObject(levelHabc1!!)
+                val hbA1cResult =  Html.fromHtml(alnalytics.getString("result"))
+                analyzeTextview.append(hbA1cResult)
+            }
+
         }else {
             setResult(Activity.RESULT_OK)
             finish()
         }
     }
 
-    private fun showDialogSuggest(buttonBG: Int) {
+    private fun showDialogHbalc() {
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
                 .setView(mDialogView)
-   //     mDialogView.contentDialog.text = Html.fromHtml(getAnalytics.getString("suggest"))
+
         mDialogView.dialogHeader.setTextColor(Color.parseColor(getAnalytics.getString("color")))
-       // mDialogView.dialogButton.background = getDrawable(buttonBG)
         mDialogView.dialogHeader.text = "คำแนะนำ"
+
+        val resources = this.resources
+        val img =  alnalytics.getString("img")
+        val resourceId = resources.getIdentifier(img, "drawable", this.packageName)
+        val drawable = resources.getDrawable(resourceId)
+
+        mDialogView.imageDialog.setImageDrawable(drawable)
+        val mAlertDialog = mBuilder.create()
+
+        mAlertDialog.setCancelable(false)
+        mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        mAlertDialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        var height = displayMetrics.heightPixels
+        height -= height / 5
+
+        mDialogView.dialogButton.setOnClickListener {
+            mAlertDialog.dismiss()
+            val intent = Intent()
+            intent.putExtra("graphName",name)
+            setResult(Activity.RESULT_OK , intent)
+            finish()
+        }
+        mAlertDialog.show()
+    }
+
+    private fun showDialogSuggest() {
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
+        val mBuilder = AlertDialog.Builder(this)
+                .setView(mDialogView)
+        //     mDialogView.contentDialog.text = Html.fromHtml(getAnalytics.getString("suggest"))
+        mDialogView.dialogHeader.setTextColor(Color.parseColor(getAnalytics.getString("color")))
+        // mDialogView.dialogButton.background = getDrawable(buttonBG)
+        mDialogView.dialogHeader.text = "คำแนะนำ การระดับน้ำตาลสะสม"
         mDialogView.imageDialog.setImageDrawable(imageArr[0])
         val mAlertDialog = mBuilder.create()
 
@@ -119,23 +177,40 @@ class AnalyzeActivity : AppCompatActivity() {
 
         var height = displayMetrics.heightPixels
         height -= height / 5
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height)
-        //mDialogView.findViewById<ScrollView>(R.id.scrollDialog).layoutParams = params
-       // mDialogView.dialogButton.text = "ปิด"
 
         mDialogView.dialogButton.setOnClickListener {
             mAlertDialog.dismiss()
-            val intent = Intent()
-            intent.putExtra("graphName",name)
-            setResult(Activity.RESULT_OK , intent)
-            finish()
+            if (levelHabc1 != null){
+                showDialogHbalc()
+            }
+            else{
+                val intent = Intent()
+                intent.putExtra("graphName",name)
+                setResult(Activity.RESULT_OK , intent)
+                finish()
+            }
+
 
         }
         mAlertDialog.show()
     }
 
+    fun soundHandle(lev:Int,name:String){
+        var arr:Array<Int>? = null
+        when (name) {
+            Constant.BLOOD_PRESSURE -> arr = arrayOf(1,0,2,3,4,5)
+            Constant.KIDNEY_FILTRATION_RATE -> arr = arrayOf(0,1,2,3,4,5,6)
+            Constant.BLOOD_SUGAR_LEV -> arr = arrayOf(2,1,0,3,4,5,6)
+        }
+        if (arr != null){
+            val happy = MediaPlayer.create(this,soundArr[arr[lev]])
+            happy.start()
+        }
+
+    }
+
     override fun onBackPressed() {
-        showDialogSuggest(buttonBG!!)
+        showDialogSuggest()
     }
 
 }

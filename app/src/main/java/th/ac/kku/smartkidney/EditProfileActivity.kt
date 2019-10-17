@@ -16,6 +16,8 @@ import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
@@ -53,6 +55,25 @@ class EditProfileActivity : AppCompatActivity() {
         }
         profileEditImage.setOnClickListener { openGallery() }
         editBirthDateView.setOnClickListener { selectBirthDate() }
+        editProfileBackBt.setOnClickListener{
+            val intent = Intent(this,HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        logOutBt.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            signOut()
+            val intent = Intent(this , LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
+
+    private fun signOut() {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener { }
     }
 
     private fun onSaveClick(){
@@ -61,7 +82,8 @@ class EditProfileActivity : AppCompatActivity() {
         val hospital = hospitalDateEditText.text.toString()
         val weight = weightDateEditText.text.toString()
         val height = heightDateEditText.text.toString()
-        val apiHandler = ApiHandler(this, editProfileProgressBar, null)
+        val intent = Intent(this, HomeActivity::class.java)
+        val apiHandler = ApiHandler(this, editProfileProgressBar, intent)
 
         apiHandler.editUserInfo(
             userObject!!.id,
@@ -80,9 +102,7 @@ class EditProfileActivity : AppCompatActivity() {
         val imgByteArr = stream.toByteArray()
         mDatabaseHelper.deleteName(Constant.NAME_ATT)
         mDatabaseHelper.addData(Constant.NAME_ATT,imgByteArr)
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
-        finish()
+
     }
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
@@ -92,7 +112,6 @@ class EditProfileActivity : AppCompatActivity() {
         val data = mDatabaseHelper.getImgData(Constant.NAME_ATT)
         var imgV: ByteArray? = null
         while (data!!.moveToNext()) {
-
             imgV = data.getBlob(0)
         }
         val bitmap = BitmapFactory.decodeByteArray(imgV, 0, imgV!!.size)
@@ -210,6 +229,12 @@ class EditProfileActivity : AppCompatActivity() {
         }
         if (!permissions)
             ActivityCompat.requestPermissions(this, permissionsId, callbackId)
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent(this,HomeActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }
