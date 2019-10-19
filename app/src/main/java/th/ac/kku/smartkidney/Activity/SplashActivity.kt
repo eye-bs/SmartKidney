@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import java.util.*
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -42,6 +43,8 @@ class SplashActivity : AppCompatActivity() {
         ApiObject.instant.endDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
         ApiObject.instant.weekQuery = calendar.get(Calendar.WEEK_OF_YEAR)
         ApiObject.instant.currentWeek = calendar.get(Calendar.WEEK_OF_YEAR)
+
+        Log.wtf(Constant.TAG," ApiObject.instant.currentWeek ${ ApiObject.instant.currentWeek}")
 
         if (ConnectivityHelper.isConnectedToNetwork(this)) {
 

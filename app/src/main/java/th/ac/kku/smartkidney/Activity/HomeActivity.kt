@@ -13,6 +13,7 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -143,9 +144,16 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
 
-        var height = displayMetrics.heightPixels / 4
+        var height = displayMetrics.heightPixels / 5
 
-        val paramForChartLay = LinearLayout.LayoutParams(0,height,1f)
+        val paramForChartLay = LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,1f)
+        val paramForChar = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,height)
+        pressureUpperChart.layoutParams = paramForChar
+        pressureLowerChart.layoutParams = paramForChar
+        kidneyChart.layoutParams = paramForChar
+        sugarChart.layoutParams = paramForChar
+        waterChart.layoutParams = paramForChar
+
         paramForChartLay.setMargins(0,0,18,0)
         upperBpHomeLay.layoutParams = paramForChartLay
         lowerBpHomeLay.layoutParams = paramForChartLay
@@ -209,7 +217,7 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
             intent.putExtra("graphName" , Constant.BLOOD_SUGAR_LEV)
             startActivity(intent)
         }
-        waterChartHomeLay.setOnClickListener {
+        waterHomeLay.setOnClickListener {
             intent.putExtra("graphName" , Constant.WATER)
             startActivity(intent)
         }

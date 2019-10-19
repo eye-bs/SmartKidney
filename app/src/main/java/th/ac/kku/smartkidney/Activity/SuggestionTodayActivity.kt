@@ -79,9 +79,11 @@ class SuggestionTodayActivity : AppCompatActivity() {
         analyzeObject = readJSON.getJSONObject(Constant.ANALYZE_DETAL_JSON, name)!!
         getAnalytics = analyzeObject.getJSONArray("analytics").getJSONObject(level)
         val img =  getAnalytics.getJSONArray("img")
-       imgColor =  getAnalytics.getString("img_color")
+
+
         for (i in 0 until img.length()){
             if (img.getString(i) != "") {
+                imgColor =  getAnalytics.getString("img_color")
                 val resources = this.resources
                 val resourceId =
                     resources.getIdentifier(img.getString(i), "drawable", this.packageName)

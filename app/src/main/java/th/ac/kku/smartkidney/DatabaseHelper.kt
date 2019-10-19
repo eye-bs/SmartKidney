@@ -115,11 +115,16 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, TABLE_NAME, n
      * @param name
      */
     fun deleteName(name: String) {
-        val db = this.writableDatabase
-        val query = ("DELETE FROM $TABLE_NAME WHERE $COL2 = '$name'")
-        Log.d(TAG, "deleteName: query: $query")
-        Log.d(TAG, "deleteName: Deleting $name from database.")
-        db.execSQL(query)
+        try {
+            val db = this.writableDatabase
+            val query = ("DELETE FROM $TABLE_NAME WHERE $COL2 = '$name'")
+            Log.d(TAG, "deleteName: query: $query")
+            Log.d(TAG, "deleteName: Deleting $name from database.")
+            db.execSQL(query)
+        }catch (e:java.lang.Exception){
+
+        }
+
     }
 
     companion object {

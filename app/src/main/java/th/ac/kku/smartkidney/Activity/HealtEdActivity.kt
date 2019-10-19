@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import android.content.ActivityNotFoundException
 import android.R.id
+import android.graphics.Color
 import android.net.Uri
 
 
@@ -45,6 +46,16 @@ class HealtEdActivity : AppCompatActivity() {
         var count = 0
         val textViewArr = arrayListOf<TextView>()
 
+
+        val colors = intArrayOf(
+            Color.parseColor("#B5E3F0"), // blue
+            Color.parseColor("#C1E3CA"),//green
+            Color.parseColor("#F7EAB3"), //yellow
+            Color.parseColor("#F8D4BC"), //orange
+            Color.parseColor("#EFC2D2"), // red
+            Color.parseColor("#EFC2D2")  // red wine
+        )
+
         for (i in 0 until 4){
             val linearLayoutRow = LinearLayout(this)
             val paramRow = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -63,7 +74,7 @@ class HealtEdActivity : AppCompatActivity() {
                 val paramTextView = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,1f)
 
                 textView.text = Html.fromHtml(topicArr.getString(count))
-                textView.background = getDrawable(R.drawable.white_card)
+                textView.setBackgroundColor(colors[i])
                 textView.gravity = Gravity.CENTER
                 textView.elevation = 5f
                 textView.setPadding(30,100,30,0)

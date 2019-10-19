@@ -49,6 +49,7 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
                 .subscribe({ getUserInfo ->
 
                     ApiObject.instant.user = getUserInfo
+                    Log.wtf(Constant.TAG , "getUsers")
 
                     if (progressBar != null) { progressBar.visibility = View.INVISIBLE }
                     if (intent != null){
@@ -58,6 +59,7 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
 
                 }, { error ->
                     if (progressBar != null) {
+                        Log.wtf(Constant.TAG , "getUsers")
                         progressBar.visibility = View.INVISIBLE
                         val intent = Intent(context, HomeActivity::class.java)
                         context.startActivity(intent)
@@ -112,10 +114,15 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
                     ApiObject.instant.isNewData = true
 
                     val bmiArr = ApiObject.instant.bmi
-                    bmiArr.removeAt(0)
+                  if (bmiArr.size > 7){
+                      bmiArr.removeAt(0)
+                  }
+                    Log.wtf(Constant.TAG , "postBmi2 $bmiArr")
                     bmiArr.add((postBMI.bmi).toFloat())
+                    Log.wtf(Constant.TAG , "postBmi3 $bmiArr")
 
                 }, { error ->
+                    Log.wtf(Constant.TAG , "postBmi err")
                     ApiObject.instant.notFound404 = true
                     println(error.message.toString())
                 })

@@ -8,13 +8,6 @@
         tools:context=".HealtEdActivity"
     android:orientation="vertical"
     android:background="@color/lavender">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/health_ed_wall"
-        android:scaleType="centerCrop"/>
-
     <LinearLayout
         android:id="@+id/headerHealthEd"
         android:layout_width="match_parent"

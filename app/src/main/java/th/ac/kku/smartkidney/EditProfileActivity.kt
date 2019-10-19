@@ -61,6 +61,9 @@ class EditProfileActivity : AppCompatActivity() {
             finish()
         }
         logOutBt.setOnClickListener {
+            mDatabaseHelper.deleteName(Constant.NAME_ATT)
+            ApiObject.instant.resetData()
+
             FirebaseAuth.getInstance().signOut()
             signOut()
             val intent = Intent(this , LoginActivity::class.java)

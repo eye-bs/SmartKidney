@@ -43,15 +43,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/healthEdContentLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+            <com.github.chrisbanes.photoview.PhotoView
                 android:id="@+id/imageHealthEdContent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:adjustViewBounds="true" />
 
         </LinearLayout>

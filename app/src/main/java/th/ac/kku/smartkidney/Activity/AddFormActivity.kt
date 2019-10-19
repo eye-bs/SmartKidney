@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,9 @@ import kotlinx.android.synthetic.main.activity_add_form.*
 import kotlinx.android.synthetic.main.choose_bottle_dialog.view.*
 import kotlinx.android.synthetic.main.edit_weight_dialog.view.*
 import org.json.JSONObject
+import java.lang.Exception
 import java.util.*
+import kotlin.system.exitProcess
 
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "DEPRECATION")
@@ -247,7 +250,7 @@ class AddFormActivity : AppCompatActivity() {
         finish()
     }
 
-    @SuppressLint("CheckResult")
+    @SuppressLint("CheckResult", "UseSparseArrays")
     fun onPostApi(chartName: String, id: String, param1: String, param2: String) {
 
         val num2 = if (param2 == "") {
@@ -264,11 +267,19 @@ class AddFormActivity : AppCompatActivity() {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ postBloodPressure ->
 
+                            val hashWeekHelper = HashMap<Int, BloodPressure>()
                             val bpAll = ApiObject.instant.bloodPressure
                             val bpPerDay = ApiObject.instant.bloodPressurePerDay
                             bpPerDay.add(postBloodPressure)
                             val calendar = Calendar.getInstance()
-                            bpAll[ApiObject.instant.currentWeek]!![calendar.get(Calendar.DATE)] = postBloodPressure
+                            val week = ApiObject.instant.currentWeek
+                            hashWeekHelper[calendar.get(Calendar.DATE)] = postBloodPressure
+
+                            if (bpAll[ApiObject.instant.currentWeek] == null){
+                                bpAll[week!!] = hashWeekHelper
+                            }else{
+                                bpAll[week]!![calendar.get(Calendar.DATE)] = postBloodPressure
+                            }
 
 //                            val apiHandler = ApiHandler(this, null, null)
 //                            apiHandler.getBloodPressure(id)
@@ -284,11 +295,19 @@ class AddFormActivity : AppCompatActivity() {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ postKidneyLev ->
 
-                            val girAll = ApiObject.instant.kidneyLev
-                            val girPerDay = ApiObject.instant.kidneyLevPerDay
-                            girPerDay.add(postKidneyLev)
-                            val calendar = Calendar.getInstance()
-                            girAll[ApiObject.instant.currentWeek]!![calendar.get(Calendar.DATE)] = postKidneyLev
+                                val hashWeekHelper = HashMap<Int, KidneyLev>()
+                                val girAll = ApiObject.instant.kidneyLev
+                                val girPerDay = ApiObject.instant.kidneyLevPerDay
+                                girPerDay.add(postKidneyLev)
+                                val calendar = Calendar.getInstance()
+                                val week = ApiObject.instant.currentWeek
+                                hashWeekHelper[calendar.get(Calendar.DATE)] = postKidneyLev
+
+                                if (girAll[ApiObject.instant.currentWeek] == null){
+                                    girAll[week!!] = hashWeekHelper
+                                }else{
+                                    girAll[week]!![calendar.get(Calendar.DATE)] = postKidneyLev
+                                }
 
 //                            val apiHandler = ApiHandler(this, null, null)
 //                            apiHandler.getKidneyLev(id)
@@ -304,11 +323,21 @@ class AddFormActivity : AppCompatActivity() {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ postBloodSugar ->
 
+
+                            val hashWeekHelper = HashMap<Int, BloodSugar>()
                             val bsAll = ApiObject.instant.bloodSugar
                             val bsPerDay = ApiObject.instant.bloodSugarPerDay
                             bsPerDay.add(postBloodSugar)
+
                             val calendar = Calendar.getInstance()
-                            bsAll[ApiObject.instant.currentWeek]!![calendar.get(Calendar.DATE)] = postBloodSugar
+                            val week = ApiObject.instant.currentWeek
+                            hashWeekHelper[calendar.get(Calendar.DATE)] = postBloodSugar
+
+                            if (bsAll[ApiObject.instant.currentWeek] == null){
+                                bsAll[week!!] = hashWeekHelper
+                            }else{
+                                bsAll[week]!![calendar.get(Calendar.DATE)] = postBloodSugar
+                            }
 
 //                            val apiHandler = ApiHandler(this, null, null)
 //                            apiHandler.getBloodSugar(id)
@@ -316,6 +345,7 @@ class AddFormActivity : AppCompatActivity() {
                         }, { error ->
                             showDialogFailApi()
                             println(error.message.toString())
+
                         })
             }
             Constant.WATER -> {
@@ -340,11 +370,16 @@ class AddFormActivity : AppCompatActivity() {
 
 
     private fun showDialogFailApi() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("เกิดข้อผิดพลาด")
-        builder.setMessage("ไม่สามารถบันทึกได้ กรุณาลองใหม่อีกครั้ง")
-        builder.setPositiveButton("ปิด") { dialog, which -> dialog.cancel() }
-        builder.show()
+//        val dialog = Dialog(this)
+//        dialog.setContentView(R.layout.connect_falied_dialog)
+//        dialog.setCancelable(false)
+//
+//        val button1 = dialog.findViewById<TextView>(R.id.button_dialog)
+//        button1.setOnClickListener {
+//            dialog.cancel()
+//            finish()
+//        }
+//        dialog.show()
     }
 }
 

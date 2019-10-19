@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_health_ed_content.*
+import androidx.appcompat.app.AlertDialog
+import com.github.chrisbanes.photoview.PhotoView
+
+
 
 class HealthEdContentActivity : AppCompatActivity() {
 
@@ -28,6 +32,16 @@ class HealthEdContentActivity : AppCompatActivity() {
 
         healthEdContentLay.setBackgroundColor(colors[topic!!])
         imageHealthEdContent.setImageDrawable(getDrawable(imageArr[topic]))
+
+//        imageHealthEdContent.setOnClickListener {
+//            val mBuilder = AlertDialog.Builder(this)
+//            val mView = layoutInflater.inflate(R.layout.custom_zoom_dialog, null)
+//            val photoView = mView.findViewById<PhotoView>(R.id.imageView)
+//            photoView.setImageDrawable(getDrawable(imageArr[topic]))
+//            mBuilder.setView(mView)
+//            val mDialog = mBuilder.create()
+//            mDialog.show()
+//        }
 
         healthEdContentBt.setOnClickListener{
             val intent = Intent(this,HealtEdActivity::class.java)

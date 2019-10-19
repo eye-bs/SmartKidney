@@ -36,6 +36,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.*
 import kotlin.system.exitProcess
 
 @Suppress("DEPRECATION")
@@ -48,6 +49,7 @@ class LoginActivity : AppCompatActivity() {
     private var mAuth: FirebaseAuth? = null
     private lateinit var callbackManager: CallbackManager
     lateinit var mDatabaseHelper: DatabaseHelper
+    private val calendar = Calendar.getInstance()
 
     @TargetApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -159,8 +161,15 @@ class LoginActivity : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 // Google Sign In was successful, authenticate with Firebase
+
+                calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+                ApiObject.instant.startDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
+                calendar.add(Calendar.DAY_OF_MONTH , 6)
+                ApiObject.instant.endDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
+                ApiObject.instant.weekQuery = calendar.get(Calendar.WEEK_OF_YEAR)
+                ApiObject.instant.currentWeek = calendar.get(Calendar.WEEK_OF_YEAR)
+
                 val account = task.getResult(ApiException::class.java)
-                ApiObject.instant.resetData()
                 firebaseAuthWithGoogle(account!!)
             } catch (e: ApiException) {
                 Log.wtf(Constant.TAG, e)
@@ -251,19 +260,20 @@ class LoginActivity : AppCompatActivity() {
 
                     if (ApiObject.instant.firstLogin!!) {
 
+
                     } else {
-                        try {
-                            mDatabaseHelper.deleteName(Constant.NAME_ATT)
-                        } catch (e: Exception) {
-                        }
+
+                        ApiObject.instant.user = loginResponse.users
                         val id = loginResponse.users.id
                         val intent = Intent(this, HomeActivity::class.java)
-                        val apiHandler = ApiHandler(this, loginProgressBar, intent)
+                        val apiHandler = ApiHandler(this,loginProgressBar,intent)
                         apiHandler.comboGetBloodPressure(id)
+
                     }
 
                 }, { error ->
                     println(error.message.toString())
+
                     loginProgressBar.visibility = View.INVISIBLE
                     google_login_bt.elevation = 5f
                     facebook_login_bt.elevation = 5f

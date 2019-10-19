@@ -341,25 +341,19 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp">
 
-                    <RelativeLayout
-                            android:id="@+id/waterChartHomeLay"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
                         <TextView
-                                android:id="@+id/waterCharttext"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/water_in"
-                                android:layout_margin="10dp"/>
+                            android:id="@+id/waterCharttext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/water_in"
+                            android:layout_margin="10dp"/>
 
                         <com.github.mikephil.charting.charts.PieChart
-                                android:id="@+id/waterChart"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/white_card"
-                                android:layout_below="@+id/waterCharttext"/>
-                    </RelativeLayout>
-
+                            android:id="@+id/waterChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/white_card"
+                            android:layout_below="@+id/waterCharttext"/>
 
                 </LinearLayout>
                 <View
@@ -396,6 +390,7 @@
 
         </LinearLayout>
     </ScrollView>
+
 
     <RelativeLayout
         android:id="@+id/homeProgressBar"

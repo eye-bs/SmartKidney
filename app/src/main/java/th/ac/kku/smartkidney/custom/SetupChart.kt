@@ -30,6 +30,7 @@ import com.github.mikephil.charting.utils.EntryXComparator
 import com.github.mikephil.charting.utils.MPPointF
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.Exception
 import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -57,7 +58,7 @@ class SetupChart(
     fun isHasValue(): Boolean {
         arrValueGraph1.clear()
         arrValueGraph2.clear()
-
+        Log.wtf(Constant.TAG,"SetupChart|| ApiObject.instant.currentWeek ${ ApiObject.instant.currentWeek}")
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.WEEK_OF_YEAR , ApiObject.instant.weekQuery!!)
         calendar.set(Calendar.DAY_OF_WEEK , Calendar.SUNDAY)
@@ -353,7 +354,9 @@ class SetupChart(
                         weightEditText.setText(w.toString())
                         heightEditText.setText(h.toString())
                         val bmiApi =  ApiObject.instant.bmi
-                        bmiGauge.value = df2.format(bmiApi[bmiApi.lastIndex]).toDouble()
+                        try{
+                            bmiGauge.value = df2.format(bmiApi[bmiApi.lastIndex]).toDouble()
+                        }catch (e:Exception){}
                     }
 
                     viewBMI.findViewById<TextView>(R.id.bmiSavButton).setOnClickListener {
@@ -368,8 +371,9 @@ class SetupChart(
                                 val intent = Intent(context, HealthFormActivity::class.java)
                                 val apiHandler = ApiHandler(context, null, intent)
                                 val id = ApiObject.instant.user!!.id
-                                apiHandler.editUserInfo(id,null,null,null,null,null,weight.toInt(),(height*100).toInt())
                                 apiHandler.postBmi(id, df2.format(bmi).toDouble())
+                                apiHandler.editUserInfo(id,null,null,null,null,null,weight.toInt(),(height*100).toInt())
+
                             }
                         }
                     }

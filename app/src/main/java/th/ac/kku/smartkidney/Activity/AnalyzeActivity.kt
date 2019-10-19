@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.zxing.client.result.VINResultParser
 import com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
 import kotlinx.android.synthetic.main.activity_analyze.*
 import kotlinx.android.synthetic.main.custom_dialog.view.*
@@ -52,6 +53,7 @@ class AnalyzeActivity : AppCompatActivity() {
         setResultLayout(input1, input2, name)
 
         resultButton.setOnClickListener {
+            Log.wtf(Constant.TAG , "getAnalytics.getString(\"suggest\") ${getAnalytics.getString("suggest")}")
             if (getAnalytics.getString("suggest") != "") {
                 showDialogSuggest()
             } else {
@@ -105,6 +107,9 @@ class AnalyzeActivity : AppCompatActivity() {
                     val resourceId = resources.getIdentifier(img.getString(i), "drawable", this.packageName)
                     val drawable = resources.getDrawable(resourceId)
                     imageArr.add(drawable)
+                    resultButton.visibility = View.VISIBLE
+                }else{
+                    resultButton.visibility = View.GONE
                 }
             }
 
@@ -127,7 +132,7 @@ class AnalyzeActivity : AppCompatActivity() {
                 .setView(mDialogView)
 
         mDialogView.dialogHeader.setTextColor(Color.parseColor(getAnalytics.getString("color")))
-        mDialogView.dialogHeader.text = "คำแนะนำ"
+        mDialogView.dialogHeader.text = "คำแนะนำ ระดับน้ำตาลสะสม"
 
         val resources = this.resources
         val img =  alnalytics.getString("img")
@@ -164,7 +169,7 @@ class AnalyzeActivity : AppCompatActivity() {
         //     mDialogView.contentDialog.text = Html.fromHtml(getAnalytics.getString("suggest"))
         mDialogView.dialogHeader.setTextColor(Color.parseColor(getAnalytics.getString("color")))
         // mDialogView.dialogButton.background = getDrawable(buttonBG)
-        mDialogView.dialogHeader.text = "คำแนะนำ การระดับน้ำตาลสะสม"
+        mDialogView.dialogHeader.text = "คำแนะนำ"
         mDialogView.imageDialog.setImageDrawable(imageArr[0])
         val mAlertDialog = mBuilder.create()
 
