@@ -6,10 +6,41 @@
             "<h3>อาการของโรค</h3><p>ไตเรื้อรัง</p>",
             "<h3>ภาวะแทรกซ้อน</h3><p>ของโรคไตเรื้อรัง</p>",
             "<h3>ชะลอการเสื่อม</h3><p>ของไต</p>",
-            "<p>สิ่งที่ควร</p><h3>เลี่ยง</h3>",
             "<p>อาหารที่ต้อง</p><h3>งด หรือ ลด</h3>",
             "<p>จะเกิดอะไรขึ้นถ้าการทำงานของไต</p><h3>ลดลงเรื่อยๆ</h3>",
             "<h3>VIDEO</h3>"
+        ],
+        "images" : [
+            {
+                "id": 0,
+                "img": ["healthed1"],
+                "img_color": "#FFF0C9"
+            },
+            {
+                "id": 1,
+                "img": ["healthed2"],
+                "img_color": "#CEEAFF"
+            },
+            {
+                "id": 2,
+                "img": ["healthed3"],
+                "img_color": "#E7FDEA"
+            },
+            {
+                "id": 3,
+                "img": ["healthed4","healthed4_1"],
+                "img_color": "#FFFDF1"
+            },
+            {
+                "id": 4,
+                "img": ["healthed5","healthed5_1"],
+                "img_color": "#A6DEF0"
+            },
+            {
+                "id": 5,
+                "img": ["healthed6"],
+                "img_color": "#FFFFFF"
+            }
         ]
     }
 ]

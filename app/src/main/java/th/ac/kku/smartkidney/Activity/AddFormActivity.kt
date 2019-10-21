@@ -303,6 +303,8 @@ class AddFormActivity : AppCompatActivity() {
                                 val week = ApiObject.instant.currentWeek
                                 hashWeekHelper[calendar.get(Calendar.DATE)] = postKidneyLev
 
+
+
                                 if (girAll[ApiObject.instant.currentWeek] == null){
                                     girAll[week!!] = hashWeekHelper
                                 }else{
@@ -332,6 +334,7 @@ class AddFormActivity : AppCompatActivity() {
                             val calendar = Calendar.getInstance()
                             val week = ApiObject.instant.currentWeek
                             hashWeekHelper[calendar.get(Calendar.DATE)] = postBloodSugar
+
 
                             if (bsAll[ApiObject.instant.currentWeek] == null){
                                 bsAll[week!!] = hashWeekHelper

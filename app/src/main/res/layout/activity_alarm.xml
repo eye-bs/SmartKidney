@@ -40,14 +40,6 @@
             android:textSize="30sp"
             android:gravity="center"
             android:layout_gravity="center"/>
-        <ImageView
-            android:id="@+id/addAlarmBt"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/plus"
-            android:padding="10dp"
-            android:elevation="10dp"
-            android:layout_gravity="center"/>
 
     </LinearLayout>
 
@@ -117,5 +109,17 @@
             android:layout_centerInParent="true"/>
 
     </RelativeLayout>
+
+
+    <ImageView
+            android:id="@+id/addAlarmBt"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/add"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp"
+            android:elevation="10dp"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

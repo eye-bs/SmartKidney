@@ -2,51 +2,70 @@ package th.ac.kku.smartkidney
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import kotlinx.android.synthetic.main.activity_health_ed_content.*
-import androidx.appcompat.app.AlertDialog
-import com.github.chrisbanes.photoview.PhotoView
-
+import org.json.JSONObject
 
 
 class HealthEdContentActivity : AppCompatActivity() {
+
+    private val readJSON = ReadJSON(this)
+    lateinit var analyzeObject: JSONObject
+    lateinit var getAnalytics:JSONObject
+    private val imageArr = arrayListOf<Drawable>()
+    private var imgColor:String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_health_ed_content)
 
         val topic =  ApiObject.instant.healthEdPostion
-        val imageArr = arrayOf(R.drawable.healthed1,R.drawable.healthed2,R.drawable.healthed3,R.drawable.healthed4,R.drawable.healthed5,R.drawable.healthed6,R.drawable.healthed7)
-        val colors = intArrayOf(
-                Color.parseColor("#FFF0C9"),
-                Color.parseColor("#CEEAFF"),
-                Color.parseColor("#E7FDEA"),
-                Color.parseColor("#FFFEFF"),
-                Color.parseColor("#FFFCF1"),
-                Color.parseColor("#C6EEFF"),
-                Color.parseColor("#FFFFFF")
-        )
+
+        getImage(topic!!)
 
 
-        healthEdContentLay.setBackgroundColor(colors[topic!!])
-        imageHealthEdContent.setImageDrawable(getDrawable(imageArr[topic]))
-
-//        imageHealthEdContent.setOnClickListener {
-//            val mBuilder = AlertDialog.Builder(this)
-//            val mView = layoutInflater.inflate(R.layout.custom_zoom_dialog, null)
-//            val photoView = mView.findViewById<PhotoView>(R.id.imageView)
-//            photoView.setImageDrawable(getDrawable(imageArr[topic]))
-//            mBuilder.setView(mView)
-//            val mDialog = mBuilder.create()
-//            mDialog.show()
-//        }
+        healthEdContentLay.setBackgroundColor(Color.parseColor(imgColor))
+        imageHealthEdContent.setImageDrawable(imageArr[0])
+        if (imageArr.size == 2){
+            buttonImageLay.visibility = View.VISIBLE
+            bacImageBt.visibility = View.INVISIBLE
+            bacImageBt.setOnClickListener {
+                imageHealthEdContent.setImageDrawable(imageArr[0])
+                bacImageBt.visibility = View.INVISIBLE
+                nextImageBt.visibility = View.VISIBLE
+            }
+            nextImageBt.setOnClickListener{
+                imageHealthEdContent.setImageDrawable(imageArr[1])
+                nextImageBt.visibility = View.INVISIBLE
+                bacImageBt.visibility = View.VISIBLE
+            }
+        }
 
         healthEdContentBt.setOnClickListener{
             val intent = Intent(this,HealtEdActivity::class.java)
             startActivity(intent)
             finish()
+        }
+    }
+
+    private fun getImage(level:Int){
+        analyzeObject = readJSON.getJSONObject(Constant.HEALTHED_TOPIC_JSON, Constant.HEALTH_ED_TOPIC)!!
+        getAnalytics = analyzeObject.getJSONArray("images").getJSONObject(level)
+        val img =  getAnalytics.getJSONArray("img")
+
+        for (i in 0 until img.length()){
+            if (img.getString(i) != "") {
+                imgColor =  getAnalytics.getString("img_color")
+                val resources = this.resources
+                val resourceId =
+                    resources.getIdentifier(img.getString(i), "drawable", this.packageName)
+                val drawable = resources.getDrawable(resourceId)
+                imageArr.add(drawable)
+            }
         }
     }
 

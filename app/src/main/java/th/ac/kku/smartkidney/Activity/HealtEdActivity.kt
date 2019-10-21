@@ -63,13 +63,13 @@ class HealtEdActivity : AppCompatActivity() {
             linearLayoutRow.layoutParams = paramRow
 
             for (j  in 0 until 2){
-//                if (i == 3 && j == 1){
-//                    val view = View(this)
-//                    val paramView = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,1f)
-//                    view.layoutParams = paramView
-//                    linearLayoutRow.addView(view)
-//                    break
-//                }
+                if (i == 3 && j == 1){
+                    val view = View(this)
+                    val paramView = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,1f)
+                    view.layoutParams = paramView
+                    linearLayoutRow.addView(view)
+                    break
+                }
                 val textView = TextView(this)
                 val paramTextView = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,1f)
 

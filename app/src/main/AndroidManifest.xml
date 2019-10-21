@@ -19,13 +19,13 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@drawable/logo_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
+        <activity android:name=".DevDetailActivity"></activity>
         <activity android:name=".SuggestionTodayActivity" />
         <activity android:name=".HealthEdContentActivity" />
         <activity android:name=".AddAlarmActivity" />
         <activity android:name=".HealtEdActivity" />
-        <activity android:name=".HealthFormActivity"/>
+        <activity android:name=".HealthFormActivity" />
         <activity android:name=".HomeActivity" />
         <activity
             android:name=".AddFormActivity"
@@ -44,9 +44,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SuggestActivity"></activity>
+        <activity android:name=".SuggestActivity" />
         <activity android:name=".AnalyzeActivity" />
-        <activity android:name=".RiskFormActivity"></activity>
+        <activity android:name=".RiskFormActivity" />
         <activity android:name=".AgreementActivity" />
         <activity android:name=".AlarmActivity" />
 

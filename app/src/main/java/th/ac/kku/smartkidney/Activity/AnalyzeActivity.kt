@@ -109,7 +109,7 @@ class AnalyzeActivity : AppCompatActivity() {
                     imageArr.add(drawable)
                     resultButton.visibility = View.VISIBLE
                 }else{
-                    resultButton.visibility = View.GONE
+                    resultButton.text = "ปิด"
                 }
             }
 

@@ -2,13 +2,21 @@ package th.ac.kku.smartkidney
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_health_form.*
+import kotlinx.android.synthetic.main.custom_dialog.view.*
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,14 +27,14 @@ class HealthFormActivity : AppCompatActivity() {
 
 
     lateinit var graphFragment: Fragment
-    var stackMenuItem: Int = 0
-    var weekBPArr = ApiObject.instant.weekKeysbp
-    var weekBsArr = ApiObject.instant.weekKeysbs
-    var weekGirArr = ApiObject.instant.weekKeysgir
-    var count = 0
-    var stackWeek = 0
-    val calendar = Calendar.getInstance()
-    val parser = SimpleDateFormat("dd/MM/yyyy")
+    private var stackMenuItem: Int = 0
+    private var weekBPArr = ApiObject.instant.weekKeysbp
+    private var weekBsArr = ApiObject.instant.weekKeysbs
+    private var weekGirArr = ApiObject.instant.weekKeysgir
+    private var count = 0
+    private var stackWeek = 0
+    private val calendar = Calendar.getInstance()
+    private val parser = SimpleDateFormat("dd/MM/yyyy")
     private val nameFormArr = arrayOf(
         Constant.BLOOD_PRESSURE,
         Constant.KIDNEY_FILTRATION_RATE,
@@ -54,6 +62,11 @@ class HealthFormActivity : AppCompatActivity() {
         R.id.glucose_nev,
         R.id.water_nev,
         R.id.bmi_nev
+    )
+    private val imageWaterAnalyze = arrayOf(
+            R.drawable.water_lev1,
+            R.drawable.water_lev2,
+            R.drawable.water_lev3
     )
 
 
@@ -111,6 +124,42 @@ class HealthFormActivity : AppCompatActivity() {
             intent.putExtra("form", nameFormArr[stackMenuItem])
             startActivityForResult(intent, 1000)
         }
+
+        analyzeWaterPerDay.setOnClickListener {
+
+            val waterIn = ApiObject.instant.waterIn
+            val waterPerDay = ApiObject.instant.waterPerDay
+            val perCent:Float = ((waterIn*100)/waterPerDay).toFloat()
+            val lev = when{
+                perCent <= 100 -> 0
+                perCent == 100.toFloat() -> 1
+                else -> 2
+            }
+
+            soundHandle(lev)
+
+                val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
+                val mBuilder = AlertDialog.Builder(this)
+                        .setView(mDialogView)
+                mDialogView.dialogHeader.text = "คำแนะนำ"
+                mDialogView.imageDialog.setImageDrawable(getDrawable(imageWaterAnalyze[lev]))
+                val mAlertDialog = mBuilder.create()
+
+                mAlertDialog.setCancelable(false)
+                mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                mAlertDialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+                val displayMetrics = DisplayMetrics()
+                windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+                var height = displayMetrics.heightPixels
+                height -= height / 5
+
+                mDialogView.dialogButton.setOnClickListener {
+                    mAlertDialog.dismiss()
+                }
+                mAlertDialog.show()
+            }
     }
 
     private fun setWeekLable(weekOfYear:Int){
@@ -131,6 +180,7 @@ class HealthFormActivity : AppCompatActivity() {
         }else{
             stackWeek = arr[arr.lastIndex]
             selWeekLay.visibility = View.VISIBLE
+            weekRightBt.visibility = View.INVISIBLE
             setWeekLable(stackWeek)
         }
 
@@ -197,14 +247,22 @@ class HealthFormActivity : AppCompatActivity() {
         for (i in itemIdArr.indices) {
             if (item.itemId == itemIdArr[i]) {
                 item.icon = getDrawable(iconArrColor[i])
-                if (item == nev_bar.menu.findItem(R.id.bmi_nev) || item == nev_bar.menu.findItem(R.id.water_nev)){
-                    selWeekLay.visibility = View.GONE
-                }else {
-                    selWeekLay.visibility = View.VISIBLE
-                    when (i) {
-                        0 -> onWeekSelect(weekBPArr)
-                        1 -> onWeekSelect(weekGirArr)
-                        2 -> onWeekSelect(weekBsArr)
+                when (item) {
+                    nev_bar.menu.findItem(R.id.bmi_nev) -> {
+                        selWeekLay.visibility = View.GONE
+                        analyzeWaterPerDay.visibility = View.INVISIBLE}
+                    nev_bar.menu.findItem(R.id.water_nev) -> {
+                        selWeekLay.visibility = View.GONE
+                        analyzeWaterPerDay.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        selWeekLay.visibility = View.VISIBLE
+                        analyzeWaterPerDay.visibility = View.INVISIBLE
+                        when (i) {
+                            0 -> onWeekSelect(weekBPArr)
+                            1 -> onWeekSelect(weekGirArr)
+                            2 -> onWeekSelect(weekBsArr)
+                        }
                     }
                 }
 
@@ -233,5 +291,12 @@ class HealthFormActivity : AppCompatActivity() {
         val input = Intent(this, HomeActivity::class.java)
         startActivity(input)
         finish()
+    }
+
+    fun soundHandle(lev:Int){
+        val soundArr = arrayOf(R.raw.lev3,R.raw.lev1,R.raw.lev4)
+            val media = MediaPlayer.create(this,soundArr[lev])
+        media.start()
+
     }
 }

@@ -43,9 +43,48 @@
         android:text="ยังมีมีข้อมูลสำหรับวันนี้"
         android:textSize="30sp"
         android:gravity="center"/>
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
+    <LinearLayout
+        android:id="@+id/todayContentLay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/photoViewToday"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/buttonImageTodayLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:elevation="5dp"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/todayBackImageBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textSize="25sp"
+            android:text="กลับ"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/todayNextImageBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:textSize="25sp"
+            android:text="ถัดไป"
+            />
+    </LinearLayout>
 
 </LinearLayout>

@@ -26,13 +26,32 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/settingProfileBt"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/settings"
-                android:elevation="5dp"
-                android:layout_gravity="end"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/devDetailBt"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/burger_button"
+                    android:elevation="5dp"
+                    android:layout_gravity="end"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:id="@+id/settingProfileBt"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/settings"
+                    android:elevation="5dp"
+                    android:layout_gravity="end"/>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/textName"
                 android:layout_width="match_parent"

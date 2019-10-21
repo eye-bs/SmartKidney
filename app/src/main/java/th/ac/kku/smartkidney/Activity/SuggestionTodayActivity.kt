@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
+import kotlinx.android.synthetic.main.activity_health_ed_content.*
 import kotlinx.android.synthetic.main.activity_suggestion_today.*
 import org.json.JSONObject
 
@@ -21,9 +22,9 @@ class SuggestionTodayActivity : AppCompatActivity() {
     lateinit var analyzeObject: JSONObject
     lateinit var getAnalytics:JSONObject
     private val imageArr = arrayListOf<Drawable>()
-    val consArr = arrayListOf<String>()
-    private var myViewPagerAdapter: MyViewPagerAdapter? = null
-    private var imgColor:String = ""
+    private val consArr = arrayListOf<String>()
+    private var imgColor = arrayListOf<String>()
+    private var count = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +36,6 @@ class SuggestionTodayActivity : AppCompatActivity() {
         val girArr = ApiObject.instant.kidneyLevPerDay
         val calcInput = CalcInput(this)
         var level: Int?
-
-      // val imageArr = arrayListOf<Drawable>(getDrawable(R.drawable.healthed1_intro_kidney) , getDrawable(R.drawable.page2_introkidney) ,getDrawable(R.drawable.page3_introkidney))
 
         if(bpArr.isEmpty() && bsArr.isEmpty() && girArr.isEmpty()){
             noDataTodayTv.visibility = View.VISIBLE
@@ -63,9 +62,43 @@ class SuggestionTodayActivity : AppCompatActivity() {
                 consArr.add(Constant.KIDNEY_FILTRATION_RATE)
             }
 
-            myViewPagerAdapter = MyViewPagerAdapter(this,imageArr.size,slideViewLayout(imageArr.size))
-            viewPager.adapter = myViewPagerAdapter
-            viewPager.addOnPageChangeListener(viewPagerPageChangeListener)
+            if (imageArr.size >= 2){
+                buttonImageTodayLay.visibility = View.VISIBLE
+                photoViewToday.setImageDrawable(imageArr[count])
+                todayContentLay.setBackgroundColor(Color.parseColor(imgColor[count]))
+                headerSuggest.text = consArr[count]
+                todayBackImageBt.visibility = View.INVISIBLE
+                todayBackImageBt.setOnClickListener {
+                    count--
+                    todayNextImageBt.visibility = View.VISIBLE
+                    photoViewToday.setImageDrawable(imageArr[count])
+                    headerSuggest.text = consArr[count]
+                    todayContentLay.setBackgroundColor(Color.parseColor(imgColor[count]))
+
+                    if (count <= 0){
+                        todayBackImageBt.visibility = View.INVISIBLE
+                    }
+                }
+                todayNextImageBt.setOnClickListener {
+                    count++
+                    todayBackImageBt.visibility = View.VISIBLE
+                    photoViewToday.setImageDrawable(imageArr[count])
+                    headerSuggest.text = consArr[count]
+                    todayContentLay.setBackgroundColor(Color.parseColor(imgColor[count]))
+
+                    if (count == imageArr.size-1){
+                        todayNextImageBt.visibility = View.INVISIBLE
+                    }
+
+                }
+
+            }else if(imageArr.size == 1){
+                photoViewToday.setImageDrawable(imageArr[0])
+                headerSuggest.text = consArr[0]
+                todayContentLay.setBackgroundColor(Color.parseColor(imgColor[0]))
+
+            }
+
        }
 
         suggestTodayBt.setOnClickListener {
@@ -83,7 +116,7 @@ class SuggestionTodayActivity : AppCompatActivity() {
 
         for (i in 0 until img.length()){
             if (img.getString(i) != "") {
-                imgColor =  getAnalytics.getString("img_color")
+                imgColor.add(getAnalytics.getString("img_color"))
                 val resources = this.resources
                 val resourceId =
                     resources.getIdentifier(img.getString(i), "drawable", this.packageName)
@@ -92,34 +125,6 @@ class SuggestionTodayActivity : AppCompatActivity() {
             }
         }
     }
-
-
-    private fun slideViewLayout(numPage: Int):ArrayList<LinearLayout>{
-        val layoutArray =  ArrayList<LinearLayout>()
-
-        for (i in 0 until numPage){
-            val linearLayout = LinearLayout(this)
-            val imageView = AdjustableImageView(this)
-            val param = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
-            imageView.adjustViewBounds = true
-            imageView.setImageDrawable(imageArr[i])
-            linearLayout.layoutParams = param
-            imageView.layoutParams = param
-            linearLayout.setBackgroundColor(Color.parseColor(imgColor))
-            linearLayout.addView(imageView)
-            layoutArray.add(linearLayout)
-        }
-        return layoutArray
-    }
-
-    private var viewPagerPageChangeListener: ViewPager.OnPageChangeListener = object : ViewPager.OnPageChangeListener {
-        override fun onPageSelected(position: Int) {
-            headerSuggest.text = consArr[position]
-        }
-        override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
-        override fun onPageScrollStateChanged(arg0: Int) {}
-    }
-
     override fun onBackPressed() {
         val intent = Intent(this,HomeActivity::class.java)
         startActivity(intent)

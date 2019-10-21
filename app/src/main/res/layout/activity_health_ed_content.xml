@@ -41,22 +41,53 @@
     <ScrollView
         android:id="@+id/healthEdContentLay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <com.github.chrisbanes.photoview.PhotoView
-                android:id="@+id/imageHealthEdContent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true" />
+                    android:id="@+id/imageHealthEdContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                android:src="@drawable/healthed1"
+                android:adjustViewBounds="true"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 
     </ScrollView>
 
-
+    <LinearLayout
+        android:id="@+id/buttonImageLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:elevation="5dp"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/bacImageBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textSize="25sp"
+            android:text="กลับ"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/nextImageBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:textSize="25sp"
+            android:text="ถัดไป"
+            />
+    </LinearLayout>
 
 </LinearLayout>

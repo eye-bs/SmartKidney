@@ -74,7 +74,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="13/10/2019 - 19/10/2019"
                 android:gravity="center"/>
             <ImageView
                 android:id="@+id/weekRightBt"
@@ -100,15 +99,57 @@
             </FrameLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <ImageView
-            android:id="@+id/addFormBt"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/add"
-            android:layout_gravity="end|bottom"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
             android:layout_marginBottom="20dp"
             android:layout_marginEnd="20dp"
-            android:elevation="10dp"/>
+            android:layout_marginStart="20dp">
+
+            <LinearLayout
+                android:id="@+id/analyzeWaterPerDay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:orientation="horizontal"
+                android:background="@drawable/white_card"
+                android:padding="5dp"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                android:elevation="5dp">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/research"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ประมวลผลการดื่มน้ำประจำวัน"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/addFormBt"
+                android:layout_weight="1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/add"
+                android:layout_gravity="end"
+                android:elevation="10dp"/>
+
+        </LinearLayout>
+
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <RelativeLayout

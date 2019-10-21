@@ -11,11 +11,9 @@ import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.github.mikephil.charting.charts.LineChart
@@ -39,7 +37,8 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 @Suppress("DEPRECATION", "IMPLICIT_CAST_TO_ANY", "NAME_SHADOWING")
-class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
+class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuItem.OnMenuItemClickListener,
+    PopupMenu.OnMenuItemClickListener {
 
     private lateinit var hashMapEvent: ArrayList<HashMap<String, String>>
     lateinit var mAuth: FirebaseAuth
@@ -252,6 +251,24 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener {
 //            val intent = Intent(this , LoginActivity::class.java)
 //            startActivity(intent)
 //            finish()
+        }
+
+        devDetailBt.setOnClickListener { it->
+            val popupMenu = PopupMenu(this, it)
+            popupMenu.setOnMenuItemClickListener(this)
+            popupMenu.inflate(R.menu.dev_detail)
+            popupMenu.show()
+        }
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        return if(item!!.itemId == R.id.dev_menu){
+            val intent = Intent(this,DevDetailActivity::class.java)
+            startActivity(intent)
+            finish()
+            true
+        }else{
+            false
         }
     }
 

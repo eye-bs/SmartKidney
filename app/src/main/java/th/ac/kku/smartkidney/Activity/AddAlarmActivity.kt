@@ -23,7 +23,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "DEPRECATION")
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "DEPRECATION",
+    "RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS"
+)
 class AddAlarmActivity : AppCompatActivity() {
 
     lateinit var startDate: Date

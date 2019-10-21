@@ -48,15 +48,19 @@ object ReadCalendar {
             println("Count=" + cursor!!.count)
             if (cursor!!.count > 0) {
                 println("the control is just inside of the cursor.count loop")
+                val idArr = ArrayList<String>()
                 while (cursor!!.moveToNext()) {
 
                     val _id = cursor!!.getString(0)
                     val displayName = cursor!!.getString(1)
                     val selected = cursor!!.getString(2) != "0"
+                    idArr.add(_id)
 
                     if (displayName.contains("@")){
                         calendarIdUser = _id
                         break
+                    }else{
+                        calendarIdUser = idArr[0]
                     }
 
                     println("Id: $_id Display Name: $displayName Selected: $selected")

@@ -160,6 +160,9 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
                         keysWeekOfYear.add(k)
                     }
                     keysWeekOfYear.sort()
+                    if(keysWeekOfYear[keysWeekOfYear.lastIndex] != ApiObject.instant.currentWeek){
+                        keysWeekOfYear.add(ApiObject.instant.currentWeek!!)
+                    }
                     ApiObject.instant.weekKeysbp = keysWeekOfYear
                     for (i in keysWeekOfYear.indices) {
                         calendar.set(Calendar.WEEK_OF_YEAR, keysWeekOfYear[i])
@@ -238,6 +241,9 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
                         keysWeekOfYear.add(k)
                     }
                     keysWeekOfYear.sort()
+                    if(keysWeekOfYear[keysWeekOfYear.lastIndex] != ApiObject.instant.currentWeek){
+                        keysWeekOfYear.add(ApiObject.instant.currentWeek!!)
+                    }
                     ApiObject.instant.weekKeysgir = keysWeekOfYear
                     for (i in keysWeekOfYear.indices) {
                         calendar.set(Calendar.WEEK_OF_YEAR, keysWeekOfYear[i])
@@ -307,6 +313,9 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
                         keysWeekOfYear.add(k)
                     }
                     keysWeekOfYear.sort()
+                    if(keysWeekOfYear[keysWeekOfYear.lastIndex] != ApiObject.instant.currentWeek){
+                        keysWeekOfYear.add(ApiObject.instant.currentWeek!!)
+                    }
                     ApiObject.instant.weekKeysbs = keysWeekOfYear
                     for (i in keysWeekOfYear.indices) {
                         calendar.set(Calendar.WEEK_OF_YEAR, keysWeekOfYear[i])
