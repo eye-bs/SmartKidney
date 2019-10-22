@@ -46,19 +46,26 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuIte
     private val calendar = Calendar.getInstance()
     lateinit var mDatabaseHelper:DatabaseHelper
 
-    @TargetApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        mAuth = FirebaseAuth.getInstance()
-        currentUser = mAuth.currentUser!!
-        mDatabaseHelper = DatabaseHelper(this)
-        ApiObject.instant.weekQuery = ApiObject.instant.currentWeek
+        try {
+            mAuth = FirebaseAuth.getInstance()
+            currentUser = mAuth.currentUser!!
+            mDatabaseHelper = DatabaseHelper(this)
+            ApiObject.instant.weekQuery = ApiObject.instant.currentWeek
 
-        setUserDetail()
-        createChart()
-        onButtonClick()
+            setUserDetail()
+            createChart()
+            onButtonClick()
+
+        }catch (e:Exception){
+            val intent = Intent(this,SplashActivity::class.java)
+            startActivity(intent)
+            finish()
+
+        }
 
     }
 

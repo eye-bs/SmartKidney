@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "1049673027239-ophbm8cetlc1pq4mo49ia5mvt2mg82rr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "th.ac.kku.smartkidney",
+            "certificate_hash": "5d91fe150faff9eb2d63698d1ae8de0237c831f7"
+          }
+        },
+        {
+          "client_id": "1049673027239-nu6q7655p2hac7sgqg93o8g8dbvq0h86.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "th.ac.kku.smartkidney",
+            "certificate_hash": "342a670a71c445ad9fc5109c201b5a8fa517d60b"
+          }
+        },
+        {
           "client_id": "1049673027239-rs8tt9b158r9fj45oku5p1puf3b3erav.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

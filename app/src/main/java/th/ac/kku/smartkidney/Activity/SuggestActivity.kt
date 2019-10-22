@@ -76,7 +76,6 @@ class SuggestActivity : AppCompatActivity() {
         return layoutArray
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private fun addBottomDots(currentPage: Int) {
         dots = arrayOf(TextView(this), TextView(this))
 
@@ -85,11 +84,11 @@ class SuggestActivity : AppCompatActivity() {
             dots[i] = TextView(this)
             dots[i].text = Html.fromHtml("&#8226;")
             dots[i].textSize = 35f
-            dots[i].setTextColor(getColor(R.color.dot_dark_screen3))
+            dots[i].setTextColor(resources.getColor(R.color.dot_dark_screen3))
             layoutDots.addView(dots[i])
         }
         if (dots.isNotEmpty())
-            dots[currentPage].setTextColor(getColor(R.color.dot_light_screen3))
+            dots[currentPage].setTextColor(resources.getColor(R.color.dot_light_screen3))
     }
 
     private fun getItem(i: Int): Int {

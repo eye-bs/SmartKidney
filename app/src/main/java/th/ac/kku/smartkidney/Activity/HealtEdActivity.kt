@@ -23,7 +23,6 @@ import android.net.Uri
 @Suppress("DEPRECATION")
 class HealtEdActivity : AppCompatActivity() {
 
-    @TargetApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_healt_ed)

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package th.ac.kku.smartkidney
 
 import android.Manifest
@@ -51,7 +53,6 @@ class LoginActivity : AppCompatActivity() {
     lateinit var mDatabaseHelper: DatabaseHelper
     private val calendar = Calendar.getInstance()
 
-    @TargetApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -129,20 +130,20 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun facbookButtonOnclick() {
-        LoginManager.getInstance()
-                .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-                    override fun onSuccess(result: LoginResult?) {
-                        handleFacebookToken(result!!.accessToken)
-                    }
-
-                    override fun onCancel() {
-                    }
-
-                    override fun onError(error: FacebookException?) {
-                    }
-                })
-    }
+//    private fun facbookButtonOnclick() {
+//        LoginManager.getInstance()
+//                .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+//                    override fun onSuccess(result: LoginResult?) {
+//                        handleFacebookToken(result!!.accessToken)
+//                    }
+//
+//                    override fun onCancel() {
+//                    }
+//
+//                    override fun onError(error: FacebookException?) {
+//                    }
+//                })
+//    }
 
     private fun handleFacebookToken(accessToken: AccessToken?) {
         val credential = FacebookAuthProvider.getCredential(accessToken!!.token)
@@ -158,10 +159,10 @@ class LoginActivity : AppCompatActivity() {
         callbackManager.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
             try {
                 // Google Sign In was successful, authenticate with Firebase
-
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                 calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
                 ApiObject.instant.startDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
                 calendar.add(Calendar.DAY_OF_MONTH , 6)

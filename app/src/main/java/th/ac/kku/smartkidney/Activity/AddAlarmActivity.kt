@@ -70,7 +70,6 @@ class AddAlarmActivity : AppCompatActivity() {
         //---------------------------------------------------
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
     private fun setDate(textView1: TextView, textView2: TextView) {
         val defaultDate: Date = if (textView1 == startDateTextview) {
             startDate
@@ -111,7 +110,6 @@ class AddAlarmActivity : AppCompatActivity() {
     fun setAlarm() {
 
         var calID: Long = calendarIdUser().toLong()
-        val timeFormat = SimpleDateFormat("E dd MMM HH:mm", Locale.getDefault())
         val tz = TimeZone.getDefault()
 
         val values = ContentValues().apply {

@@ -6,6 +6,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        re {
+            storeFile file(var)
+            storePassword '18032540'
+            keyAlias = 'key'
+            keyPassword '18032540'
+        }
+    }
     compileSdkVersion 28
 
     buildToolsVersion "29.0.2"
@@ -13,14 +21,15 @@ android {
         applicationId "th.ac.kku.smartkidney"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "2.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.re
         }
     }
 }

@@ -21,6 +21,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
+@Suppress("DEPRECATION")
 class AlarmActivity : AppCompatActivity() {
 
     private lateinit var hashMapEvent: ArrayList<HashMap<String,String>>
@@ -65,7 +66,6 @@ class AlarmActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    @TargetApi(Build.VERSION_CODES.M)
     fun createFutureEvent(hashMapEvent: ArrayList<HashMap<String, String>>) {
 
         val timeFormat = SimpleDateFormat("EEEE 'ที่' d MMMM 'เวลา' HH:mm 'น.'", Locale.getDefault())
@@ -95,8 +95,8 @@ class AlarmActivity : AppCompatActivity() {
 
             linearLayoutHorizon.orientation = LinearLayout.HORIZONTAL
             layoutNode.orientation = LinearLayout.VERTICAL
-            viewUpper.setBackgroundColor(getColor(R.color.malibu))
-            viewLower.setBackgroundColor(getColor(R.color.malibu))
+            viewUpper.setBackgroundColor(resources.getColor(R.color.malibu))
+            viewLower.setBackgroundColor(resources.getColor(R.color.malibu))
             imageView.setImageDrawable(getDrawable(R.drawable.node_alarm_shape))
             textView.setPadding(20, 20, 20, 20)
             textView.elevation = 10f

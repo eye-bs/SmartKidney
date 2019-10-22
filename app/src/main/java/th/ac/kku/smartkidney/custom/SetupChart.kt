@@ -58,7 +58,6 @@ class SetupChart(
     fun isHasValue(): Boolean {
         arrValueGraph1.clear()
         arrValueGraph2.clear()
-        Log.wtf(Constant.TAG,"SetupChart|| ApiObject.instant.currentWeek ${ ApiObject.instant.currentWeek}")
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.WEEK_OF_YEAR , ApiObject.instant.weekQuery!!)
         calendar.set(Calendar.DAY_OF_WEEK , Calendar.SUNDAY)
@@ -518,7 +517,6 @@ class SetupChart(
 
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     fun setData(count: Int, chart: LineChart, chartName: String) {
 
         val selData = if (chartName == "ความดันโลหิตตัวล่าง(mmHg)") {
@@ -628,7 +626,6 @@ class SetupChart(
         setDataPie(chart)
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     fun setDataPie(chart: PieChart) {
 
         val waterIn = ApiObject.instant.waterIn

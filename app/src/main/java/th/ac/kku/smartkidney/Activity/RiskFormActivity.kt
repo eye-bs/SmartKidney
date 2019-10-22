@@ -19,6 +19,7 @@ class RiskFormActivity : AppCompatActivity() {
         done_bt.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, SuggestActivity::class.java)
             startActivity(intent)
+            finish()
         })
     }
 

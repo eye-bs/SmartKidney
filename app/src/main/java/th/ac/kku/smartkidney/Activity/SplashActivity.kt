@@ -14,9 +14,15 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_splash.*
 import java.util.*
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
+import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
+import android.widget.Toast.LENGTH_SHORT
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
@@ -32,48 +38,51 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val callbackId = 42
-        checkPermissions(callbackId, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR , Manifest.permission.READ_EXTERNAL_STORAGE)
+        try {
+            val callbackId = 42
+            checkPermissions(callbackId, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR , Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        ApiObject.instant.resetData()
+            ApiObject.instant.resetData()
 
-        calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
-        ApiObject.instant.startDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
-        calendar.add(Calendar.DAY_OF_MONTH , 6)
-        ApiObject.instant.endDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
-        ApiObject.instant.weekQuery = calendar.get(Calendar.WEEK_OF_YEAR)
-        ApiObject.instant.currentWeek = calendar.get(Calendar.WEEK_OF_YEAR)
+            calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+            ApiObject.instant.startDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
+            calendar.add(Calendar.DAY_OF_MONTH , 6)
+            ApiObject.instant.endDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
+            ApiObject.instant.weekQuery = calendar.get(Calendar.WEEK_OF_YEAR)
+            ApiObject.instant.currentWeek = calendar.get(Calendar.WEEK_OF_YEAR)
 
-        Log.wtf(Constant.TAG," ApiObject.instant.currentWeek ${ ApiObject.instant.currentWeek}")
+            if (ConnectivityHelper.isConnectedToNetwork(this)) {
 
-        if (ConnectivityHelper.isConnectedToNetwork(this)) {
+                mAuth = FirebaseAuth.getInstance()
 
-            mAuth = FirebaseAuth.getInstance()
+                if (mAuth!!.currentUser != null) {
 
-            if (mAuth!!.currentUser != null) {
+                    loginApiCall(mAuth!!.currentUser!!.email!!)
 
-                loginApiCall(mAuth!!.currentUser!!.email!!)
+                } else {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
 
             } else {
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
+                val dialog = Dialog(this)
+                dialog.setContentView(R.layout.connect_falied_dialog)
+                dialog.setCancelable(false)
+
+                val button1 = dialog.findViewById<TextView>(R.id.button_dialog)
+                button1.setOnClickListener {
+                    dialog.cancel()
+                    val intent = Intent(this,SplashActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                dialog.show()
             }
+        }catch (e:Exception){
 
-        } else {
+           Toast.makeText(this,"อุปกรณ์ของคุณไม่รองรับ", LENGTH_LONG).show()
 
-            val dialog = Dialog(this)
-            dialog.setContentView(R.layout.connect_falied_dialog)
-            dialog.setCancelable(false)
-
-            val button1 = dialog.findViewById<TextView>(R.id.button_dialog)
-            button1.setOnClickListener {
-                dialog.cancel()
-                val intent = Intent(this,SplashActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-            dialog.show()
         }
     }
 

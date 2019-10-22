@@ -28,11 +28,15 @@ object ReadCalendar {
     }
     fun getEventHashMapArr():ArrayList<HashMap<String,String>>{
 
+        Log.wtf(Constant.TAG, "getEventHashMapArr")
+
         return hashMapEvent
     }
 
     @SuppressLint("SimpleDateFormat")
     fun readCalendar(context: Context):ArrayList<HashMap<String,String>> {
+
+        Log.wtf(Constant.TAG, "read calendar")
 
         hashMapEvent.removeAll(hashMapEvent)
 
@@ -50,26 +54,25 @@ object ReadCalendar {
                 println("the control is just inside of the cursor.count loop")
                 val idArr = ArrayList<String>()
                 while (cursor!!.moveToNext()) {
-
                     val _id = cursor!!.getString(0)
                     val displayName = cursor!!.getString(1)
                     val selected = cursor!!.getString(2) != "0"
                     idArr.add(_id)
-
-                    if (displayName.contains("@")){
+                    Log.wtf(Constant.TAG,"Id: $_id Display Name: $displayName Selected: $selected")
+                    if (displayName.contains("@") && !displayName.contains("@localhost")){
                         calendarIdUser = _id
                         break
                     }else{
                         calendarIdUser = idArr[0]
                     }
-
-                    println("Id: $_id Display Name: $displayName Selected: $selected")
                     calendarIds.add(_id)
                 }
             }
         } catch (ex: AssertionError) {
+            Log.wtf(Constant.TAG , ex.message)
             ex.printStackTrace()
         } catch (e: Exception) {
+            Log.wtf(Constant.TAG , e.message)
             e.printStackTrace()
         }
 

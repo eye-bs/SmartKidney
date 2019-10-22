@@ -71,7 +71,6 @@ class AddFormActivity : AppCompatActivity() {
         creatLayout(jsonObject!!)
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private fun creatLayout(jsonObject: JSONObject) {
         val jsonForm = jsonObject.getJSONArray("form")
         val jsonColor = jsonObject.getJSONArray("color")
@@ -160,7 +159,6 @@ class AddFormActivity : AppCompatActivity() {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private fun showDialogChooseCup() {
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.choose_bottle_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
@@ -189,13 +187,13 @@ class AddFormActivity : AppCompatActivity() {
             layoutArr[i].setOnClickListener {
                 ImageViewCompat.setImageTintList(
                         imageArr[i],
-                        ColorStateList.valueOf(getColor(R.color.cornflowerBlue))
+                        ColorStateList.valueOf(resources.getColor(R.color.cornflowerBlue))
                 )
                 cupSize = i + 1
                 if (stackCup != null) {
                     ImageViewCompat.setImageTintList(
                             stackCup!!,
-                            ColorStateList.valueOf(getColor(R.color.black))
+                            ColorStateList.valueOf(resources.getColor(R.color.black))
                     )
                 }
                 if (stackCup != imageArr[i]) {
