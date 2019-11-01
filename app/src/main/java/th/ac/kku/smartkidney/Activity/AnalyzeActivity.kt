@@ -53,7 +53,6 @@ class AnalyzeActivity : AppCompatActivity() {
         setResultLayout(input1, input2, name)
 
         resultButton.setOnClickListener {
-            Log.wtf(Constant.TAG , "getAnalytics.getString(\"suggest\") ${getAnalytics.getString("suggest")}")
             if (getAnalytics.getString("suggest") != "") {
                 showDialogSuggest()
             } else {

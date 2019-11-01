@@ -234,7 +234,9 @@ class AddFormActivity : AppCompatActivity() {
         mDialogView.saveWeightButton.setOnClickListener {
             mAlertDialog.dismiss()
             val weight = mDialogView.textInputEditText.text.toString()
+            val waterPerDay = weight.toInt() * 2.2 * 30 / 2
             weightTextView.text = "น้ำหนัก $weight kg"
+            waterPerDayAdd.text = "ปริมาณน้ำที่ควรได้รับ ${waterPerDay.toInt()} ml/day"
 
             val apiHandler = ApiHandler(this, null, null)
             apiHandler.editUserInfo(ApiObject.instant.user!!.id, null, null, null, null, null, weight.toInt(), null)
@@ -252,15 +254,15 @@ class AddFormActivity : AppCompatActivity() {
     fun onPostApi(chartName: String, id: String, param1: String, param2: String) {
 
         val num2 = if (param2 == "") {
-            0
+            0f
         } else {
-            param2.toInt()
+            param2.toFloat()
         }
 
         ApiObject.instant.isNewData = true
         when (chartName) {
             Constant.BLOOD_PRESSURE -> {
-                val observable = ApiService.loginApiCall().postBloodPressure(id, param1.toInt(), num2)
+                val observable = ApiService.loginApiCall().postBloodPressure(id, param1.toInt(), num2.toInt())
                 observable.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ postBloodPressure ->
@@ -318,7 +320,7 @@ class AddFormActivity : AppCompatActivity() {
                         })
             }
             Constant.BLOOD_SUGAR_LEV -> {
-                val observable = ApiService.loginApiCall().postBloodSugar(id, param1.toInt(), num2)
+                val observable = ApiService.loginApiCall().postBloodSugar(id, param1.toInt(), num2.toInt())
                 observable.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ postBloodSugar ->

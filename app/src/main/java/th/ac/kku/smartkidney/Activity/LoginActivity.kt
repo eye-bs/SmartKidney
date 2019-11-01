@@ -34,6 +34,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -91,15 +92,12 @@ class LoginActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         //-------------------Facebook Auth--------------
-//            FacebookSdk.sdkInitialize(applicationContext)
-//            AppEventsLogger.activateApp(this)
-//            callbackManager = CallbackManager.Factory.create()
-
         callbackManager = CallbackManager.Factory.create()
 
         facebook_login_bt.setReadPermissions("email", "public_profile")
         facebook_login_bt.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
+                facebookAuthenFailText.visibility = View.GONE
                 handleFacebookAccessToken(loginResult.accessToken)
             }
 
@@ -107,6 +105,8 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onError(error: FacebookException) {
+                Log.wtf(Constant.TAG , error)
+                facebookAuthenFailText.visibility = View.VISIBLE
             }
         })
 
@@ -128,31 +128,6 @@ class LoginActivity : AppCompatActivity() {
 
         google_login_bt.setOnClickListener { signIn() }
 
-    }
-
-//    private fun facbookButtonOnclick() {
-//        LoginManager.getInstance()
-//                .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-//                    override fun onSuccess(result: LoginResult?) {
-//                        handleFacebookToken(result!!.accessToken)
-//                    }
-//
-//                    override fun onCancel() {
-//                    }
-//
-//                    override fun onError(error: FacebookException?) {
-//                    }
-//                })
-//    }
-
-    private fun handleFacebookToken(accessToken: AccessToken?) {
-        val credential = FacebookAuthProvider.getCredential(accessToken!!.token)
-        mAuth!!.signInWithCredential(credential)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-
-                    }
-                }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -208,7 +183,7 @@ class LoginActivity : AppCompatActivity() {
                 ) { task ->
 
                     if (task.isSuccessful) {
-                        loginApiCall(mAuth!!.currentUser!!.email!!)
+                        loginApiCall(mAuth!!.currentUser!!.uid!!)
                     } else {
                         Log.wtf(Constant.TAG, "Authentication failed.")
                     }
@@ -228,39 +203,51 @@ class LoginActivity : AppCompatActivity() {
 
     private fun handleFacebookAccessToken(token: AccessToken) {
 
+        facebookAuthenFailText.visibility = View.GONE
+
         val credential = FacebookAuthProvider.getCredential(token.token)
         mAuth!!.signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         val user = mAuth!!.currentUser
-                        loginApiCall(user!!.email!!)
-
+                        val uid = user!!.uid
+                        loginApiCall(uid)
 
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(baseContext, "Authentication failed.",
+                        val ex = task.exception.toString()
+                        if(ex.contains("An account already exists with the same email address but different sign-in credentials")){
+                            Toast.makeText(baseContext, "อีเมลนี้มีอยู่แล้ว",
                                 Toast.LENGTH_SHORT).show()
-
+                        }
+                        else{
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(baseContext, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                 }
     }
 
     @SuppressLint("CheckResult")
-    private fun loginApiCall(email: String) {
+    private fun loginApiCall(uid: String) {
         loginProgressBar.visibility = View.VISIBLE
         google_login_bt.elevation = 0f
         facebook_login_bt.elevation = 0f
 
-        val observable = ApiService.loginApiCall().login(email)
+        val observable = ApiService.loginApiCall().login(uid)
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ loginResponse ->
                     ApiObject.instant.firstLogin = loginResponse.firstLogin
 
                     if (ApiObject.instant.firstLogin!!) {
-
+                        loginProgressBar.visibility = View.INVISIBLE
+                        google_login_bt.elevation = 5f
+                        facebook_login_bt.elevation = 5f
+                        val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+                        startActivityForResult(intent, RC_REGISTER)
 
                     } else {
 

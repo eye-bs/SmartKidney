@@ -83,7 +83,7 @@ interface SmartKidneyAPI {
 
     // water
     @GET("water/{uid}")
-    fun getWaterPerDaye(@Path("uid") uid:String,
+    fun getWaterPerDay(@Path("uid") uid:String,
                      @Query("start") start: String?,
                      @Query("end") end: String?,
                         @Query("date") date: String?)

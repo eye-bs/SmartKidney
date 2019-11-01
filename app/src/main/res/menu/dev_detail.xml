@@ -6,6 +6,10 @@
 
     <item
         android:id="@+id/dev_menu"
-        android:title="รายชื่อผู้พัฒนาแอปพลิเคชัน" />
+        android:title="รายชื่อผู้พัฒนาแอปพลิเคชั่น" />
+
+    <item
+            android:id="@+id/howto_menu"
+            android:title="วิธีการใช้แอปพลิเคชั่น" />
 
 </menu>

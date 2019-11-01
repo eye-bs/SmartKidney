@@ -23,10 +23,8 @@ class MyViewPagerAdapter(val context: Context, private val getCount: Int, privat
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = layoutInflater!!.inflate(R.layout.slide_layout, container, false)
         if(arrLayout[position].parent != null){
-            Log.wtf(Constant.TAG , "arrLayout[position].parent != null ${arrLayout[position].parent}")
             (arrLayout[position].parent as ViewGroup).removeView(arrLayout[position])
         }
-        Log.wtf(Constant.TAG , "arrLayout[position] ${arrLayout[position]}")
         view.rootViewSlide.addView(arrLayout[position])
 
         container.addView(view)

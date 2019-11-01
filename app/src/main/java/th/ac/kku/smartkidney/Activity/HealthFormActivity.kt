@@ -31,10 +31,13 @@ class HealthFormActivity : AppCompatActivity() {
     private var weekBPArr = ApiObject.instant.weekKeysbp
     private var weekBsArr = ApiObject.instant.weekKeysbs
     private var weekGirArr = ApiObject.instant.weekKeysgir
+    private var weekWaterArr = ApiObject.instant.weekKeyswater
     private var count = 0
     private var stackWeek = 0
     private val calendar = Calendar.getInstance()
     private val parser = SimpleDateFormat("dd/MM/yyyy")
+    private var isWater = false
+    private var currentWater = 0
     private val nameFormArr = arrayOf(
         Constant.BLOOD_PRESSURE,
         Constant.KIDNEY_FILTRATION_RATE,
@@ -107,14 +110,15 @@ class HealthFormActivity : AppCompatActivity() {
         if(getGraphName != ""){
             for (i in nameFormArr.indices) {
                 if (getGraphName == nameFormArr[i]) {
+
+                    nev_bar.menu.findItem(itemIdArr[i]).isChecked = true
+                    onNevBarOnclick(itemIdArr[i])
+
                     graphFragment = GraphFragment.newInstance(getGraphName)
                     supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.layout_fragment_container, graphFragment)
                         .commit()
-
-                    nev_bar.menu.findItem(itemIdArr[i]).isChecked = true
-                    onNevBarOnclick(itemIdArr[i])
                 }
             }
         }
@@ -126,21 +130,21 @@ class HealthFormActivity : AppCompatActivity() {
         }
 
         analyzeWaterPerDay.setOnClickListener {
+            val waterIn = ApiObject.instant.waterInDay[currentWater]
+            if (waterIn != null){
+                val waterPerDay = ApiObject.instant.waterPerDay
+                val perCent:Float = ((waterIn*100)/waterPerDay).toFloat()
+                val lev = when{
+                    perCent < 100 -> 0
+                    perCent == 100.toFloat() -> 1
+                    else -> 2
+                }
 
-            val waterIn = ApiObject.instant.waterIn
-            val waterPerDay = ApiObject.instant.waterPerDay
-            val perCent:Float = ((waterIn*100)/waterPerDay).toFloat()
-            val lev = when{
-                perCent <= 100 -> 0
-                perCent == 100.toFloat() -> 1
-                else -> 2
-            }
-
-            soundHandle(lev)
+                soundHandle(lev)
 
                 val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
                 val mBuilder = AlertDialog.Builder(this)
-                        .setView(mDialogView)
+                    .setView(mDialogView)
                 mDialogView.dialogHeader.text = "คำแนะนำ"
                 mDialogView.imageDialog.setImageDrawable(getDrawable(imageWaterAnalyze[lev]))
                 val mAlertDialog = mBuilder.create()
@@ -160,20 +164,32 @@ class HealthFormActivity : AppCompatActivity() {
                 }
                 mAlertDialog.show()
             }
+        }
+
     }
 
     private fun setWeekLable(weekOfYear:Int){
-        calendar.set(Calendar.WEEK_OF_YEAR, weekOfYear)
-        calendar.set(Calendar.DAY_OF_WEEK , Calendar.SUNDAY)
-        val firstDate = parser.format(calendar.time)
-        calendar.add(Calendar.DAY_OF_WEEK , 6)
-        val endDate = parser.format(calendar.time)
-        weekTextView.text = "$firstDate - $endDate"
+        if (isWater){
+            ApiObject.instant.weekQuery = weekOfYear
+            currentWater = weekOfYear
+            val ddMMYYY = ApiObject.instant.ddMMyyWater[weekOfYear]
+            val formater =  SimpleDateFormat("d MMMM yyyy")
+            val dateToString = formater.format(ddMMYYY)
+            weekTextView.text = dateToString
+        }else{
+            calendar.set(Calendar.WEEK_OF_YEAR, weekOfYear)
+            calendar.set(Calendar.DAY_OF_WEEK , Calendar.SUNDAY)
+            val firstDate = parser.format(calendar.time)
+            calendar.add(Calendar.DAY_OF_WEEK , 6)
+            val endDate = parser.format(calendar.time)
+            weekTextView.text = "$firstDate - $endDate"
+        }
     }
 
     private fun onWeekSelect(arr:ArrayList<Int>){
 
         count = arr.lastIndex
+
 
         if (count < 0){
             selWeekLay.visibility = View.GONE
@@ -186,8 +202,10 @@ class HealthFormActivity : AppCompatActivity() {
 
 
         if (arr.isNotEmpty()){
+            Log.wtf(Constant.TAG , "arr = $arr || arr[0] = ${arr[0]} || ApiObject.instant.thisDay ${ApiObject.instant.thisDay}")
+
             weekLeftBt.visibility = View.VISIBLE
-            if(arr[0] == ApiObject.instant.currentWeek){
+            if(arr[0] == ApiObject.instant.currentWeek || arr[0] == ApiObject.instant.thisDay){
                 weekRightBt.visibility = View.INVISIBLE
                 weekLeftBt.visibility = View.INVISIBLE
             }else{
@@ -251,17 +269,31 @@ class HealthFormActivity : AppCompatActivity() {
                     nev_bar.menu.findItem(R.id.bmi_nev) -> {
                         selWeekLay.visibility = View.GONE
                         analyzeWaterPerDay.visibility = View.INVISIBLE}
-                    nev_bar.menu.findItem(R.id.water_nev) -> {
-                        selWeekLay.visibility = View.GONE
-                        analyzeWaterPerDay.visibility = View.VISIBLE
-                    }
+//                    nev_bar.menu.findItem(R.id.water_nev) -> {
+//                        selWeekLay.visibility = View.GONE
+//                        analyzeWaterPerDay.visibility = View.VISIBLE
+//                    }
                     else -> {
                         selWeekLay.visibility = View.VISIBLE
                         analyzeWaterPerDay.visibility = View.INVISIBLE
                         when (i) {
-                            0 -> onWeekSelect(weekBPArr)
-                            1 -> onWeekSelect(weekGirArr)
-                            2 -> onWeekSelect(weekBsArr)
+                            0 -> {
+                                isWater = false
+                                onWeekSelect(weekBPArr)
+                            }
+                            1 -> {
+                                isWater = false
+                                onWeekSelect(weekGirArr)
+                            }
+                            2 -> {
+                                isWater = false
+                                onWeekSelect(weekBsArr)
+                            }
+                            3 -> {
+                                isWater = true
+                                analyzeWaterPerDay.visibility = View.VISIBLE
+                                onWeekSelect(weekWaterArr)
+                            }
                         }
                     }
                 }

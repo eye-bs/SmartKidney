@@ -3,10 +3,12 @@ package th.ac.kku.smartkidney
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Dialog
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -61,6 +63,7 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuIte
             onButtonClick()
 
         }catch (e:Exception){
+            Log.wtf(Constant.TAG , e)
             val intent = Intent(this,SplashActivity::class.java)
             startActivity(intent)
             finish()
@@ -97,10 +100,6 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuIte
            val imgByteArr =  stream.toByteArray()
            mDatabaseHelper.addData(Constant.NAME_ATT, imgByteArr)
        }
-
-//            Picasso.with(this)
-//                .load(currentUser.photoUrl.toString())
-//                .into(profileImage)
 
 
         textName.text = userObject!!.name
@@ -143,6 +142,8 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuIte
 
     private fun createChart(){
         val constantArr = arrayOf(
+            Constant.BMI,
+            Constant.WATER,
             Constant.BLOOD_SUGAR_LEV,
             Constant.KIDNEY_FILTRATION_RATE,
             Constant.BLOOD_PRESSURE)
@@ -159,6 +160,7 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuIte
         kidneyChart.layoutParams = paramForChar
         sugarChart.layoutParams = paramForChar
         waterChart.layoutParams = paramForChar
+        bmiChart.layoutParams = paramForChar
 
         paramForChartLay.setMargins(0,0,18,0)
         upperBpHomeLay.layoutParams = paramForChartLay
@@ -166,8 +168,9 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuIte
         gitHomeLay.layoutParams = paramForChartLay
         bsHomeLay.layoutParams = paramForChartLay
         waterHomeLay.layoutParams = paramForChartLay
+        bmiHomeLay.layoutParams = paramForChartLay
 
-        val chartIdArr = arrayOf(sugarChart,kidneyChart,pressureUpperChart, pressureLowerChart)
+        val chartIdArr = arrayOf(bmiChart,waterChart,sugarChart,kidneyChart,pressureUpperChart, pressureLowerChart)
         val readjson = ReadJSON(this)
         for (i in constantArr.indices) {
             val obj = readjson.getJSONObject(Constant.GRAPH_DETAIL_JSON, constantArr[i])
@@ -177,7 +180,7 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuIte
             val hasValue = setupChart.isHasValue()
             if(hasValue){
                 when (i) {
-                    2 -> {
+                    4 -> {
                         val chartJSONObject1 = arrChart.getJSONObject(1)
                         setupChart.lineChartSetUp(chartIdArr[i + 1] as LineChart, chartJSONObject1)
                     }
@@ -185,10 +188,6 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuIte
                 setupChart.lineChartSetUp(chartIdArr[i] , chartJSONObject)
             }
         }
-        val waterChartJson = readjson.getJSONObject(Constant.GRAPH_DETAIL_JSON, Constant.WATER)
-        val setupChart = SetupChart(waterChartJson!!, this, null ,Constant.WATER)
-        setupChart.isHasValue()
-        setupChart.pieChartSetUp(waterChart)
     }
 
     override fun onNothingSelected() {}
@@ -223,8 +222,12 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuIte
             intent.putExtra("graphName" , Constant.BLOOD_SUGAR_LEV)
             startActivity(intent)
         }
-        waterHomeLay.setOnClickListener {
+        waterChart.setOnClickListener {
             intent.putExtra("graphName" , Constant.WATER)
+            startActivity(intent)
+        }
+        bmiChart.setOnClickListener {
+            intent.putExtra("graphName" , Constant.BMI)
             startActivity(intent)
         }
         alarmLayout.setOnClickListener {
@@ -253,11 +256,6 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuIte
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
             finish()
-//            FirebaseAuth.getInstance().signOut()
-//            signOut()
-//            val intent = Intent(this , LoginActivity::class.java)
-//            startActivity(intent)
-//            finish()
         }
 
         devDetailBt.setOnClickListener { it->
@@ -269,13 +267,26 @@ class HomeActivity : AppCompatActivity(), OnChartValueSelectedListener , MenuIte
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        return if(item!!.itemId == R.id.dev_menu){
-            val intent = Intent(this,DevDetailActivity::class.java)
-            startActivity(intent)
-            finish()
-            true
-        }else{
-            false
+        when {
+            item!!.itemId == R.id.dev_menu -> {
+                val intent = Intent(this,DevDetailActivity::class.java)
+                startActivity(intent)
+                finish()
+                return true
+            }
+            item.itemId == R.id.howto_menu -> {
+                val id = "6aO4rddBxew"
+                val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
+                val webIntent = Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://www.youtube.com/watch?v=$id"))
+                try {
+                    this.startActivity(appIntent)
+                } catch (ex: ActivityNotFoundException) {
+                    this.startActivity(webIntent)
+                }
+                return true
+            }
+            else -> return false
         }
     }
 

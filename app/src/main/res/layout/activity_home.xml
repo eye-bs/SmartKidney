@@ -367,7 +367,7 @@
                             android:text="@string/water_in"
                             android:layout_margin="10dp"/>
 
-                        <com.github.mikephil.charting.charts.PieChart
+                        <com.github.mikephil.charting.charts.LineChart
                             android:id="@+id/waterChart"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -375,12 +375,29 @@
                             android:layout_below="@+id/waterCharttext"/>
 
                 </LinearLayout>
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="180dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="10dp"/>
+                <LinearLayout
+                        android:id="@+id/bmiHomeLay"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="180dp"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp">
+
+                    <TextView
+                            android:id="@+id/bmiCharttext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/bmi_th"
+                            android:layout_margin="10dp"/>
+
+                    <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/bmiChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/white_card"/>
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

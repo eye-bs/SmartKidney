@@ -32,10 +32,12 @@
             android:theme="@style/ActivityTheme" />
         <activity
             android:name=".EditProfileActivity"
-            android:theme="@style/ActivityTheme" />
+            android:theme="@style/RegisterTheme" />
         <activity
             android:name=".RegisterActivity"
-            android:theme="@style/ActivityTheme" />
+            android:theme="@style/RegisterTheme" >
+
+        </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>

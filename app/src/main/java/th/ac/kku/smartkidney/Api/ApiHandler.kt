@@ -12,6 +12,7 @@ import com.google.android.gms.common.api.Api
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
+import java.util.logging.SimpleFormatter
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -49,7 +50,12 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
                 .subscribe({ getUserInfo ->
 
                     ApiObject.instant.user = getUserInfo
-                    Log.wtf(Constant.TAG , "getUsers")
+
+                    val weight = ApiObject.instant.user!!.weight
+                    if(weight != 0){
+                        val waterPerDay = weight * 2.2 * 30 / 2
+                        ApiObject.instant.waterPerDay = waterPerDay.toInt()
+                    }
 
                     if (progressBar != null) { progressBar.visibility = View.INVISIBLE }
                     if (intent != null){
@@ -59,7 +65,6 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
 
                 }, { error ->
                     if (progressBar != null) {
-                        Log.wtf(Constant.TAG , "getUsers")
                         progressBar.visibility = View.INVISIBLE
                         val intent = Intent(context, HomeActivity::class.java)
                         context.startActivity(intent)
@@ -71,15 +76,33 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
 
     @SuppressLint("CheckResult")
     fun getWaterPerDay(id: String) {
-        val observable = ApiService.loginApiCall().getWaterPerDaye(id, null, null, date)
+        val observable = ApiService.loginApiCall().getWaterPerDay(id, null, null, date)
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ getWaterPerDaye ->
                     var waterIn = 0
+                    ApiObject.instant.waterArrThisDay.clear()
+
+                    val testDateString = getWaterPerDaye[0].date
+                    val testDate = Constant.formatOfDetail.parse(testDateString)
+                    calendar.time = testDate
+                   // val date = calendar.get(Calendar.DATE)
+                    val dateString = ""+calendar.get(Calendar.DATE) +( 1 + calendar.get(Calendar.MONTH)) + calendar.get(Calendar.YEAR)
+                    val dateMonth = dateString.toInt()
+                    ApiObject.instant.ddMMyyWater[dateMonth] = testDate
+
                     for (i in getWaterPerDaye.indices) {
                         waterIn += getWaterPerDaye[i].waterIn
+                        ApiObject.instant.waterArrThisDay.add(getWaterPerDaye[i].waterIn)
                     }
                     ApiObject.instant.waterIn = waterIn
+                    ApiObject.instant.waterInDay[dateMonth] = waterIn
+
+                    if (ApiObject.instant.weekKeyswater.isEmpty()){
+                        var toDay = ""+calendar.get(Calendar.DATE) + ( 1 + calendar.get(Calendar.MONTH)) + calendar.get(Calendar.YEAR)
+                        ApiObject.instant.ddMMyyWater[toDay.toInt()] = calendar.time
+                        ApiObject.instant.weekKeyswater.add(toDay.toInt())
+                    }
 
                     if (progressBar != null) {
                         progressBar.visibility = View.GONE
@@ -117,9 +140,7 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
                   if (bmiArr.size > 7){
                       bmiArr.removeAt(0)
                   }
-                    Log.wtf(Constant.TAG , "postBmi2 $bmiArr")
                     bmiArr.add((postBMI.bmi).toFloat())
-                    Log.wtf(Constant.TAG , "postBmi3 $bmiArr")
 
                 }, { error ->
                     Log.wtf(Constant.TAG , "postBmi err")
@@ -360,15 +381,63 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
 
     @SuppressLint("CheckResult")
     private fun comboGetWaterPerDay(id: String) {
-        val observable = ApiService.loginApiCall().getWaterPerDaye(id, null, null, date)
+        val observable = ApiService.loginApiCall().getWaterPerDay(id, null, null, null)
+        observable.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ getWaterPerDay ->
+
+                //---------------------------------/TEST------------------!!!!!!!!!
+                val hashDay = HashMap<Int, Int>()
+                var stackDay = HashMap<Date, Int>()
+                var dateCompare = 0
+                var waterInDay = 0
+                for (i in getWaterPerDay.indices) {
+                    val testDateString = getWaterPerDay[i].date
+                    val testDate = Constant.formatOfDetail.parse(testDateString)
+                    calendar.time = testDate
+//                    val date = calendar.get(Calendar.DATE)
+                    val dateString = ""+calendar.get(Calendar.DATE) + ( 1 + calendar.get(Calendar.MONTH)) + calendar.get(Calendar.YEAR)
+                    val dateMonth = dateString.toInt()
+                    val dateToKeys = Constant.formatOfGetbyDate.format(testDate)
+                    ApiObject.instant.ddMMyyWater[dateMonth] = testDate
+
+                    if (dateMonth == dateCompare){
+                        waterInDay += getWaterPerDay[i].waterIn
+                    }else{
+                        waterInDay =  getWaterPerDay[i].waterIn
+                        dateCompare = dateMonth
+                    }
+                    hashDay[dateMonth] = waterInDay
+                    stackDay[Constant.formatOfGetbyDate.parse(dateToKeys)] = dateMonth
+                }
+
+                ApiObject.instant.waterInDay = hashDay
+
+                val keysDates = ArrayList<Int>()
+                for (k in stackDay.keys) {
+                    keysDates.add(stackDay[k]!!)
+                }
+
+                calendar.time = Constant.formatOfGetbyDate.parse(date)
+
+                var toDay = ""+calendar.get(Calendar.DATE) + ( 1 + calendar.get(Calendar.MONTH)) + calendar.get(Calendar.YEAR)
+                ApiObject.instant.ddMMyyWater[toDay.toInt()] = calendar.time
+                if(keysDates[keysDates.lastIndex] != toDay.toInt()){
+                    keysDates.add(toDay.toInt())
+                }
+                ApiObject.instant.weekKeyswater = keysDates
+//---------------------------------/TEST------------------!!!!!!!!!
+                //------Per day------------------
+
+        val observable = ApiService.loginApiCall().getWaterPerDay(id, null, null, date)
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ getWaterPerDaye ->
                     var waterIn = 0
                     for (i in getWaterPerDaye.indices) {
                         waterIn += getWaterPerDaye[i].waterIn
+                        ApiObject.instant.waterArrThisDay.add(getWaterPerDaye[i].waterIn)
                     }
-
                     ApiObject.instant.waterIn = waterIn
                     comboGetBmi(id)
 
@@ -378,6 +447,34 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
 
                 }
                 )
+
+                //---------------------------------------
+            }, { error ->
+                comboGetBmi(id)
+                println(error.message.toString())
+
+            }
+            )
+
+//        val observable = ApiService.loginApiCall().getWaterPerDaye(id, null, null, date)
+//        observable.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe({ getWaterPerDaye ->
+//                    var waterIn = 0
+//                    for (i in getWaterPerDaye.indices) {
+//                        waterIn += getWaterPerDaye[i].waterIn
+//                        ApiObject.instant.waterArrThisDay.add(getWaterPerDaye[i].waterIn)
+//                    }
+//
+//                    ApiObject.instant.waterIn = waterIn
+//                    comboGetBmi(id)
+//
+//                }, { error ->
+//                    comboGetBmi(id)
+//                    println(error.message.toString())
+//
+//                }
+//                )
     }
 
     @SuppressLint("CheckResult")
@@ -390,7 +487,7 @@ class ApiHandler(val context: Context, val progressBar: RelativeLayout?, val int
                     if (getBmi.isNotEmpty()) {
                         val bmiArr = ArrayList<Float>()
                         bmiArr.add(0f)
-                        var lastBMI = getBmi.lastIndex - 8
+                        var lastBMI = getBmi.lastIndex - 6
                         for (i in 0 until 7) {
                             if (lastBMI >= 0) {
                                 bmiArr.add((getBmi[lastBMI].bmi).toFloat())

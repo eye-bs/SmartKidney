@@ -17,6 +17,7 @@ class HealthEdContentActivity : AppCompatActivity() {
     lateinit var getAnalytics:JSONObject
     private val imageArr = arrayListOf<Drawable>()
     private var imgColor:String = ""
+    private var countPage = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,17 +31,28 @@ class HealthEdContentActivity : AppCompatActivity() {
 
         healthEdContentLay.setBackgroundColor(Color.parseColor(imgColor))
         imageHealthEdContent.setImageDrawable(imageArr[0])
-        if (imageArr.size == 2){
+        if (imageArr.size >= 2){
             buttonImageLay.visibility = View.VISIBLE
             bacImageBt.visibility = View.INVISIBLE
             bacImageBt.setOnClickListener {
-                imageHealthEdContent.setImageDrawable(imageArr[0])
-                bacImageBt.visibility = View.INVISIBLE
+                countPage--
+                imageHealthEdContent.setImageDrawable(imageArr[countPage])
+                if (countPage == 0){
+                    bacImageBt.visibility = View.INVISIBLE
+                }else{
+                    bacImageBt.visibility = View.VISIBLE
+                }
                 nextImageBt.visibility = View.VISIBLE
             }
             nextImageBt.setOnClickListener{
-                imageHealthEdContent.setImageDrawable(imageArr[1])
-                nextImageBt.visibility = View.INVISIBLE
+                countPage++
+                imageHealthEdContent.setImageDrawable(imageArr[countPage])
+                if (countPage == imageArr.lastIndex){
+                    nextImageBt.visibility = View.INVISIBLE
+                }else{
+                    nextImageBt.visibility = View.VISIBLE
+                }
+
                 bacImageBt.visibility = View.VISIBLE
             }
         }

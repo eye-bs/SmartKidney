@@ -100,8 +100,8 @@ class GraphFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view =  inflater.inflate(R.layout.fragment_graph, container, false)
         if (param1 == Constant.BACK_TO_HOME) {
-            val intent = Intent(getActivity(), HomeActivity::class.java)
-            getActivity()!!.startActivity(intent)
+            val intent = Intent(activity, HomeActivity::class.java)
+            activity!!.startActivity(intent)
 
         }else {
             createLayout(view)

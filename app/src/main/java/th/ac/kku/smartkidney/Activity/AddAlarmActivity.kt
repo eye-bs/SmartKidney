@@ -40,6 +40,7 @@ class AddAlarmActivity : AppCompatActivity() {
 
         val timeFormat = SimpleDateFormat("E dd MMM HH:mm", Locale.getDefault())
         val c = Calendar.getInstance()
+        c.add(Calendar.HOUR, 1)
         startDate = c.time
         startDateTextview.text = timeFormat.format(startDate)
         c.add(Calendar.HOUR, 1)

@@ -2,6 +2,7 @@
     <string name="app_name">SmartKidney</string>
     <string name="facebook_app_id">472780733306812</string>
     <string name="fb_login_protocol_scheme">fb472780733306812</string>
+    <string name="server_client_id">1049673027239–14v7en1sll2hmobqngakpfq3vskmvlc1.apps.googleusercontent.com</string>
 
     <string name="smart_kidney">SMART KIDNEY</string>
     <string name="login_with_google">ดำเนินการต่อด้วย Google</string>

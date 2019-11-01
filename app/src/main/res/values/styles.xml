@@ -25,6 +25,18 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="RegisterTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/malibu</item>
+        <item name="colorAccent">@color/malibu</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/nithan</item>
+        <item name="android:textStyle">bold</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 
 
     <style name="TextInputLayoutAppearance.register" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

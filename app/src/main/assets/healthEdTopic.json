@@ -5,6 +5,7 @@
             "<p>ทำความรู้จัก</p><h3>โรคไตเรื้อรัง</h3>",
             "<h3>อาการของโรค</h3><p>ไตเรื้อรัง</p>",
             "<h3>ภาวะแทรกซ้อน</h3><p>ของโรคไตเรื้อรัง</p>",
+            "<h3>การวินิจฉัย</h3><p>โรคไตเรื้อรัง</p>",
             "<h3>ชะลอการเสื่อม</h3><p>ของไต</p>",
             "<p>อาหารที่ต้อง</p><h3>งด หรือ ลด</h3>",
             "<p>จะเกิดอะไรขึ้นถ้าการทำงานของไต</p><h3>ลดลงเรื่อยๆ</h3>",
@@ -13,8 +14,8 @@
         "images" : [
             {
                 "id": 0,
-                "img": ["healthed1"],
-                "img_color": "#FFF0C9"
+                "img": ["healthed1_1","healthed1_2","healthed1_3"],
+                "img_color": "#F0CCF5"
             },
             {
                 "id": 1,
@@ -28,16 +29,21 @@
             },
             {
                 "id": 3,
+                "img": ["healthed7_1","healthed7_2","healthed7_3"],
+                "img_color": "#FDECB8"
+            },
+            {
+                "id": 4,
                 "img": ["healthed4","healthed4_1"],
                 "img_color": "#FFFDF1"
             },
             {
-                "id": 4,
+                "id": 5,
                 "img": ["healthed5","healthed5_1"],
                 "img_color": "#A6DEF0"
             },
             {
-                "id": 5,
+                "id": 6,
                 "img": ["healthed6"],
                 "img_color": "#FFFFFF"
             }

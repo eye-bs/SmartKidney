@@ -57,36 +57,44 @@
             android:src="@drawable/logo_app_v2"/>
 
 
-        <RelativeLayout
-            android:id="@+id/google_login_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/iconAppLogin"
-            android:background="@drawable/google_login_bg"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:layout_centerHorizontal="true"
-            android:elevation="5dp">
-            <ImageView
-                android:id="@+id/googleIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/google"
-                android:layout_centerVertical="true"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/login_with_google"
-                android:layout_toEndOf="@id/googleIcon"
-                android:textSize="18sp"
-                android:layout_marginStart="10dp"
-                android:textColor="@android:color/white"
-                android:layout_centerVertical="true"
-            />
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/google_login_bt"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/iconAppLogin"-->
+            <!--android:background="@drawable/google_login_bg"-->
+            <!--android:paddingTop="10dp"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:paddingStart="15dp"-->
+            <!--android:paddingEnd="15dp"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:elevation="5dp">-->
+            <!--<ImageView-->
+                <!--android:id="@+id/googleIcon"-->
+                <!--android:layout_width="24dp"-->
+                <!--android:layout_height="24dp"-->
+                <!--android:src="@drawable/google"-->
+                <!--android:layout_centerVertical="true"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/login_with_google"-->
+                <!--android:layout_toEndOf="@id/googleIcon"-->
+                <!--android:textSize="18sp"-->
+                <!--android:layout_marginStart="10dp"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:layout_centerVertical="true"-->
+            <!--/>-->
 
-        </RelativeLayout>
+        <!--</RelativeLayout>-->
+
+        <com.google.android.gms.common.SignInButton
+                android:id="@+id/google_login_bt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iconAppLogin"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"/>
 
         <LinearLayout
             android:id="@+id/view_or"
@@ -133,6 +141,16 @@
             android:layout_marginTop="20dp"
             android:textSize="16sp"
             android:elevation="5dp"/>
+
+        <TextView
+            android:id="@+id/facebookAuthenFailText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="บัญชีของคุณยังไม่ได้รับการยืนยันตัวตน"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/facebook_login_bt"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

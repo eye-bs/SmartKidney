@@ -43,7 +43,8 @@ class SplashActivity : AppCompatActivity() {
             checkPermissions(callbackId, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR , Manifest.permission.READ_EXTERNAL_STORAGE)
 
             ApiObject.instant.resetData()
-
+            var toDay = ""+calendar.get(Calendar.DATE) + ( 1 + calendar.get(Calendar.MONTH)) + calendar.get(Calendar.YEAR)
+            ApiObject.instant.thisDay = toDay.toInt()
             calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
             ApiObject.instant.startDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
             calendar.add(Calendar.DAY_OF_MONTH , 6)
@@ -57,7 +58,7 @@ class SplashActivity : AppCompatActivity() {
 
                 if (mAuth!!.currentUser != null) {
 
-                    loginApiCall(mAuth!!.currentUser!!.email!!)
+                    loginApiCall(mAuth!!.currentUser!!.uid!!)
 
                 } else {
                     val intent = Intent(this, LoginActivity::class.java)
@@ -92,8 +93,8 @@ class SplashActivity : AppCompatActivity() {
             .addOnCompleteListener { }
     }
     @SuppressLint("CheckResult")
-    private fun loginApiCall(email: String) {
-        val observable = ApiService.loginApiCall().login(email)
+    private fun loginApiCall(uid: String) {
+        val observable = ApiService.loginApiCall().login(uid)
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ loginResponse ->

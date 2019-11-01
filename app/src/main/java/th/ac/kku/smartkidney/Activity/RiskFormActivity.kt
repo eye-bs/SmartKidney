@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.activity_risk_form.*
 
 class RiskFormActivity : AppCompatActivity() {
 
+    var countCheck = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_risk_form)
@@ -33,6 +35,13 @@ class RiskFormActivity : AppCompatActivity() {
             checkBox.text = i.toString()
             checkbox_layout.addView(checkBox)
             checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(isChecked){countCheck++}else{countCheck--}
+                if (countCheck >= 1){
+                    nurseWarning.visibility = View.VISIBLE
+                }else{
+                    nurseWarning.visibility = View.GONE
+                }
+
                 //                val msg = "You have " + (if (isChecked) "checked" else "unchecked") + " this Check it Checkbox."
 //                Toast.makeText(this@RiskFormActivity, msg, Toast.LENGTH_SHORT).show()
             }

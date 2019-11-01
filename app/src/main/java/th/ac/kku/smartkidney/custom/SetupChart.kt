@@ -20,6 +20,7 @@ import com.ekn.gruzer.gaugelibrary.Range
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.IMarker
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
@@ -51,8 +52,6 @@ class SetupChart(
     private val hashBP = ApiObject.instant.bloodPressure[ApiObject.instant.weekQuery]
     private val hashBS = ApiObject.instant.bloodSugar[ApiObject.instant.weekQuery]
     private val hashGir = ApiObject.instant.kidneyLev[ApiObject.instant.weekQuery]
-
-
 
     @SuppressLint("UseSparseArrays")
     fun isHasValue(): Boolean {
@@ -196,6 +195,26 @@ class SetupChart(
                     return true
                 }
                 Constant.WATER -> {
+                    val waterThisDay = ApiObject.instant.waterArrThisDay
+                    val waterPerDay =  ApiObject.instant.waterPerDay
+                    if (waterThisDay.isNotEmpty() && waterPerDay != 0) {
+                        count = waterThisDay.size
+                        var stack = 0f
+                        for (i in waterThisDay.indices) {
+                            stack += waterThisDay[i]
+                            arrValueGraph1.add(stack)
+                        }
+                    }
+                    return true
+                }
+                Constant.BMI -> {
+                    val bmiThisDay = ApiObject.instant.bmi
+                  
+                    if (bmiThisDay.isNotEmpty()) {
+                        count = 1
+                        arrValueGraph1.add(bmiThisDay[bmiThisDay.lastIndex])
+
+                    }
                     return true
                 }
                 else -> return false
@@ -262,14 +281,12 @@ class SetupChart(
 
 
             if (jsonObject.getString("name") == Constant.WATER) {
-
-
+                val waterInDay = if (ApiObject.instant.waterInDay[ApiObject.instant.weekQuery] == null) 0 else ApiObject.instant.waterInDay[ApiObject.instant.weekQuery]
                 textView.setTextColor(ContextCompat.getColor(context, R.color.lightSkyBlue))
                 linearLayout.addView(textView)
-
                 linearLayout.addView(
                     createTextView(
-                        "${ApiObject.instant.waterIn} ml",
+                        "$waterInDay ml",
                         ContextCompat.getColor(context, R.color.dimGray),
                         20F
                     )
@@ -469,7 +486,15 @@ class SetupChart(
     fun lineChartSetUp(setChart: LineChart, graphObject: JSONObject) {
 
         val min = graphObject.getInt("min").toFloat()
-        val max = graphObject.getInt("max").toFloat()
+        var max = graphObject.getInt("max").toFloat()
+
+        if (graphObject.getString("name") == "ปริมาณน้ำเข้า"){
+            max = if (ApiObject.instant.waterIn > ApiObject.instant.waterPerDay){
+                ApiObject.instant.waterIn.toFloat()
+            }else{
+                ApiObject.instant.waterPerDay.toFloat()
+            }
+        }
 
         setChart.setDrawGridBackground(false)
         setChart.setBorderColor(Color.BLACK)
@@ -477,7 +502,7 @@ class SetupChart(
         setChart.description.isEnabled = false
         setChart.setTouchEnabled(true)
         setChart.isDragEnabled = true
-        setChart.setScaleEnabled(false)
+        setChart.setScaleEnabled(true)
         setChart.setPinchZoom(true)
 
         setChart.xAxis.axisMinimum = 0f
@@ -513,8 +538,6 @@ class SetupChart(
 
         setData(count, setChart, graphObject.getString("name"))
 
-
-
     }
 
     fun setData(count: Int, chart: LineChart, chartName: String) {
@@ -546,6 +569,8 @@ class SetupChart(
             set1.setCircleColor(Color.parseColor("#ffffff"))
             set1.valueTextSize = 12f
             set1.valueTypeface = ResourcesCompat.getFont(context, R.font.baijamjuree)
+            set1.isHighlightEnabled = false
+
 
             val data = LineData(set1)
             chart.data = data
@@ -573,7 +598,7 @@ class SetupChart(
             for (j in min..max) {
                 val llRange = LimitLine(metricLine, "")
                 llRange.lineColor = colors[i]
-                llRange.lineWidth = 10f
+                llRange.lineWidth = 11f
                 chart.axisLeft.addLimitLine(llRange)
                 metricLine += 1f
             }
@@ -628,51 +653,55 @@ class SetupChart(
 
     fun setDataPie(chart: PieChart) {
 
-        val waterIn = ApiObject.instant.waterIn
-        val waterPerDay = ApiObject.instant.waterPerDay
-        var waterInPercent = 0f
-        var waterPerDayPercent = 0f
-        if (waterPerDay != 0) {
-            if(waterIn >= waterPerDay){
-                waterInPercent = 100f
-                waterPerDayPercent = 0f
+        val date = ApiObject.instant.weekQuery
+        val waterIn = ApiObject.instant.waterInDay[date]
+        if (waterIn != null){
+            val waterPerDay = ApiObject.instant.waterPerDay
+            var waterInPercent = 0f
+            var waterPerDayPercent = 0f
+            if (waterPerDay != 0) {
+                if(waterIn >= waterPerDay){
+                    waterInPercent = 100f
+                    waterPerDayPercent = 0f
 
-            }else{
-                waterInPercent = (waterIn * 100 / waterPerDay).toFloat()
-                waterPerDayPercent = (100 - waterInPercent)
+                }else{
+                    waterInPercent = (waterIn * 100 / waterPerDay).toFloat()
+                    waterPerDayPercent = (100 - waterInPercent)
+                }
+
+                val entries = ArrayList<PieEntry>()
+                entries.add(PieEntry(waterInPercent, waterInPercent)) // in
+                entries.add(PieEntry(waterPerDayPercent, waterPerDayPercent)) // per day
+
+                val dataSet = PieDataSet(entries, "")
+
+                dataSet.setDrawIcons(false)
+
+                dataSet.sliceSpace = 3f
+                dataSet.iconsOffset = MPPointF(0f, 40f)
+                dataSet.selectionShift = 5f
+
+                // add a lot of colors
+
+                val colors = ArrayList<Int>()
+                colors.add(Color.parseColor("#93D0FE"))
+                colors.add(Color.parseColor("#D6D6D6"))
+
+                dataSet.colors = colors
+
+                val data = PieData(dataSet)
+
+                data.setValueFormatter(PercentFormatter(chart))
+                data.setValueTextSize(0f)
+                data.setValueTextColor(context.resources.getColor(R.color.mariner))
+
+                chart.data = data
+                chart.centerText = "${(waterIn * 100 / waterPerDay).toFloat()} %"
+                chart.highlightValues(null)
+                chart.invalidate()
             }
-
-            val entries = ArrayList<PieEntry>()
-            entries.add(PieEntry(waterInPercent, waterInPercent)) // in
-            entries.add(PieEntry(waterPerDayPercent, waterPerDayPercent)) // per day
-
-            val dataSet = PieDataSet(entries, "")
-
-            dataSet.setDrawIcons(false)
-
-            dataSet.sliceSpace = 3f
-            dataSet.iconsOffset = MPPointF(0f, 40f)
-            dataSet.selectionShift = 5f
-
-            // add a lot of colors
-
-            val colors = ArrayList<Int>()
-            colors.add(Color.parseColor("#93D0FE"))
-            colors.add(Color.parseColor("#D6D6D6"))
-
-            dataSet.colors = colors
-
-            val data = PieData(dataSet)
-
-            data.setValueFormatter(PercentFormatter(chart))
-            data.setValueTextSize(0f)
-            data.setValueTextColor(context.getColor(R.color.mariner))
-
-            chart.data = data
-            chart.centerText = "${(waterIn * 100 / waterPerDay).toFloat()} %"
-            chart.highlightValues(null)
-            chart.invalidate()
         }
+
 
 
     }

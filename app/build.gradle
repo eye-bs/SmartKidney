@@ -21,8 +21,8 @@ android {
         applicationId "th.ac.kku.smartkidney"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 3
-        versionName "2.3"
+        versionCode 5
+        versionName "3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -75,4 +75,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
     implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.30.1-eap13'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation 'com.layer-net:thai-datetimepicker:1.0.3'
 }

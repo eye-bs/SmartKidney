@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import android.widget.DatePicker
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -23,7 +25,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("DEPRECATION")
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity(),com.layernet.thaidatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
     var toggleButtonMale = true
     var toggleButtonFemale = false
@@ -63,7 +65,7 @@ class RegisterActivity : AppCompatActivity() {
                 TextUtils.isEmpty(birthday_edit_text.text) -> birthday_edit_text.error = getString(R.string.checkFill)
                 TextUtils.isEmpty(hospital_edit_text.text) -> hospital_edit_text.error = getString(R.string.checkFill)
                 else -> {
-                    registerApi(mAuth!!.email!!,mAuth.displayName!!,birthDate,selGender(),hospital_edit_text.text.toString())
+                    registerApi(mAuth!!.uid,mAuth.displayName!!,birthDate,selGender(),hospital_edit_text.text.toString())
                 }
             }
 
@@ -99,15 +101,50 @@ class RegisterActivity : AppCompatActivity() {
 
     @SuppressLint("SimpleDateFormat")
     fun selectBirthDate() {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
+        val now = Calendar.getInstance()
+        val dpd = com.layernet.thaidatetimepicker.date.DatePickerDialog.newInstance(
+            this,
+            now.get(Calendar.YEAR),
+            now.get(Calendar.MONTH),
+            now.get(Calendar.DAY_OF_MONTH)
+        )
 
+        dpd.maxDate = now
 
-        val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-
-            // Display Selected date in textbox
+        dpd.show(fragmentManager, "Datepickerdialog")
+//        val c = Calendar.getInstance()
+//        val year = c.get(Calendar.YEAR)
+//        val month = c.get(Calendar.MONTH)
+//        val day = c.get(Calendar.DAY_OF_MONTH)
+//
+//
+//        val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+//
+//            // Display Selected date in textbox
+//            val getDate = "" + year + "-" + (monthOfYear + 1) + "-" + dayOfMonth + "T09:55:00"
+//            val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+//            val toDate = parser.parse(getDate)
+//            val formatter = SimpleDateFormat("dd MMMM", Locale.getDefault())
+//            val formattedDate = formatter.format(toDate)
+//            val birthDateApi = SimpleDateFormat("yyyy-MM-dd")
+//            birthDate = birthDateApi.format(toDate)
+//
+//            var setYear = year
+//            if (Locale.getDefault().displayCountry == "ไทย"){
+//                setYear += 543
+//            }
+//            birthday_edit_text.setText("$formattedDate $setYear")
+//        }, year, month, day)
+//
+//
+//        dpd.show()
+    }
+    override fun onDateSet(
+        view: com.layernet.thaidatetimepicker.date.DatePickerDialog?,
+        year: Int,
+        monthOfYear: Int,
+        dayOfMonth: Int
+    ) {
             val getDate = "" + year + "-" + (monthOfYear + 1) + "-" + dayOfMonth + "T09:55:00"
             val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             val toDate = parser.parse(getDate)
@@ -116,15 +153,9 @@ class RegisterActivity : AppCompatActivity() {
             val birthDateApi = SimpleDateFormat("yyyy-MM-dd")
             birthDate = birthDateApi.format(toDate)
 
-            var setYear = year
-            if (Locale.getDefault().displayCountry == "ไทย"){
-                setYear += 543
-            }
+            val setYear = year + 543
+
             birthday_edit_text.setText("$formattedDate $setYear")
-        }, year, month, day)
-
-
-        dpd.show()
-    }
+        }
 
 }
