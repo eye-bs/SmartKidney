@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditProfileActivity">
+    tools:context=".EditProfileActivity"
+    android:background="@drawable/blue_bg">
 
     <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/home_wall"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bg_header"
         android:adjustViewBounds="true"
-        android:alpha="0.6"
-        />
+        android:layout_below="@+id/headerEditProfile"/>
 
     <LinearLayout
         android:id="@+id/headerEditProfile"

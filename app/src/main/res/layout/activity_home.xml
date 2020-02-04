@@ -7,13 +7,12 @@
     android:background="@color/white"
     tools:context=".HomeActivity">
 
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/home_wall"
-        android:alpha="0.7"
         android:scaleType="centerCrop"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,0 +1,275 @@
+@file:Suppress("DEPRECATION")
+
+package th.ac.kku.smartkidney
+
+import android.Manifest
+import android.annotation.SuppressLint
+import android.annotation.TargetApi
+import android.app.Activity
+import android.app.Dialog
+import android.content.Intent
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.firebase.ui.auth.AuthUI
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.GoogleAuthProvider
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_login.*
+import java.util.*
+import kotlin.system.exitProcess
+
+@Suppress("DEPRECATION")
+class LoginActivity : AppCompatActivity() {
+
+    private var mGoogleSignInClient1: GoogleSignInClient? = null
+    private var mGoogleSignInClient: GoogleApiClient? = null
+    private val RC_SIGN_IN = 1
+    private val RC_REGISTER = 2
+    private var mAuth: FirebaseAuth? = null
+    private lateinit var callbackManager: CallbackManager
+    lateinit var mDatabaseHelper: DatabaseHelper
+    private val calendar = Calendar.getInstance()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+
+
+        textSingUp.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+        //------------------Prepare Login--------------------
+        mDatabaseHelper = DatabaseHelper(this)
+        mDatabaseHelper.deleteName(Constant.NAME_ATT)
+        if (ConnectivityHelper.isConnectedToNetwork(this)) {
+
+        } else {
+
+            val dialog = Dialog(this)
+            dialog.setContentView(R.layout.connect_falied_dialog)
+            dialog.setCancelable(false)
+
+            val button1 = dialog.findViewById<TextView>(R.id.button_dialog)
+            button1.setOnClickListener {
+                dialog.cancel()
+                finish()
+                exitProcess(0)
+            }
+            dialog.show()
+        }
+
+        val callbackId = 42
+        checkPermissions(
+                callbackId, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+
+        //---------------------Login logic---------------------
+        mAuth = FirebaseAuth.getInstance()
+
+        //-------------------Facebook Auth--------------
+        callbackManager = CallbackManager.Factory.create()
+
+        facebook_login_bt.setReadPermissions("email", "public_profile")
+        facebook_login_bt.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                facebookAuthenFailText.visibility = View.GONE
+                handleFacebookAccessToken(loginResult.accessToken)
+            }
+
+            override fun onCancel() {
+            }
+
+            override fun onError(error: FacebookException) {
+                Log.wtf(Constant.TAG , error)
+                facebookAuthenFailText.visibility = View.VISIBLE
+            }
+        })
+
+        /////////////////////////////
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+        mGoogleSignInClient1 = GoogleSignIn.getClient(this, gso)
+
+        mGoogleSignInClient = GoogleApiClient.Builder(applicationContext)
+                .enableAutoManage(
+                        this
+                ) { Toast.makeText(this@LoginActivity, "You got Error.", Toast.LENGTH_LONG).show() }
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build()
+
+        google_login_bt.setOnClickListener { signIn() }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+                ApiObject.instant.startDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
+                calendar.add(Calendar.DAY_OF_MONTH , 6)
+                ApiObject.instant.endDateQuery = Constant.formatOfGetbyDate.format(calendar.time)
+                ApiObject.instant.weekQuery = calendar.get(Calendar.WEEK_OF_YEAR)
+                ApiObject.instant.currentWeek = calendar.get(Calendar.WEEK_OF_YEAR)
+
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account!!)
+            } catch (e: ApiException) {
+                Log.wtf(Constant.TAG, e)
+                // Google Sign In failed, update UI appropriately
+            }
+        }
+        if (requestCode == RC_REGISTER) {
+            if (resultCode == Activity.RESULT_OK) {
+                val intent = Intent(this, AgreementActivity::class.java)
+                startActivity(intent)
+            } else {
+                signOut()
+            }
+        }
+
+    }
+
+    fun signIn() {
+        val signInIntent = mGoogleSignInClient1!!.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    fun signOut() {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener { }
+    }
+
+    fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
+
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        mAuth!!.signInWithCredential(credential)
+                .addOnCompleteListener(
+                        this
+                ) { task ->
+
+                    if (task.isSuccessful) {
+                        loginApiCall(mAuth!!.currentUser!!.uid!!)
+                    } else {
+                        Log.wtf(Constant.TAG, "Authentication failed.")
+                    }
+                }
+    }
+
+    private fun checkPermissions(callbackId: Int, vararg permissionsId: String) {
+        var permissions = true
+        for (p in permissionsId) {
+            permissions =
+                    permissions && ContextCompat.checkSelfPermission(this, p) == PERMISSION_GRANTED
+        }
+        if (!permissions)
+            ActivityCompat.requestPermissions(this, permissionsId, callbackId)
+    }
+
+
+    private fun handleFacebookAccessToken(token: AccessToken) {
+
+        facebookAuthenFailText.visibility = View.GONE
+
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        mAuth!!.signInWithCredential(credential)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        val user = mAuth!!.currentUser
+                        val uid = user!!.uid
+                        loginApiCall(uid)
+
+                    } else {
+                        val ex = task.exception.toString()
+                        if(ex.contains("An account already exists with the same email address but different sign-in credentials")){
+                            Toast.makeText(baseContext, "อีเมลนี้มีอยู่แล้ว",
+                                Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(baseContext, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun loginApiCall(uid: String) {
+        loginProgressBar.visibility = View.VISIBLE
+        google_login_bt.elevation = 0f
+        facebook_login_bt.elevation = 0f
+
+        val observable = ApiService.loginApiCall().login(uid)
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ loginResponse ->
+                    ApiObject.instant.firstLogin = loginResponse.firstLogin
+
+                    if (ApiObject.instant.firstLogin!!) {
+                        loginProgressBar.visibility = View.INVISIBLE
+                        google_login_bt.elevation = 5f
+                        facebook_login_bt.elevation = 5f
+                        val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+                        startActivityForResult(intent, RC_REGISTER)
+
+                    } else {
+
+                        ApiObject.instant.user = loginResponse.users
+                        val id = loginResponse.users.id
+                        val intent = Intent(this, HomeActivity::class.java)
+                        val apiHandler = ApiHandler(this,loginProgressBar,intent)
+                        apiHandler.comboGetBloodPressure(id)
+
+                    }
+
+                }, { error ->
+                    println(error.message.toString())
+
+                    loginProgressBar.visibility = View.INVISIBLE
+                    google_login_bt.elevation = 5f
+                    facebook_login_bt.elevation = 5f
+                    val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+                    startActivityForResult(intent, RC_REGISTER)
+                }
+                )
+    }
+
+}
